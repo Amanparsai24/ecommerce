@@ -1,38 +1,647 @@
-.App {
-  text-align: center;
+body {
+    overflow-x: hidden;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Alert box css */
+
+.loader-box {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.loader-box .loader-msg {
+    padding: 0px 10px;
+    font-weight: bold;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Login Page */
+.no-lr-p {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
-.App-link {
-  color: #61dafb;
+.loginLImg {
+    background-color: #F2F2F2;
+    min-height: 97.5vh !important;
+    background-size: cover !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Heading {
+    color: #444444 !important;
+    font-weight: 400 !important;
+    font-size: 48px !important;
+    font-family: 'Poppins';
 }
+
+.Text {
+    color: #757575;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Poppins';
+}
+
+.or {
+    text-align: center;
+    font-weight: 400;
+    border-bottom: 2px solid #909090;
+    line-height: 0.1em;
+    margin: 10px 0;
+}
+
+.or span {
+    background: #fff;
+    padding: 0 10px;
+}
+
+.login-inner {
+    padding: 25px 130px 25px 130px;
+}
+
+.loginiconBorder {
+    background: #ffffff;
+    background-color: #BABABA !important;
+    border-color: #BABABA !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+}
+
+.social-signIcon {
+    margin-right: 20px;
+}
+
+.social-signIcon:last-child {
+    margin-right: 0px;
+}
+
+.social-signIcon>span.btn:hover {
+    background: #794afe !important;
+    color: #fff !important;
+}
+
+.Textsm {
+    color: #757575 !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+    font-family: 'Poppins';
+}
+
+.loginInp {
+    background: #ffffff;
+    padding: 10px 20px !important;
+    background-color: #FAFAFA !important;
+    border-color: #FAFAFA !important;
+    border-radius: 15px !important;
+    font-size: 18px !important;
+}
+
+.LoginBtn {
+    /* border: 1px solid #E1E1E1 !important; */
+    background-color: #FF9F4B !important;
+    font-family: 'Poppins' !important;
+    font-weight: 400 !important;
+    padding: 10px !important;
+    border-radius: 15px !important;
+}
+
+
+/* Otpverfication */
+
+.otp-inner {
+    padding: 100px 130px 25px 130px;
+}
+
+.optStyle {
+    width: 7rem;
+    font-size: 3rem;
+}
+
+/* Header */
+
+.navBG {
+    background: linear-gradient(90deg, #F8D3B3 50%, #E77614 50%) !important;
+}
+
+.logo {
+    position: relative;
+}
+
+.navFS {
+    font-weight: 400 !important;
+    font-size: 22px !important;
+    font-family: 'Poppins';
+}
+
+/* .navbar .nav-item:hover .dropdown-menu {
+    display: block;
+} */
+
+
+.header-Icon {
+    margin-right: 20px;
+}
+
+.header-Icon>span.btn:hover {
+    background: #F8D3B3 !important;
+    color: #fff !important;
+}
+
+/* Home */
+
+.Homebg1 {
+    background-color: #F8D3B3 !important;
+}
+
+.Homebg2 {
+    background-color: #E77614 !important;
+}
+
+.topbar {
+    display: block;
+    width: 100%;
+    height: 400px;
+}
+
+.HH {
+    /* color: #000000 !important; */
+    font-weight: 400 !important;
+    font-size: 40px !important;
+    font-family: 'Poppins';
+    letter-spacing: 8px;
+}
+
+.HH1 {
+    /* color: #000000 !important; */
+    font-weight: 400 !important;
+    font-size: 50px !important;
+    font-family: 'Poppins';
+    letter-spacing: 8px;
+}
+
+.HHBlock2 {
+    /* color: #000000 !important; */
+    font-weight: 400 !important;
+    font-size: 50px !important;
+    font-family: 'Poppins';
+    /* letter-spacing: 8px; */
+}
+
+.HDH {
+    /* color: #000000 !important; */
+    font-weight: 400 !important;
+    font-size: 70px !important;
+    font-family: 'Poppins';
+    letter-spacing: 8px;
+}
+
+
+.home-inner {
+    padding: 40px;
+}
+
+
+.hT {
+    color: #464646 !important;
+    font-weight: 400 !important;
+    font-size: 30px !important;
+    font-family: 'Poppins';
+    letter-spacing: 3px;
+    padding: 0px 70px 0px 70px;
+}
+
+.hTblock4 {
+    /* color: #464646 !important; */
+    font-weight: 400 !important;
+    font-size: 30px !important;
+    font-family: 'Poppins';
+    padding: 0px 60px 0px 60px;
+}
+
+.Homeblock1 {
+    background-color: #FFF0E2 !important;
+    /* border-radius: 8px !important; */
+    padding: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 0px;
+}
+
+.Homeblock1hT {
+    color: #000000 !important;
+    font-weight: 400 !important;
+    font-size: 35px !important;
+    font-family: 'Poppins';
+    /* letter-spacing: 6px; */
+}
+
+.HomeblockCart {
+    border: none !important;
+    ;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 50px !important;
+    border-top-left-radius: 50px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.HomeblockCartBody {
+    position: absolute;
+    top: 19rem;
+    background-color: rgba(255, 255, 255, 0.79) !important;
+    width: -webkit-fill-available;
+    height: 3rem;
+    padding: 5px;
+}
+
+.Homeblock2CartBody {
+    position: absolute;
+    top: 17rem;
+    width: -webkit-fill-available;
+}
+
+.Homeblock4 {
+    position: absolute;
+    top: 140rem;
+    margin-right: 65rem;
+    width: -webkit-fill-available;
+}
+
+.Homeblock4Second {
+    position: absolute;
+    top: 140rem;
+    margin-left: 65rem;
+    width: -webkit-fill-available;
+}
+
+.HomeblockCartBodyH {
+    color: #000000 !important;
+    font-weight: 400 !important;
+    font-size: 20px !important;
+    font-family: 'Poppins';
+}
+
+.HomeblockCartBodyH1 {
+    color: #000000 !important;
+    font-weight: 400 !important;
+    font-size: 30px !important;
+    font-family: 'Poppins';
+}
+
+/* .ProductImg {
+    height: 20vw !important;
+    object-fit: cover;
+} */
+
+.HomeBlockFullimg {
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+    -o-object-fit: cover;
+}
+
+.MultiImg {
+    height: 350px;
+    width: 100%;
+    object-fit: cover;
+    -o-object-fit: cover;
+}
+
+.MultiImg1 {
+    height: 420px;
+    width: 100%;
+    object-fit: cover;
+    -o-object-fit: cover;
+}
+
+/* Product */
+
+.breadcrumbCS {
+    color: #757575;
+    font-size: 14px;
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
+.ProductH {
+    color: #444444;
+    font-size: 20px;
+    font-family: 'Poppins';
+    font-weight: 500;
+}
+
+.ProductFullCard {
+    background: #FFFFFF !important;
+    box-shadow: 0px 4px 30px rgb(37 36 37 / 5%);
+    border-radius: 16px !important;
+    cursor: pointer;
+    border: none !important;
+}
+
+.ProductCard {
+    background: #FFFFFF !important;
+    /* box-shadow: 0px 4px 30px rgb(37 36 37 / 5%); */
+    border-radius: 16px !important;
+    cursor: pointer;
+    border: none !important;
+}
+
+.ProductImg {
+    height: 10vw !important;
+    object-fit: revert;
+}
+
+.ProductName {
+    color: #444444;
+    font-size: 20px;
+    font-family: 'Poppins';
+    font-weight: 500;
+}
+
+.ProductPrice {
+    color: #757575 !important;
+    font-weight: 300 !important;
+    font-size: 16px !important;
+    font-family: 'Poppins';
+}
+
+.heartPos {
+    /* top: 140rem; */
+    margin-left: 13rem;
+}
+
+.AccordionProduct {
+    --bs-accordion-btn-color: #181716 !important;
+    --bs-accordion-border-radius: 0rem;
+}
+
+.accordion {
+    --bs-accordion-border-width: 0px !important;
+    --bs-accordion-active-color: #070b10 !important;
+    --bs-accordion-active-bg: none !important;
+    border: none !important;
+}
+
+.slider {
+    width: 100%;
+}
+
+.ProductNameCss {
+    height: 2rem;
+}
+
+/* Product Details */
+
+img.hover-zoom:hover {
+    transform: scale(1.25);
+    /* margin-left: 14rem; */
+}
+
+
+
+.ProductDetailsImgCard {
+    background: #FFFFFF !important;
+    /* box-shadow: 0px 4px 30px rgb(37 36 37 / 5%); */
+    border-radius: 10px !important;
+    cursor: pointer;
+    border: none !important;
+}
+
+.ProductDetailsImg {
+    height: 40vw !important;
+    object-fit: revert;
+}
+
+.ProductDetailsImgsm {
+    height: 7vw !important;
+    object-fit: revert;
+}
+
+.ProductDetailsheartPos {
+    position: absolute;
+    bottom: 35rem;
+    margin-left: -4rem;
+}
+
+.ProductDetailsSharePos {
+    position: absolute;
+    bottom: 32rem;
+    margin-left: -4rem;
+}
+
+.colorbtn {
+    padding: 18px 18px !important;
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: #fd650d !important;
+}
+
+.nav-pills .nav-link {
+    background: #F2F2F2;
+
+}
+
+.quantity-picker {
+    border-radius: 8px !important;
+    border: 1px solid #BABABA !important;
+}
+
+.quantity-modifier {
+    background: #ffffff !important;
+}
+
+.quantity-display {
+    padding: 0.2rem !important;
+    border-bottom: none !important;
+    border: 1px solid #BABABA !important;
+}
+
+/* Cart */
+
+.checkpos {
+    position: relative;
+    top: 8rem;
+}
+
+.cartbtn {
+    color: #757575 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+    font-family: 'Poppins';
+}
+
+.CouponModelh {
+    color: #000000;
+    font-size: 14px !important;
+    font-family: 'Poppins';
+    font-weight: 300;
+}
+
+.CouponModelsmT {
+    color: #757575;
+    font-size: 14px !important;
+    font-family: 'Poppins';
+    font-weight: 300;
+}
+
+.CHECK {
+    color: #FF9F4B !important;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Poppins';
+    position: absolute;
+    background-color: transparent !important;
+}
+
+.CouponDisText {
+    color: #757575;
+    font-size: 12px !important;
+    font-family: 'Poppins';
+    font-weight: 300;
+    /* text-align: center; */
+    padding: 6px 50px;
+}
+
+.CouponDisblockPos {
+    width: 90px;
+    padding: 3px 15px;
+    background-color: #D8EDFF !important;
+    border: none !important;
+}
+
+/* Related Product */
+
+.RelatedPrStarPos {
+    position: absolute;
+    bottom: 11rem;
+    background-color: #F2F2F2 !important;
+    border: none !important;
+    margin-left: 1rem;
+}
+
+/* wishlist */
+
+.WishlistImg {
+    height: 12vw !important;
+    object-fit: revert;
+}
+
+.wishListBtn {
+    background-color: #FF9F4B !important;
+    /* font-family: 'Poppins' !important;
+    font-weight: 400 !important;
+    padding: 10px !important;
+    border-radius: 15px !important; */
+}
+
+/* Cart */
+.modalcss {
+    background-color: transparent !important;
+    --bs-modal-bg: #F9F9F9 !important;
+    --bs-modal-header-border-color: 0 !important;
+    box-shadow: 2px 4px 30px 4px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(1px);
+}
+
+.CartText {
+    /* margin-left: 25px; */
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    font-family: 'Poppins';
+    color: #000000;
+}
+
+.qytBtn {
+    background-color: #F2F2F2 !important;
+    border: none !important;
+}
+
+.addressblockScroll{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 22rem;
+}
+
+::-webkit-scrollbar .addressblockScroll {
+    width: 8px;
+}
+
+ ::-webkit-scrollbar-track .addressblockScroll {
+    box-shadow: inset 0 0 5px #F2F2F2;
+    border-radius: 10px;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(241, 88, 65);
+    border-radius: 10px;
+}
+
+/* order Placed */
+
+.orderplaced {
+    background-color: #fbfbfb !important;
+}
+
+.orderplacedcard {
+    background: #FFFFFF !important;
+    box-shadow: 10px 4px 30px rgb(37 36 37 / 5%) !important;
+    border-radius: 16px !important;
+    cursor: pointer;
+    border: none !important;
+}
+
+/* Profile-Page */
+
+.Profile-Page{
+    background-color: #fafafa !important;
+}
+
+
+/* Address */
+
+.addressCard {
+    background: #FFFFFF !important;
+
+    border-radius: 16px !important;
+    cursor: pointer;
+    /* border: #D8D8D8 !important; */
+}
+
+/* Contact us */
+
+.fs{
+    font-size: 28px !important;
+}
+
+.Contacthight {
+    height: 4rem;
+}
+
+.contactcard{
+    border-color: #D8D8D8 !important;
+    border-radius: 16px !important;
+}
+
+/* Footer */
+
+.Footer {
+    background-color: #E98835;
+}
+
+.FooterH {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    font-size: 20px !important;
+    font-family: 'Poppins';
+}
+
+.FooterT {
+    color: #FFFFFF !important;
+    font-weight: 400 !important;
+    font-size: 20px !important;
+    font-family: 'Poppins';
+}
+
+

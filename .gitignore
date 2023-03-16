@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/ProjectDetails.docx
 /.pnp
 .pnp.js
 
