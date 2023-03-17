@@ -1,6 +1,6 @@
 import { Row, Col, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar} from '@fortawesome/free-solid-svg-icons';
+import { faStar, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import image06 from "../../images/image 8.png";
 function RelatedProduct() {
@@ -20,7 +20,7 @@ function RelatedProduct() {
                                 <Card.Body>
                                     <p className='ProductH'>Mish</p>
                                     <p className='ProductPrice'>Cut-Out Georgette Sheath Dress</p>
-                                    <p className='ProductH'>$99.00 <del className='ProductPrice'>$139.00</del> <span className='text-success'>30% off</span></p>
+                                    <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>99.00 <del className='ProductPrice'>139.00</del> <span className='text-success'>30% off</span></p>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -33,7 +33,7 @@ function RelatedProduct() {
                                 <Card.Body>
                                     <p className='ProductH'>Mish</p>
                                     <p className='ProductPrice'>Cut-Out Georgette Sheath Dress</p>
-                                    <p className='ProductH'>$99.00 <del className='ProductPrice'>$139.00</del> <span className='text-success'>30% off</span></p>
+                                    <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>99.00 <del className='ProductPrice'>139.00</del> <span className='text-success'>30% off</span></p>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -46,7 +46,7 @@ function RelatedProduct() {
                                 <Card.Body>
                                     <p className='ProductH'>Mish</p>
                                     <p className='ProductPrice'>Cut-Out Georgette Sheath Dress</p>
-                                    <p className='ProductH'>$99.00 <del className='ProductPrice'>$139.00</del> <span className='text-success'>30% off</span></p>
+                                    <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>99.00 <del className='ProductPrice'>139.00</del> <span className='text-success'>30% off</span></p>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -59,7 +59,7 @@ function RelatedProduct() {
                                 <Card.Body>
                                     <p className='ProductH'>Mish</p>
                                     <p className='ProductPrice'>Cut-Out Georgette Sheath Dress</p>
-                                    <p className='ProductH'>$99.00 <del className='ProductPrice'>$139.00</del> <span className='text-success'>30% off</span></p>
+                                    <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>99.00 <del className='ProductPrice'>139.00</del> <span className='text-success'>30% off</span></p>
                                 </Card.Body>
                             </Card>
                         </Col>

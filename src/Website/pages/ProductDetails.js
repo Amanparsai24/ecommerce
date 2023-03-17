@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { setAlert } from '../../slices/home';
 import { Row, Col, Container, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShareNodes, faShoppingCart, faBolt,  } from '@fortawesome/free-solid-svg-icons';
+import { faShareNodes, faShoppingCart, faBolt, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { imgPath } from "../../common/Function";
 import { QuantityPicker } from 'react-qty-picker';
@@ -24,8 +24,13 @@ import Size from '../component/Size';
 const ProductDetails = () => {
 
     const { state } = useLocation();
-    const [formData, setFormData] = useState(state);
     const dispatch = useDispatch();
+    // const [formData, setFormData] = useState(state);
+    const [formData, setFormData] = useState(() => {
+        const productDetails = JSON.parse(localStorage.getItem('productDetails'));
+        return productDetails || null;
+    });
+
     const [productID, setproductID] = useState([]);
     const [productqyt, setProductQYT] = useState(1);
 
@@ -45,7 +50,7 @@ const ProductDetails = () => {
         dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
         var newdata = JSON.parse(localStorage.getItem('cartlist'));
         for (let i in newdata) {
-            if (newdata[i]._id === state._id) {
+            if (newdata[i]._id === formData._id) {
                 let id = newdata[i]._id;
                 setproductID(id);
             }
@@ -113,7 +118,15 @@ const ProductDetails = () => {
 
                                         <Rating />
 
-                                        <p className='ProductH'>${formData ? formData.salePrice : ""}&nbsp; <del className='ProductPrice'>${formData ? formData.MRP : ""} </del> <span className='text-warning'> &nbsp; {formData.offers}% off</span></p>
+                                        <p className='ProductH'>
+                                            <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>
+                                            
+                                            {formData ? formData.salePrice : ""}&nbsp; 
+
+                                            <del className='ProductPrice'>{formData ? formData.MRP : ""} </del>
+
+                                             <span className='text-warning'> &nbsp; {formData.offers}% off</span>
+                                        </p>
                                         <div className='Textsm'>{formData ?formData.description:""} </div>
                                         <hr></hr>
                                         <Row>

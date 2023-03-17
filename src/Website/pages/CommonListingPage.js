@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Col } from 'react-bootstrap';
 import { imgPath } from "../../common/Function";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
+import { faShareNodes, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 const CommonListingPage = (props) => {
@@ -11,9 +11,9 @@ const CommonListingPage = (props) => {
     const navigate = useNavigate();
 
     const ViewProduct = (item) => {
-
+        localStorage.setItem("productDetails", JSON.stringify(item));
         setTimeout(() => {
-            navigate('/productdetails', { state: item });
+            navigate('/productdetails');
         }, 1);
     } 
     
@@ -31,7 +31,9 @@ const CommonListingPage = (props) => {
                         <Card.Body>
                             <p className='ProductH'> {item.brand ? item.brand.name : ""}</p>
                             <p className='ProductPrice ProductNameCss '>{item.name}</p>
-                            <p className='ProductH'>${item.salePrice} <del className='ProductPrice'>${item.MRP} </del> <span className='text-success'>{item.offers}% off</span></p>
+                            <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{item.salePrice} 
+                            <del className='ProductPrice'>{item.MRP} </del> 
+                            <span className='text-success'>{item.offers}% off</span></p>
                         </Card.Body>
                     </Card>
                 </Col>

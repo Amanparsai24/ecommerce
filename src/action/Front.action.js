@@ -60,6 +60,13 @@ export const updateQuantityAction = (data) => {
     return postRequest('quantityUpdate', data).then(res => { return res.data });
 }
 
+export const paymentModeListAction = (data) => {
+    return postRequest('PaymentModeList', data).then(res => { return res.data });
+}
+
+
+
+
 
 
 

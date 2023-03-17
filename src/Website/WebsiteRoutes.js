@@ -20,7 +20,7 @@ import PaymentPage from "./pages/PaymentPage";
 import ProfilePage from "./pages/ProfilePage";
 import CallUs from "./pages/CallUs";
 
-function WebsiteRoutes() {
+const WebsiteRoutes = () => {
 
     return (
         <Row>

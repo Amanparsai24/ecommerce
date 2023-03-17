@@ -5,7 +5,7 @@ import PaymentBlockL from '../component/PaymentBlockL';
 import PaymentBlockR from '../component/PaymentBlockR';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getAddressAction } from "../../action/Front.action";
+import { paymentModeListAction } from "../../action/Front.action";
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../slices/home';
 
@@ -14,15 +14,15 @@ const PaymentPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({});
-    const [addresslist, setAddressList] = useState({});
+    const [paymentmethod, setPaymentMethod] = useState({});
 
     const getAddressList = async () => {
 
         dispatch(setAlert({ open: true, severity: "success", msg: "Loading...", type: 'loader' }));
-        const resp = await getAddressAction();
+        const resp = await paymentModeListAction();
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
-            setAddressList(resp.data[0].addresses);
+            setPaymentMethod(resp.data);
         }
     }
 
@@ -44,16 +44,32 @@ const PaymentPage = () => {
         setFormData(data);
     }
 
-    const selectpaymentmethod = () => {
+    const selectpaymentmethod = async () => {
+
         if (localStorage.loginType === 'user' && localStorage.userType) {
             if (formData.paymentId) {
-                var paymentID = formData.paymentId;
-                const userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
-                // localStorage.setItem('userAddressID', JSON.stringify(userAddressID));
-                setTimeout(() => {
-                    navigate('/orderplaced');
-                }, 500);
 
+                var paymentID = formData.paymentId;
+                localStorage.setItem('paymentID', JSON.stringify(paymentID));
+                setTimeout(() => {
+                        navigate('/orderplaced');
+                }, 500);
+                // const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                // const purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
+                // const userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
+                
+                // let resp = await saveWishlistItemAction({ productId: id });
+                // if (resp.code === 200) {
+                //     dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
+                //     localStorage.removeItem("productDetails");
+                //     localStorage.removeItem("userAddressID");
+                //     localStorage.removeItem("paymentID");
+                //     localStorage.removeItem("purchaseData");
+                //     localStorage.removeItem("cartlist");
+                //     setTimeout(() => {
+                //         navigate('/orderplaced');
+                //     }, 500);
+                // }
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Payment Method", type: '' }));
             }
@@ -66,6 +82,12 @@ const PaymentPage = () => {
 
         getAddressList();
 
+        if (localStorage.getItem('userAddressID')){}else{
+            setTimeout(() => {
+                navigate('/address');
+            }, 1);
+        }
+        
     }, [formData]);
 
     return (
@@ -83,15 +105,16 @@ const PaymentPage = () => {
                                     </Col>
                                 </Row>
                                 {
-                                    addresslist && addresslist.length > 0 && addresslist.map((item, ind) => {
-                                        let checked = (formData.addressId && formData.addressId === item._id) ? true : false;
+                                    paymentmethod && paymentmethod.length > 0 && paymentmethod.map((item, ind) => {
+                                        // console.log(item);
+                                        let checked = (formData.paymentId && formData.paymentId === item._id) ? true : false;
                                         return <Fragment key={ind}>
                                             <Row>
                                                 <Col md={1}>
                                                     <Form.Check type="radio" aria-label="radio 1" id="custom-switch" value={item._id} onChange={e => handleChange(e, 'paymentId')} checked={checked} />
                                                 </Col>
                                                 <Col md={11}>
-                                                    <p className='CartText'>Pay with debit/ credit cards</p>
+                                                    <p className='CartText'>{item.name}</p>
                                                 </Col>
                                             </Row>
                                         </Fragment>

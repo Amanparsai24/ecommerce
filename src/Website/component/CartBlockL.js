@@ -1,36 +1,31 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, Card } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import { setAlert } from '../../slices/home';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-
-import { imgPath } from "../../common/Function";
-import { setAlert } from '../../slices/home';
 import { saveWishlistItemAction, getWishlistAction } from "../../action/Front.action";
-import LoginModel from "../component/LoginModel";
-import Modal from 'react-bootstrap/Modal';
+import { Card, Col, Row } from 'react-bootstrap';
+import { imgPath } from "../../common/Function";
+import CartProductDetails from './CartProductDetails';
 import QuantityModel from './QuantityModel';
 import DeleteProduct from './DeleteProduct';
+import LoginModel from './LoginModel';
 import BagEmpty from './BagEmpty';
-import CartProductDetails from './CartProductDetails';
 
-function CartBlockL() {
+const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
 
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
     };
-    
-    const handleShow = () => setShow(true);
 
-    const [formData, setFormData] = useState({});
-    const [cartlist, setCartList] = useState([]);
-    const [totalprice, setTotalPrice] = useState(0);
-    const [userLoged, setUserLoged] = useState(0);
-    // const [wishlist, setWishList] = useState({});
+    const handleShow = () => setShow(true);
     const [wishlistproduct, setWishListProduct] = useState({});
     const [wishlistid, setWishListId] = useState();
+    const [totalprice, setTotalPrice] = useState(0);
+    const [userLoged, setUserLoged] = useState(0);
 
     const getWishList = async () => {
         if (localStorage.loginType == 'user' && localStorage.userType) {
@@ -81,108 +76,72 @@ function CartBlockL() {
 
     }
 
-    const gettotalprice = () => {
-        if (!cartlist){
-            const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-            var price = 0;
-            for (let i in cartlist) {
-                if (cartlist[i].updatedprice) {
-                    price += cartlist[i].updatedprice;
-                } else {
-                    price += cartlist[i].salePrice;
-                }
-
-                setTotalPrice(price);
-            }
-        }
-
-
-    }
-
-    const getcartlist = () => {
-
-        if (localStorage.getItem('cartlist') && !localStorage.getItem('cartlist') == "") {
-            const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-            setCartList(cartlist);
-        }
-    }
-
-    // console.log(formData);
     useEffect(() => {
 
-        getcartlist();
         getWishList();
-        gettotalprice();
 
-    }, [formData]);
+    }, []);
 
     return (
         <>
-            <Card className='ProductFullCard mb-2'>
-                <Card.Body className='p-4'>
-                    <p className='HomeblockCartBodyH1'>Shopping Cart</p>
+            {cartlist.length > 0 && cartlist.map((item, ind) => {
+                return <Fragment key={ind}>
+                    <Row>
+                        <Col md={4}>
+                            <Card>
+                                <img src={imgPath(item.image[0])} className="card-img-top ProductImg" alt="..." />
+                            </Card>
+                        </Col>
+                        <Col md={8}>
+                            <Card className='ProductCard'>
+                                <Card.Body>
+                                        {/* Product More details */}
+                                    <CartProductDetails item={item} />
+
+                                    <Row className='mt-2 mb-2'>
+                                        <Col md={7}>
+                                            <QuantityModel item={item} getcartlist={getcartlist} gettotalprice={gettotalprice}  />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={3}>
+                                            {
+                                                wishlistid === item._id ?
+                                                    <>
+                                                        <span className="btn btn-sm cartbtn  btn-outline-dark border-1" title="Whislist"><FontAwesomeIcon icon={faHeart} className="text-danger" /> WISHLISTED</span>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <span className="btn btn-sm cartbtn" title="Whislist" onClick={e => addtowishlist(item._id)} >Save for later</span>
+
+                                                        <Modal show={show} size="lg" onHide={handleClose}>
+                                                            {
+                                                                userLoged === 1 &&
+
+                                                                <LoginModel />
+
+                                                            }
+                                                        </Modal>
+                                                    </>
+                                            }
+                                        </Col>
+                                        <Col md={7}>
+                                            <DeleteProduct item={item} gettotalprice={gettotalprice} getcartlist={getcartlist} />
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
                     <hr></hr>
-                    {cartlist.length > 0 && cartlist.map((item, ind) => {
-                        return <Fragment key={ind}>
-                            <Row>
-                                <Col md={4}>
-                                    <Card className='ProductCard'>
-                                        <img src={imgPath(item.image[0])} className="card-img-top ProductImg" alt="..." />
-                                    </Card>
-                                </Col>
-                                <Col md={8}>
-                                    <Card className='ProductCard'>
-                                        <Card.Body>
-                                            <CartProductDetails item={item} />
-                                            <Row className='mt-2 mb-2'>
-                                                <Col md={7}>
-                                                    <QuantityModel item={item} getcartlist={getcartlist} />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md={3}>
-                                                    {
-                                                        wishlistid === item._id ?
-                                                            <>
-                                                                <span className="btn btn-sm cartbtn  btn-outline-dark border-1" title="Whislist"><FontAwesomeIcon icon={faHeart} className="text-danger" /> WISHLISTED</span>
-                                                            </>
-                                                            :
-                                                            <>
-                                                                <span className="btn btn-sm cartbtn" title="Whislist" onClick={e => addtowishlist(item._id)} >Save for later</span>
+                </Fragment>
+            })}
 
-                                                                <Modal show={show} size="lg" onHide={handleClose}>
-                                                                    {
-                                                                        userLoged === 1 &&
-
-                                                                        <LoginModel />
-
-                                                                    }
-                                                                </Modal>
-                                                            </>
-                                                    }
-                                                </Col>
-                                                <Col md={7}>
-                                                    <DeleteProduct item={item} gettotalprice={gettotalprice} getcartlist={getcartlist} />
-                                                </Col>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                           
-                            </Row>
-                            <hr></hr>
-                        </Fragment>
-                    })}
-
-                    {cartlist.length == 0 &&
-                        <>
-                            <BagEmpty wishlistproduct={wishlistproduct} />
-                        </>
-                    }
-
-                </Card.Body>
-            </Card>
-
+            {cartlist.length == 0 &&
+                <>
+                    <BagEmpty wishlistproduct={wishlistproduct} />
+                </>
+            }
         </>
     );
 }

@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setAlert } from '../../slices/home';
 import { updateQuantityAction } from "../../action/Front.action";
 
-const QuantityModel = ({ item, getcartlist }) => {
+const QuantityModel = ({ item, getcartlist, gettotalprice }) => {
 
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
@@ -31,10 +31,12 @@ const QuantityModel = ({ item, getcartlist }) => {
 
                 if (productid === resp.data.productId) {
                     cartlist[i]['productqyt'] = resp.data.quantity;
-                    cartlist[i]['updatedsalePrice'] = resp.data.salePrice;
-                    cartlist[i]['updatedMRP'] = resp.data.MRP;
+                    cartlist[i]['salePrice'] = resp.data.salePrice;
+                    cartlist[i]['MRP'] = resp.data.MRP;
+                    cartlist[i]['discount'] = resp.data.discount;
                     localStorage.setItem("cartlist", JSON.stringify(cartlist));
                     getcartlist();
+                    gettotalprice();
                 }
             }
         } else {
@@ -43,11 +45,11 @@ const QuantityModel = ({ item, getcartlist }) => {
         handleClose();
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        getcartlist();
+    //     getcartlist();
 
-    }, []);
+    // }, []);
 
     return (
         <>

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { checkCouponAction } from "../../action/Front.action";
 import { setAlert } from '../../slices/home';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const CouponModel = ({ handleClose }) => {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch()
     const [validated, setValidated] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
@@ -38,7 +35,7 @@ const CouponModel = ({ handleClose }) => {
             let resp = await checkCouponAction(postData);
             if (resp.code === 200) {
                 dispatch(setAlert({ open: true, severity: "success", msg: "Success", type: '' }));
-                let data = { ...formData, CouponAmount: resp.discount, subTotelPrice: resp.subTotelPrice, totalPrice: resp.totalPrice };
+                let data = { ...formData, couponDiscount: resp.couponDiscount, amount: resp.amount, discount: resp.discount, totalAmount: resp.totalAmount };
                 setCouponData(data);
 
             }else {
@@ -51,14 +48,12 @@ const CouponModel = ({ handleClose }) => {
     }
 
     const apply = () => {
-        // console.log(coupondata.discountAmount);
-        // let data;
         var cartData = [];
         if (coupondata){
             cartData.push(coupondata);
         }
         localStorage.setItem('purchaseData', JSON.stringify(coupondata));
-        dispatch(setAlert({ open: true, severity: "success", msg: "Coupon Amount Apply", type: '' }));
+        dispatch(setAlert({ open: true, severity: "success", msg: "Coupon Amount Apply It Added on next Page", type: '' }));
         handleClose();
     }
 
@@ -109,7 +104,7 @@ const CouponModel = ({ handleClose }) => {
                     <Col md={4} lg={4} >
                         <div className="CouponDisText">
                             Discount<br></br>
-                            $ {coupondata.discountAmount ?coupondata.discountAmount:0}
+                            $ {coupondata.couponDiscount ?coupondata.couponDiscount:0}
                         </div>
                     </Col>
                     <Col md={4} lg={8}>

@@ -1,33 +1,10 @@
-import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
 const AddressBlockR = () => {
 
-    const [totalprice, setTotalPrice] = useState(0);
-
     let purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
-
-    const gettotalprice = () => {
-
-        const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-        var price = 0;
-        for (let i in cartlist) {
-            if (cartlist[i].updatedprice) {
-                price += cartlist[i].updatedprice;
-            } else {
-                price += cartlist[i].salePrice;
-            }
-            setTotalPrice(price);
-        }
-        
-    }
-
-    useEffect(() => {
-
-        gettotalprice();
-
-    }, []);
 
     return (
         <>
@@ -38,7 +15,7 @@ const AddressBlockR = () => {
                     <p className='ProductH '>Items</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '>{purchaseData ? purchaseData.totalPrice : totalprice}</p>
+                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData.amount}</p>
                 </Col>
             </Row>
             <Row>
@@ -46,7 +23,7 @@ const AddressBlockR = () => {
                     <p className='ProductH '>Discount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '>- $ 18.00  </p>
+                    <p className='ProductH text-end '>-<span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData.discount} </p>
                 </Col>
             </Row>
             <Row>
@@ -54,7 +31,7 @@ const AddressBlockR = () => {
                     <p className='ProductH '>Coupon Discount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '>{purchaseData ? purchaseData.discountAmount : 0}</p>
+                    <p className='ProductH text-end '>-<span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData.couponDiscount}</p>
 
                 </Col>
             </Row>
@@ -72,7 +49,7 @@ const AddressBlockR = () => {
                     <p className='ProductH '>Order Total</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '>{purchaseData ? purchaseData.subTotelPrice : totalprice}</p>
+                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData.totalAmount}</p>
                 </Col>
             </Row>
 

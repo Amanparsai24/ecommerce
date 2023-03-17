@@ -1,8 +1,22 @@
-
+import React, { useEffect } from 'react';
 import { Row, Col, Container, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import suc from "../../images/Group 20.png";
+import { useNavigate } from 'react-router-dom';
+
 function OrderPlaced() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if (localStorage.getItem('paymentID')) { } else {
+            setTimeout(() => {
+                navigate('/payment');
+            }, 1);
+        }
+
+    }, []);
 
     return (
         <div className="orderplaced">
