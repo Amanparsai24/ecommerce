@@ -19,6 +19,9 @@ import AddressPage from "./pages/AddressPage";
 import PaymentPage from "./pages/PaymentPage";
 import ProfilePage from "./pages/ProfilePage";
 import CallUs from "./pages/CallUs";
+import MyAddress from "./pages/MyAddress";
+import MyOrders from "./pages/MyOrders";
+import OrdersDetails from "./pages/OrdersDetails";
 
 const WebsiteRoutes = () => {
 
@@ -33,6 +36,9 @@ const WebsiteRoutes = () => {
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/otp" element={<OtpVerify />} />
                     <Route exact path="/profile" element={<ProfilePage />} />
+                    <Route exact path="/myaddress" element={<MyAddress />} />
+                    <Route exact path="/myorders" element={<MyOrders />} />
+                    <Route exact path="/orderdetails" element={<OrdersDetails />} />
                     <Route exact path="/product" element={<Product />} />
                     <Route exact path="/productdetails" element={<ProductDetails />} />
                     <Route exact path="/wishlist" element={<WishList />} />

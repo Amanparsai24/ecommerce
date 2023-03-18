@@ -323,4 +323,8 @@
         bottom: 36rem;
     }
 
+    .magnifyingGlass {
+        bottom: 23.9rem !important;
+    }
+
 }

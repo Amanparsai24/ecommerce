@@ -69,7 +69,9 @@ const AddressPage = () => {
     useEffect(() => {
 
         getAddressList();
-
+        if (localStorage.getItem('cartlist')) { } else {
+            navigate('/');
+        }
     }, [formData]);
 
     return (

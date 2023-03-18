@@ -139,7 +139,7 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
 
             {cartlist.length == 0 &&
                 <>
-                    <BagEmpty wishlistproduct={wishlistproduct} />
+                    {/* <BagEmpty wishlistproduct={wishlistproduct} /> */}
                 </>
             }
         </>

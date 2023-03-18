@@ -64,6 +64,14 @@ export const paymentModeListAction = (data) => {
     return postRequest('PaymentModeList', data).then(res => { return res.data });
 }
 
+export const orderPlacedListAction = (data) => {
+    return postRequest('buyOrder', data).then(res => { return res.data });
+}
+
+export const getOrderAction = (data) => {
+    return postRequest('orderList', data).then(res => { return res.data });
+}
+
 
 
 

@@ -5,7 +5,7 @@ import PaymentBlockL from '../component/PaymentBlockL';
 import PaymentBlockR from '../component/PaymentBlockR';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { paymentModeListAction } from "../../action/Front.action";
+import { paymentModeListAction, orderPlacedListAction } from "../../action/Front.action";
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../slices/home';
 
@@ -49,27 +49,26 @@ const PaymentPage = () => {
         if (localStorage.loginType === 'user' && localStorage.userType) {
             if (formData.paymentId) {
 
-                var paymentID = formData.paymentId;
+                let paymentID = formData.paymentId;
                 localStorage.setItem('paymentID', JSON.stringify(paymentID));
-                setTimeout(() => {
+
+                let userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
+                const purchaseData = JSON.parse(localStorage.getItem('purchaseData'))
+                let couponDiscount = purchaseData.couponDiscount;
+                const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                var productdata = [];
+                for (let i in cartlist) {
+                    let row = cartlist[i];
+                    productdata.push({ productId: row._id, quantity: row.productqyt });
+                }
+                let data = { addressId: userAddressID, paymentId: paymentID, couponDiscount: couponDiscount, productData: productdata  };
+                let resp = await orderPlacedListAction(data);
+                if (resp.code === 200) {
+                    dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
+                    setTimeout(() => {
                         navigate('/orderplaced');
-                }, 500);
-                // const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-                // const purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
-                // const userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
-                
-                // let resp = await saveWishlistItemAction({ productId: id });
-                // if (resp.code === 200) {
-                //     dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
-                //     localStorage.removeItem("productDetails");
-                //     localStorage.removeItem("userAddressID");
-                //     localStorage.removeItem("paymentID");
-                //     localStorage.removeItem("purchaseData");
-                //     localStorage.removeItem("cartlist");
-                //     setTimeout(() => {
-                //         navigate('/orderplaced');
-                //     }, 500);
-                // }
+                    }, 500);
+                }
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Payment Method", type: '' }));
             }
@@ -82,10 +81,8 @@ const PaymentPage = () => {
 
         getAddressList();
 
-        if (localStorage.getItem('userAddressID')){}else{
-            setTimeout(() => {
-                navigate('/address');
-            }, 1);
+        if (localStorage.getItem('userAddressID')){ }else{
+            navigate('/');
         }
         
     }, [formData]);

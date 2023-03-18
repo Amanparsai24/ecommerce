@@ -10,11 +10,16 @@ function OrderPlaced() {
 
     useEffect(() => {
 
-        if (localStorage.getItem('paymentID')) { } else {
-            setTimeout(() => {
-                navigate('/payment');
-            }, 1);
+        if (localStorage.getItem('paymentID')) {
+            localStorage.removeItem("productDetails");
+            localStorage.removeItem("userAddressID");
+            // localStorage.removeItem("paymentID");
+            localStorage.removeItem("purchaseData");
+            localStorage.removeItem("cartlist");
+         } else {
+            navigate('/');
         }
+
 
     }, []);
 
