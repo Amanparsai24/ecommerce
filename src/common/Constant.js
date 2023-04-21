@@ -47,6 +47,10 @@ export const faqType = { 1: 'General', 2: 'Using MyPunditG', 3: 'Book Services',
 // LIMIT number
 export const LimitNumber = [5,10,20,30,40,50,60,70,80,90,100]; 
 
+
+// LIMIT number
+export const Year = [2023,2022,2021,2020,2019,2018,2017,2016,2015]; 
+
 export const lastStep = 9;
 
 export const message = {    

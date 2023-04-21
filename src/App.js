@@ -1,13 +1,18 @@
 import { BrowserRouter } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './App.css';
 import './responsive.css';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './admin.css';
+
+
 import AdminRoutes from './Admin/AdminRoutes';
 import WebsiteRoutes from './Website/WebsiteRoutes';
 import OpenRoutes from './OpenRoutes';
 import { Provider } from "react-redux";
 import store from "./store";
+
 function App() {
   return (
     <div className="App">

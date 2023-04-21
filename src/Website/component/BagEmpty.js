@@ -13,11 +13,12 @@ const BagEmpty = ({ wishlistproduct }) => {
                     <Row>
                         <h6 className='mb-4 text-center ProductH'>You have items in your wishlist waiting to be yours!</h6>
                         {wishlistproduct && wishlistproduct.length > 0 && wishlistproduct.map((item, ind) => {
+                            // console.log(item);
                             return <Col xs={12} md={12} lg={4} >
                                 <Card className='ProductCard mb-2' key={ind} >
-                                    <img src={imgPath(item.products[ind] ? item.products[ind].image[0] : "")} className="card-img-top ProductImg" alt="..." />
+                                    <img src={imgPath(item.productId ? item.productId.image[0] : "")} className="card-img-top ProductImg" alt="..." />
                                     <Card.Body>
-                                        <p className='ProductH'> {item.products[ind] ? item.products[ind].name : ""}</p>
+                                        <p className='ProductH'> {item.productId ? item.productId.name : ""}</p>
                                     </Card.Body>
                                 </Card>
                             </Col>

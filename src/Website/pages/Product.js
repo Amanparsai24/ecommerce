@@ -70,9 +70,9 @@ const Product = (props) => {
                 <AlertBox />
                 <Row>
                     <Col md={3}>
-                        <Card className='ProductFullCard'>
+                        <Card className='ProductFullCard mt-4 mb-4'>
                             <Card.Body>
-                                <p>Filter</p>
+                                <p className='ProductName'>Filter</p>
                                 <Accordion defaultActiveKey="0" className='AccordionProduct'>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header className='HomeSerH'>Category</Accordion.Header>
@@ -169,7 +169,7 @@ const Product = (props) => {
                         </Card>
                     </Col>
                     <Col md={9}>
-                        <Card className='ProductFullCard'>
+                        <Card className='ProductFullCard mt-4 mb-4'>
                             <Card.Body className='p-4'>
                                 <nav aria-label="breadcrumb mb-2">
                                     <ol className="breadcrumb">

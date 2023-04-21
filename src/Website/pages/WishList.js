@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Container, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faTrash , faPencil  } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPencil, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { imgPath } from "../../common/Function";
 import { setAlert } from '../../slices/home';
 import { confirmAlert } from 'react-confirm-alert';
@@ -38,12 +38,11 @@ function WishList() {
             dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
             if (resp.code === 200) {
                 // console.log(resp.data[0].products);
-                setWishList(resp.data[0].products);
+                setWishList(resp.data[0].products.productId);
                 setList(resp.data[0].list);
             }
         }
     }
-
 
     const changeTabKey = (id) => {
   
@@ -125,6 +124,14 @@ function WishList() {
                                             </div>
                                         </Col>:""
                                     }
+
+                                    {list.length == 0 &&
+
+                                        <Col xs={12} md={12} lg={12} >
+                                            <p className='ProductH text-center'>Make your Personal List </p>
+                                        </Col>
+
+                                    }
                              </Row>
                             </Card.Body>
                         </Card>
@@ -137,10 +144,11 @@ function WishList() {
                                         <p className='HomeblockCartBodyH1'>My Wishlist </p>
                                         <hr></hr>
                                         {wishlist && wishlist.length > 0 && wishlist.map((item, ind) => {
+                                        //  console.log(item)
                                             return <Col xs={12} md={12} lg={12} key={ind}>
                                                 <Row>
                                                     <Col md={3}>
-                                                        <img src={imgPath(item.image)} className="card-img-top WishlistImg" alt="..." />
+                                                        <img src={imgPath(item.image[0])} className="card-img-top WishlistImg" alt="..." />
                                                     </Col>
                                                      <Col md={9}>
                                                         <Row>
@@ -157,7 +165,7 @@ function WishList() {
                                                         </Row>
                                                         <Row>
                                                             <Col md={10}>
-                                                                <p className='ProductH'>Size : {item.sizes?item.sizes[0].name:""}</p>
+                                                                <p className='ProductH'>Size : </p>
                                                             </Col>
                                                         </Row>
                                                         <Row>
@@ -168,7 +176,7 @@ function WishList() {
 
                                                         <Row>
                                                             <Col md={10}>
-                                                                <p className='ProductH'>$ {item.salePrice}</p>
+                                                                <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span> {item.MRP}</p>
                                                             </Col>
                                                         </Row>
                                                     </Col>
@@ -176,6 +184,24 @@ function WishList() {
                                                 <hr></hr>
                                             </Col>
                                         })
+                                        }
+
+                                        {wishlist.length == 0 &&  
+                                            
+                                            <Col xs={12} md={12} lg={12} >
+                                              
+                                                <p className='HomeblockCartBodyH1 text-center'>YOUR WISHLIST IS EMPTY</p>
+
+                                                <p className='ProductH text-center'>Add items that you like to your wishlist. </p>
+                                                <Row className='justify-content-center'>
+                                                    <Col md={3}>
+                                                        <div className="d-grid  mx-auto">
+                                                            <Link className="btn LoginBtn text-white" to="/product">CONTINUE SHOPPING</Link>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        
                                         }
                                   
                                     </Card.Body>

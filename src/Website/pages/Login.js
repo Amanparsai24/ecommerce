@@ -79,11 +79,10 @@ function Login() {
             <AlertBox />
             <Container fluid className='no-lr-p'>
                 <Row className='g-0'>
-                    <Col md={5} className="loginLImg">
+                    <Col lg={5} md={5} sm={12} className="loginLImg">
 
                     </Col>
-                    <Col md={7} sm={12}>
-                  
+                    <Col lg={7} md={7} sm={12}>
                         <div className="text-center login-inner">
                             <div className='mb-4'>
                                 <img src={LoginImg1} alt={LoginImg} />

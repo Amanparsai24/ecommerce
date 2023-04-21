@@ -9,7 +9,7 @@ function Home() {
             <Block1/>
             <Block2 />
             <Block3 />
-            <Block4 />
+            <Block4 /> 
         </div>
     );
 }

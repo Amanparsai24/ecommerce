@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
-import Header from './Website/component/Header';
+import Header from './Website/component/Header'; 
 import Footer from './Website/component/Footer';
 import AdminLogin from './Website/pages/AdminLogin';
 import Home from './Website/pages/Home';

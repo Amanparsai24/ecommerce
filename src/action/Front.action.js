@@ -49,7 +49,7 @@ export const AddlistAction = (data) => {
 }
 
 export const addProductToListAction = (data) => {
-    return postRequest('addProductToList', data).then(res => { return res.data });
+    return postRequest('addListToProduct', data).then(res => { return res.data });
 }
 
 export const checkCouponAction = (data) => {

@@ -19,7 +19,7 @@ function Block3() {
                                     <p className='HomeblockCartBodyH text-center'>Anaarkali Suit</p>
                                 </div>
                             </Card>
-                            <Card className='HomeblockCart'>
+                            <Card className='HomeblockCart mb-4'>
                                 <img src={image02} className="card-img-top MultiImg" alt="..." />
                                 <div className='HomeblockCartBody'>
                                     <p className='HomeblockCartBodyH text-center'>
@@ -33,14 +33,14 @@ function Block3() {
                             </div>
                             <Row>
                                 <Col sm={12} md={6}>
-                                    <Card className='HomeblockCart'>
+                                    <Card className='HomeblockCart mb-4'>
                                         <p className='HomeblockCartBodyH1 text-center'>Traditional Kurtas</p>
                                         <img src={image05} className="card-img-top MultiImg1" alt="..." />
                                     </Card>
                                 </Col>
                                 <Col sm={12} md={6}>
                                     <Card className='HomeblockCart'>
-                                        <img src={image06} className="card-img-top MultiImg1" alt="..." />
+                                        <img src={image06} className="card-img-top MultiImg1 mb-4" alt="..." />
                                         <p className='HomeblockCartBodyH1 text-center'>Emroided Saree</p>
                                     </Card>
                                 </Col>

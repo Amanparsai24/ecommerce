@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
+
 import Header from './component/Header';
 import Footer from './component/Footer';
 import AdminLogin from './pages/AdminLogin';

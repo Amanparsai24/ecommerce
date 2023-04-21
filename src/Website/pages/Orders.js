@@ -7,8 +7,9 @@ import { getOrderAction } from "../../action/Front.action";
 import { imgPath } from "../../common/Function";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
+import { faMagnifyingGlass, faIndianRupeeSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../../components/Pagination';
+import { Year } from "../../common/Constant";
 
 const Orders = () => {
 
@@ -18,15 +19,22 @@ const Orders = () => {
     const [numberofproduct, setNumberOfProduct] = useState(0);
     const [validated, setValidated] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({ page: 0, limit: 5, Year: 2023, sortName: "createdAt", soryBy: "DESC" });
 
-    const getOrdersList = async () => {
+    const getOrdersList = async (action = '') => {
+        
+        let filterData = { ...formData };
+
+        if (action === 'clear') {
+            filterData = { page: 0, limit: 5,Year: 2023, sortName: "createdAt", soryBy: "DESC" };
+            setFormData(filterData);
+        }
 
         dispatch(setAlert({ open: true, severity: "success", msg: "Loading...", type: 'loader' }));
-        const resp = await getOrderAction();
+        const resp = await getOrderAction(filterData);
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
-            // console.log(resp);
+            // console.log(resp.count);
             // setOrderList(resp.data);
             setOrderList(resp.data);
             setNumberOfProduct(resp.count);
@@ -48,6 +56,23 @@ const Orders = () => {
 
     }
 
+    const showData = (e) => {
+        formHandler(e, 'Year');
+    }
+
+
+    const formHandler = (e, field) => {
+
+        let data = { ...formData };
+        if (e.target) {
+            data[field] = e.target.value;
+        } else {
+            data[field] = e;
+        }
+        setFormData(data);
+    }
+
+
 
     const ViewProduct = (item) => {
         localStorage.setItem("orderdetails", JSON.stringify(item));
@@ -67,16 +92,29 @@ const Orders = () => {
         <>
         <Row className='mb-3'>
             <Col md={4}>
-                <p className=''> {numberofproduct} Orders placed </p>
+                    <Row className="justify-content-start">
+                        <Col md={4}>
+                            <span> <b>{numberofproduct} Orders</b> placed </span>
+                        </Col>
+                        <Col md={4} className="">
+                            <select className="form-select filedbg " aria-label="Default select example" onChange={e => showData(e,)} value={formData.Year ? formData.Year : ""} >
+                                <option>{formData.Year}</option>
+                                {Year.map((filedbg) => {
+                                    return <option value={filedbg} key={filedbg}> {filedbg} </option>
+                                })}
+                            </select>
+                        </Col>
+                    </Row>
             </Col>
+     
             <Col md={8}>
                 <Row className="justify-content-end">
                     <Col md={9}>
                             <div className="mb-3">
                                 <Form noValidate validated={validated} onSubmit={e => handleSubmit(e)}>
                                     <Form.Group controlId="formBasicEmail">
-                                        <Form.Control type="text" placeholder="" value={formData.couponName ? formData.couponName : ""} className="form-control" onChange={e => handleChange('couponName', e)} required autoComplete="off" />
-
+                                        <Form.Control type="text" placeholder="" value={formData.name ? formData.name : ""} className="form-control" onChange={e => formHandler(e, 'name')} required autoComplete="off" />
+                                        {/* <input type="date" className="form-control filedbg" id="exampleFormControlInput1" placeholder="e.g. 09-09-2021" value={formData.startDate ? formData.startDate : ""} onChange={e => formHandler(e, 'startDate')} /> */}
                                         <Form.Control.Feedback type="invalid">
                                             Please provide a valid Code.
                                         </Form.Control.Feedback>
@@ -87,7 +125,7 @@ const Orders = () => {
                     </Col>
                     <Col md={3}>
                         <div className="d-grid col-12 mx-auto">
-                            <Link className="btn wishListBtn text-white" to="#" type="submit">Search orders</Link>
+                                <Link className="btn wishListBtn text-white" to="#" type="button" onClick={e => getOrdersList()}>Search orders</Link>
                         </div>
                     </Col>
                 </Row>
@@ -98,7 +136,7 @@ const Orders = () => {
                 // console.log(item);
                 let products = item.products[0].productId;
                 return <Fragment key={ind}>
-                    <Card className='ordersCard mb-3'>
+                    <Card className='ordersCard mb-4'>
                         <Row className='ordersCard'>
                             <Card.Body className='p-4'>
                                 <Row>
@@ -111,8 +149,8 @@ const Orders = () => {
                                         <span className='breadcrumbCS'># 406-3874610-5872363</span>
                                     </Col>
                                     <Col md={8}>
-                                        <p>Order</p>
-                                        <span className='breadcrumbCS'>{item.addresses.name}</span>
+                                        {/* <p>Order</p>
+                                        <span className='breadcrumbCS'>{item.addresses.name}</span> */}
                                     </Col>
                                 </Row>
                            
@@ -161,7 +199,14 @@ const Orders = () => {
                 </Fragment>
             })
         }
-            
+        <Col lg={12}>
+            <Pagination
+                totalCount={numberofproduct}
+                formData={formData}
+                formHandler={formHandler}
+                setFormData={setFormData}
+            />
+        </Col>
         </>
     );
 }

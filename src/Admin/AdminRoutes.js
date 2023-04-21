@@ -1,23 +1,25 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Row, Col } from 'react-bootstrap';
 import Header from './component/AdminHeader';
-import Footer from './component/AdminFooter';
+import SideBar from './component/AdminSideBar';
 import Dashboard from './pages/Dashboard';
+import User from './pages/users/User';
 
 function AdminRoutes() {
 
     return (
-        <Row>
-            <Header />
-            <Col>
-                <Routes>
-                    <Route exact path="/dashboard" element={<Dashboard />} />
-                </Routes>
-            </Col>
-            <Footer />
-        </Row>
-
+        <>
+            <div className="bodyclass">
+                <Header />
+                <SideBar />
+                <main id="main" className="main">
+                    <Routes>
+                        <Route exact path="/" element={<Dashboard />} />
+                        <Route exact path="/user" element={<User />} />
+                    </Routes>
+                </main>
+            </div>
+        </>
     );
 
 }

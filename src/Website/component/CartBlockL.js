@@ -137,9 +137,9 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
                 </Fragment>
             })}
 
-            {cartlist.length == 0 &&
+            {cartlist == null ||  cartlist == "" &&
                 <>
-                    {/* <BagEmpty wishlistproduct={wishlistproduct} /> */}
+                    <BagEmpty wishlistproduct={wishlistproduct} />
                 </>
             }
         </>

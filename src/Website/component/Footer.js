@@ -3,9 +3,9 @@ function Footer() {
     return (
         <div className="Footer">
             <div className="container">
-                <footer className="p-5">
+                <footer className="p-2 pt-3 pb-3 mt-4">
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-lg-3 col-md-3 col-sm-12 mb-2">
                             <h5 className="FooterH" >About</h5>
                             <ul className="nav flex-column">
                                 <li className="nav-item  mb-2"><Link to="/contactus" className="nav-link p-0 FooterT"> Contact Us</Link></li>
@@ -14,7 +14,7 @@ function Footer() {
                             </ul>
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-lg-3 col-md-3 col-sm-12 mb-2">
                             <h5 className="FooterH">Help</h5>
                             <ul className="nav flex-column">
                                 <li className="nav-item  mb-2"><Link to="#" className="nav-link p-0 FooterT"> Payments</Link></li>
@@ -24,7 +24,7 @@ function Footer() {
                             </ul>
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-lg-3 col-md-3 col-sm-12 mb-2">
                             <h5 className="FooterH">Policy</h5>
                             <ul className="nav flex-column">
                                 <li className="nav-item  mb-2"><Link to="#" className="nav-link p-0 FooterT"> Return Policy</Link></li>
@@ -34,7 +34,7 @@ function Footer() {
                             </ul>
                         </div>
                 
-                        <div className="col-3">
+                        <div className="col-lg-3 col-md-3 col-sm-12 mb-2">
                             <h5 className="FooterH">Social</h5>
                             <ul className="nav flex-column">
                                 <li className="nav-item  mb-2"><Link to="#" className="nav-link p-0 FooterT"> Facebook</Link></li>

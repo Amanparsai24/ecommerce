@@ -21,7 +21,7 @@ const MyOrders = () => {
                                     </ol>
                                 </nav>
                                 <p className='HomeblockCartBodyH1'>Your Orders</p>
-                                <Tabs defaultActiveKey="orders" id="justify-tab-example" className="mb-3 FAQ-pills navbar-nav">
+                                <Tabs defaultActiveKey="orders" id="justify-tab-example" className="mb-3 FAQ-pills navbar-nav ">
                                     <Tab eventKey="orders" title="Orders">
                                         <Orders />
                                     </Tab>
