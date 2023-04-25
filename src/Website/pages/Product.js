@@ -69,7 +69,7 @@ const Product = (props) => {
             <Container fluid>
                 <AlertBox />
                 <Row>
-                    <Col md={3}>
+                    <Col sm={12} md={4} lg={3}>
                         <Card className='ProductFullCard mt-4 mb-4'>
                             <Card.Body>
                                 <p className='ProductName'>Filter</p>
@@ -168,7 +168,7 @@ const Product = (props) => {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={9}>
+                    <Col sm={12} md={8} lg={9}>
                         <Card className='ProductFullCard mt-4 mb-4'>
                             <Card.Body className='p-4'>
                                 <nav aria-label="breadcrumb mb-2">

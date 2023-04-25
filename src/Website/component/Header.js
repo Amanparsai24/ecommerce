@@ -30,7 +30,7 @@ const HeaderNew1 = () => {
         const resp = await categoryListAction(filterData);
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
-            console.log(resp.data);
+            // console.log(resp.data);
             setList(resp.data)
         }
 
@@ -50,8 +50,8 @@ const HeaderNew1 = () => {
                             <div className="col-lg-8 col-md-6 col-sm-12">
                                 <Link className="navbar-brand logo" to="/">LOGO</Link>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                <div class="widgets-wrap float-md-end">
+                            <div className="col-lg-4 col-md-6 col-sm-12">
+                                <div className="widgets-wrap float-md-end">
                                     {
                                         localStorage.getItem('userType') ?
                                             <>
@@ -98,9 +98,9 @@ const HeaderNew1 = () => {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse  navbar-collapse" id="navbarNavDropdown">
-                            <ul class="navbar-nav justify-content-center col-lg-12">
-                                <li class="nav-item dropdown">
-                                    <Link class="nav-link nav-link_Res navFS" href="#">Women</Link>
+                            <ul className="navbar-nav justify-content-center col-lg-12">
+                                <li className="nav-item dropdown">
+                                    <Link className="nav-link nav-link_Res navFS" href="#">Women</Link>
                                     <div className="dropdown-content p-4">
                                         <div className="header">
                                             <p className='navMH'>All Women</p>
@@ -124,13 +124,13 @@ const HeaderNew1 = () => {
                                         </div>
                                     </div>
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <Link className="nav-link nav-link_Res navFS" to="#">Girls</Link>
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <Link className="nav-link nav-link_Res navFS text-white" to="#">Sale</Link>
                                 </li>
-                                <li class="nav-item">
+                                <li className="nav-item">
                                     <Link className="nav-link nav-link_Res navFS text-white" to="#">Trending</Link>
                                 </li>
                             </ul>

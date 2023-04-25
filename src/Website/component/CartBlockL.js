@@ -88,7 +88,7 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
                 return <Fragment key={ind}>
                     <Row>
                         <Col md={4}>
-                            <Card>
+                            <Card className='border-0'>
                                 <img src={imgPath(item.image[0])} className="card-img-top ProductImg" alt="..." />
                             </Card>
                         </Col>

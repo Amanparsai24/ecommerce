@@ -9,7 +9,7 @@ const OrdersDetails = () => {
 
     const [formData, setFormData] = useState(() => {
         const orderdetails = JSON.parse(localStorage.getItem('orderdetails'));
-        console.log(orderdetails);
+        // console.log(orderdetails);
         return orderdetails || null;
     });
 

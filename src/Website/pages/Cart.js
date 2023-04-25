@@ -74,11 +74,11 @@ const Cart = () => {
                                         <p className='HomeblockCartBodyH1'>Price Details</p>
                                         <hr></hr>
                                         <Row>
-                                            <Col md={6}>
+                                            <Col sm={6} md={6}>
                                                 <p className='ProductH '>Price ({numofproduct} item)</p>
                                             </Col>
-                                            <Col md={6} >
-                                                <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{amount} </p>
+                                            <Col sm={6} md={6} >
+                                                <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{amount} </p>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -86,7 +86,7 @@ const Cart = () => {
                                                 <p className='ProductH '>Discount</p>
                                             </Col>
                                             <Col md={6} >
-                                                <p className='ProductH text-end '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {discountprice}</p>
+                                                <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {discountprice}</p>
                                             </Col>
                                         </Row>
                                         <CartBlockR totalamount={totalamount} />

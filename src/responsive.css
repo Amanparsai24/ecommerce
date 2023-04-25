@@ -57,7 +57,30 @@
         padding: 25px 30px 25px 30px;
     }
 
+    .otp-inner {
+        padding: 100px 30px 25px 30px;
+    }
+
+    .ProductImg {
+        height: 14rem !important;
+    }
+
+    .heartPos {
+        /* top: 140rem; */
+        margin-left: 14rem;
+    }
+
+    .ProductDetailsImg {
+        height: 31rem !important;
+    }
+
+    .text-end_Res{
+        text-align: left;
+    }
+
 }
+
+
 
 /*Small screen */
 @media screen and (max-width: 767px) and (min-width: 576px) {
@@ -111,6 +134,26 @@
     .HomeblockCartBodyH {
         font-size: 16px !important;
     }
+
+    .login-inner {
+        padding: 25px 30px 25px 30px;
+    }
+
+    .otp-inner {
+        padding: 100px 30px 25px 30px;
+    }
+
+    .ProductImg {
+        height: 18rem !important;
+    }
+
+    .heartPos {
+        margin-left: 25rem;
+    }
+
+    .ProductDetailsImg {
+        height: 32rem !important;
+    }
 }
 
 
@@ -150,6 +193,23 @@
         letter-spacing: 2px;
     }
 
+    .login-inner {
+        padding: 25px 40px 25px 40px;
+    }
+
+    .ProductImg {
+        height: 14rem !important;
+    }
+
+    .heartPos {
+        /* top: 140rem; */
+        margin-left: 7rem;
+    }
+
+    .ProductDetailsImg {
+        height: 34rem !important;
+    }
+
 }
 
 /*Extra Large screen */
@@ -187,6 +247,16 @@
     .HDH {
         /* font-size: 40px !important; */
         letter-spacing: 2px;
+    }
+
+    .ProductDetailsheartPos {
+        bottom: 40rem;
+        margin-left: -3rem;
+    }
+
+    .ProductDetailsSharePos {
+        bottom: 38rem;
+        margin-left: -3rem;
     }
 
 }

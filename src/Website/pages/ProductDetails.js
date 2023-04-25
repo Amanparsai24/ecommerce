@@ -66,34 +66,34 @@ const ProductDetails = () => {
             <Container fluid>
                 <AlertBox />
                 <Row className='mt-3 mb-3'>
-                    <Col md={5}>
+                    <Col sm={12} md={5}>
                         <Card className='ProductDetailsImgCard mb-2'>
                             <Row>
-                                <Col md={2}>
+                                <Col sm={12} md={2}>
                                     <img src={imgPath(formData ? formData.image[0] :"")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                     <img src={imgPath(formData ? formData.image[0] :"")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                     <img src={imgPath(formData ? formData.image[0] :"")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                     <img src={imgPath(formData ? formData.image[0] :"")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                     <img src={imgPath(formData ? formData.image[0] :"")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                 </Col>
-                                <Col md={10}>
+                                <Col sm={12} md={10}>
                                     <img src={imgPath(formData ? formData.image[0]:"")} className="card-img-top ProductDetailsImg" alt="..." />
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>
                             </Row>
                             <Row className='mt-3'>
-                                <Col md={4} lg={6}>
+                                <Col sm={12} md={4} lg={6}>
                                     <div className="d-grid  mx-auto">
                                         {
 
                                             productID === formData._id  ?
                                                 <>
-                                                    <Link className="btn LoginBtn text-white" type="button" to="/cart" >View Cart</Link>
+                                                    <Link className="btn LoginBtn text-white mb-2" type="button" to="/cart" >View Cart</Link>
                                                 </>
                                                 :
                                                 <>
-                                                    <Link className="btn LoginBtn text-white" type="button" to="#" onClick={e => addtoCart(formData)}><FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart</Link>
+                                                    <Link className="btn LoginBtn text-white mb-2" type="button" to="#" onClick={e => addtoCart(formData)}><FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart</Link>
                                                 </>
 
                                         }
@@ -108,7 +108,7 @@ const ProductDetails = () => {
                             </Row>
                         </Card>
                     </Col>
-                    <Col md={7}>
+                    <Col sm={12} md={7}>
                         <Row>
                             <Col md={12}>
                                 <Card className='ProductCard mb-2'>
@@ -130,15 +130,15 @@ const ProductDetails = () => {
                                         <div className='Textsm'>{formData ?formData.description:""} </div>
                                         <hr></hr>
                                         <Row>
-                                            <Col md={4} lg={4}>
+                                            <Col md={6} lg={4}>
                                                 <Size />
                                             </Col>
-                                            <Col md={4} lg={6}>
-                                                <Color />
+                                            <Col md={6} lg={6}>
+                                                <Color colors={formData.colors} />
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col md={4} lg={4}>
+                                            <Col  md={12} lg={4}>
                                                 <div className="mb-3">
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Quantity :</label>
                                                     <div className='quantityUpdate'>
@@ -156,7 +156,7 @@ const ProductDetails = () => {
                                                 <Col sm={8}>
                                                     <Nav variant="pills" >
                                                         <Nav.Item>
-                                                            <Nav.Link eventKey="first">Product Description</Nav.Link>
+                                                            <Nav.Link className='mb-2' eventKey="first">Product Description</Nav.Link>
                                                         </Nav.Item>
                                                         <Nav.Item>
                                                             <Nav.Link eventKey="second">Customer Reviews</Nav.Link>

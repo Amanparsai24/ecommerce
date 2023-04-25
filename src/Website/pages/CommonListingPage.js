@@ -21,7 +21,7 @@ const CommonListingPage = (props) => {
         <>
             {props.list && props.list.length > 0 && props.list.map((item, ind) => {
                 // console.log(item);
-                return <Col xs={6} md={3} lg={3} key={ind}>
+                return <Col sm={12} md={12} lg={3} key={ind}>
                     <Card className='ProductCard mb-2'>
                         <img src={imgPath(item.image[0])} className="card-img-top ProductImg" onClick={e => ViewProduct(item)} alt="..." />
                         <div className='position-absolute'>

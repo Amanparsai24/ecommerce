@@ -38,7 +38,7 @@ function AdminLogin() {
             if (resp.code === 200) {
                 sessionStorage.clear();
                 localStorage.setItem('adminData', JSON.stringify(resp.data));
-                localStorage.setItem('userType', resp.data.userType);
+                localStorage.setItem('userType', "admin");
                 localStorage.setItem('loginType', 'admin');
                 localStorage.setItem('authorization', resp.token);
                 dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));

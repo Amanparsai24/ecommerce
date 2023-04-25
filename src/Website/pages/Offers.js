@@ -8,7 +8,7 @@ function Offers() {
     return (
         <div className="Offers">
             <Row>
-                <Col md={4} lg={12}>
+                <Col md={12} lg={12}>
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlInput1" className="form-label">Offers :</label>
 
