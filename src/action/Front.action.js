@@ -21,7 +21,7 @@ export const addressDeleteAction = (data) => {
 }
 
 export const getAddressAction = (data) => {
-    return postRequest('userLoginList', data).then(res => { return res.data });
+    return postRequest('userList', data).then(res => { return res.data });
 }
 
 export const productListAction = (data) => {
@@ -71,6 +71,21 @@ export const orderPlacedListAction = (data) => {
 export const getOrderAction = (data) => {
     return postRequest('orderList', data).then(res => { return res.data });
 }
+
+export const brandListAction = (data) => {
+    return postRequest('brandList', data).then(res => { return res.data });
+}
+
+export const colorListAction = (data) => {
+    return postRequest('colorList', data).then(res => { return res.data });
+}
+
+export const sizeListAction = (data) => {
+    return postRequest('sizeList', data).then(res => { return res.data });
+}
+
+
+
 
 
 

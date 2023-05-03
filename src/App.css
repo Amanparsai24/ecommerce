@@ -598,18 +598,20 @@ img.hover-zoom:hover {
     --bs-nav-tabs-border-width: 0px !important;
     --bs-nav-link-color: black !important;
     --bs-nav-tabs-link-active-bg: none !important;
+ 
 }
-/* 
-.navbar-nav {
+
+.navbar-nav_res {
     flex-direction: initial !important;
-    margin-right: 2rem;
-} */
+    --bs-nav-link-padding: 1rem !important;
+    /* margin-right: 2rem; */
+} 
 
 .nav-link_Res {
     margin: 0rem 6rem;
 }
 
-.navbar-nav .nav-link.active {
+.navbar-nav_res .nav-link.active {
     border: 1px solid #181717 !important;
     border-top: 0px !important;
     border-right: 0px !important;
@@ -718,4 +720,16 @@ img.hover-zoom:hover {
     font-weight: 400 !important;
     font-size: 20px !important;
     font-family: 'Poppins';
+}
+
+
+/* progress bar */
+
+.progress_res {
+    --bs-progress-height: 4rem !important;
+}
+
+.clearall {
+    color: #000000;
+    text-decoration: none;
 }

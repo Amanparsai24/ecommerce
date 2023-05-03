@@ -22,6 +22,7 @@ const PaymentPage = () => {
         const resp = await paymentModeListAction();
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
+            // console.log(resp.data);
             setPaymentMethod(resp.data);
         }
     }
@@ -59,7 +60,7 @@ const PaymentPage = () => {
                 var productdata = [];
                 for (let i in cartlist) {
                     let row = cartlist[i];
-                    productdata.push({ productId: row._id, quantity: row.productqyt });
+                    productdata.push({ productId: row._id, quantity: row.productqyt, sizeId: row.sizeId, colorId: row.colorId  });
                 }
                 let data = { addressId: userAddressID, paymentId: paymentID, couponDiscount: couponDiscount, productData: productdata  };
                 let resp = await orderPlacedListAction(data);

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Row, Col, Container, Card, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
-import { productListAction, categoryListAction } from "../../action/Front.action";
+import { productListAction, categoryListAction, brandListAction, colorListAction, sizeListAction } from "../../action/Front.action";
 import CommonListingPage from './CommonListingPage';
 import { setAlert } from '../../slices/home';
 import AlertBox from "../../components/AlertBox";
@@ -14,15 +14,35 @@ const Product = (props) => {
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
-
-    const [formData, setFormData] = useState({ page: 0, limit: 6, });
+    const [brandList, setBrandList] = useState([]);
+    const [colorList, setColorList] = useState([]);
+    const [sizeList, setsizeList] = useState([]);
+    const [formData, setFormData] = useState({ page: 0, limit: 10 });
 
     const getDataList = async () => {
 
-        var resp = await categoryListAction({ status: 1 });
+        var resp = await categoryListAction();
         if (resp.code === 200) {
 
             setCategoryList(resp.data)
+        }
+
+        resp = await brandListAction();
+        if (resp.code === 200) {
+
+            setBrandList(resp.data)
+        }
+
+        resp = await colorListAction();
+        if (resp.code === 200) {
+
+            setColorList(resp.data)
+        }
+
+        resp = await sizeListAction();
+        if (resp.code === 200) {
+
+            setsizeList(resp.data)
         }
 
     }
@@ -33,7 +53,7 @@ const Product = (props) => {
  
         if (action === 'clear') {
 
-            filterData = { page: 0, limit: 6, sortName: "createdAt", soryBy: "DESC" };
+            filterData = { page: 0, limit: 10, sortName: "createdAt", soryBy: "DESC" };
             setFormData(filterData);
         }
 
@@ -62,7 +82,7 @@ const Product = (props) => {
         getList();
         getDataList();
         window.scrollTo(0, 0);
-    }, []);
+    }, [formData]);
 
     return (
         <div className="Product">
@@ -73,27 +93,29 @@ const Product = (props) => {
                         <Card className='ProductFullCard mt-4 mb-4'>
                             <Card.Body>
                                 <p className='ProductName'>Filter</p>
+                                <Row className='filterb'>
+                                    <Col xs={7} lg={7}>
+                                        <Card.Body>
+                                            <small className="text-muted">{Object.keys(formData).length} filter applied</small>
+                                        </Card.Body>
+                                    </Col>
+                                    <Col xs={5} lg={5}>
+                                        <Card.Body className="text-end">
+                                            <Link className="clearall" to="#" onClick={e => getList('clear')}>Clear All</Link>
+                                        </Card.Body>
+                                    </Col>
+                                </Row>
+                               
                                 <Accordion defaultActiveKey="0" className='AccordionProduct'>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header className='HomeSerH'>Category</Accordion.Header>
                                         <Accordion.Body>
-                                            
                                             {categoryList.map((item, index) => {
                                                 if (item.parentId === parentDefault) {
                                                     let check = formData.category && formData.category.length && formData.category.includes(item._id) ? true : false;
                                                     return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'category', 'checkbox')} checked={check} />
                                                 } else { return ''; }
                                             })}
-
-                                            {/* <div className="form-check">
-                    
-                                                <input className="form-check-input" type="checkbox" value="" onChange={e => formHandler(e, 'categoryId', 'checkbox')} id="flexCheckDefault" />
-                                                <label className="form-check-label" htmlFor="flexCheckDefault"> Clothing </label>
-                                            </div> */}
-                                            {/* <div className="form-check">
-                                                <input className="form-check-input" type="checkbox" value="" onChange={e => formHandler(e, 'categoryId', 'checkbox')} id="flexCheckDefault" />
-                                                <label className="form-check-label" htmlFor="flexCheckDefault"> women </label>
-                                            </div> */}
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="1">
@@ -138,11 +160,23 @@ const Product = (props) => {
                                         <Accordion.Header>Size</Accordion.Header>
                                         <Accordion.Body>
 
+                                            {sizeList.map((item, index) => {
+                                                let check = formData.sizeId && formData.sizeId.length && formData.sizeId.includes(item._id) ? true : false;
+                                                return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'sizeId', 'checkbox')} checked={check} />
+
+                                            })}
+
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="5">
                                         <Accordion.Header>Color</Accordion.Header>
                                         <Accordion.Body>
+
+                                            {colorList.map((item, index) => {
+                                                let check = formData.colorId && formData.colorId.length && formData.colorId.includes(item._id) ? true : false;
+                                                return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'colorId', 'checkbox')} checked={check} />
+
+                                            })}
 
                                         </Accordion.Body>
                                     </Accordion.Item>
@@ -153,6 +187,18 @@ const Product = (props) => {
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="7">
+                                        <Accordion.Header>Brand</Accordion.Header>
+                                        <Accordion.Body>
+
+                                            {brandList.map((item, index) => {
+                                                let check = formData.brandId && formData.brandId.length && formData.brandId.includes(item._id) ? true : false;
+                                                return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'brandId', 'checkbox')} checked={check} />
+        
+                                            })}
+
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                    {/* <Accordion.Item eventKey="7">
                                         <Accordion.Header>Fabric</Accordion.Header>
                                         <Accordion.Body>
 
@@ -163,7 +209,7 @@ const Product = (props) => {
                                         <Accordion.Body>
 
                                         </Accordion.Body>
-                                    </Accordion.Item>
+                                    </Accordion.Item> */}
                                 </Accordion>
                             </Card.Body>
                         </Card>

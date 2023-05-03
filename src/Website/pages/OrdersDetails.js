@@ -4,6 +4,7 @@ import { imgPath } from "../../common/Function";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
 const OrdersDetails = () => {
 
@@ -32,10 +33,10 @@ const OrdersDetails = () => {
                                 <Row>
                                     <Col md={4}>
                                         <p className='ProductName'>Delivery address</p>
-                                        <p className='ProductPrice'>{formData.addresses.name}</p>
-                                        <p className='ProductPrice'>{formData.addresses.houseNumber }, { formData.addresses.streetAddess }</p>
-                                        <p className='ProductPrice'>{formData.addresses.city}, {formData.addresses.state}, {formData.addresses.pinCode},{formData.addresses.country}</p>
-                                        <p className='ProductPrice'><b>Phone Number:</b> {formData.addresses.phoneNumber}</p>
+                                        <p className='ProductPrice'>{formData.shippingAddress.name}</p>
+                                        <p className='ProductPrice'>{formData.shippingAddress.houseNumber }, { formData.shippingAddress.streetAddess }</p>
+                                        <p className='ProductPrice'>{formData.shippingAddress.city}, {formData.shippingAddress.state}, {formData.shippingAddress.pinCode},{formData.shippingAddress.country}</p>
+                                        <p className='ProductPrice'><b>Phone Number:</b> {formData.shippingAddress.phoneNumber}</p>
 
                                     </Col>
                                     <Col md={4}>
@@ -49,7 +50,7 @@ const OrdersDetails = () => {
                                                 <p className='ProductPrice'>Items</p>
                                             </Col>
                                             <Col md={6}>
-                                                <p className='ProductPrice text-end'><span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{formData.products[0].price}</p>
+                                                <p className='ProductPrice text-end'><span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{formData.products[0].productPriceDetails.price}</p>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -58,7 +59,7 @@ const OrdersDetails = () => {
 
                                             </Col>
                                             <Col md={6}>
-                                                <p className='ProductPrice text-end'>-<span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span> {formData.products[0].discount}</p>
+                                                <p className='ProductPrice text-end'>-<span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span> {formData.products[0].productPriceDetails.discount}</p>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -86,7 +87,7 @@ const OrdersDetails = () => {
 
                                             </Col>
                                             <Col md={6}>
-                                                <p className='ProductName text-end'><span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{formData.products[0].totalPrice}</p>
+                                                <p className='ProductName text-end'><span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{formData.products[0].productPriceDetails.totalPrice}</p>
                                             </Col>
                                         </Row>
                                     </Col>
@@ -97,7 +98,7 @@ const OrdersDetails = () => {
                         </Card>
                         <Card className='ProductFullCard'>
                             <Card.Body>
-                                <p className='ProductName'>Delivered on 2 Feb 2023</p>
+                                <p className='ProductName'>Delivered on {moment(formData.createdAt).format('Do MMM YYYY')}</p>
                                 <p className='ProductPrice'> Your item has been delivered </p>
                                 <Row>
                                     <Col md={2}>
@@ -107,8 +108,8 @@ const OrdersDetails = () => {
                                         <Row>
                                             <Col md={6}>
                                                 <span className='ProductH'>{formData.products[0].productId.name}</span><br></br>
-                                                <span className='breadcrumbCS'>Size : M</span><br></br>
-                                                <span className='breadcrumbCS'>Color : Green</span><br></br>
+                                                <span className='breadcrumbCS'>Size : {formData.products[0].sizeId.name}</span><br></br>
+                                                <span className='breadcrumbCS'>Color : {formData.products[0].colorId.name}</span><br></br>
                                                <span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;{formData.products[0].productId.MRP} </span><br></br>
                                                 <Row className='mt-3'>
                                                     <Col md={4} lg={5}>

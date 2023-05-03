@@ -4,17 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
 const CartProductDetails = ({ item }) => {
-
+    console.log(item);
     return (
         <>
             <p className='ProductH'>{item.brand ? item.brand.name : ""}</p>
             <p className='ProductPrice'>{item.name}</p>
             <Row>
                 <Col md={3}>
-                    <p className='breadcrumbCS'>Size : M</p>
+                    <p className='breadcrumbCS'>Size : {item.sizeName}</p>
                 </Col>
                 <Col md={7}>
-                    <p className='breadcrumbCS'>Color : Green</p>
+                    <p className='breadcrumbCS'>Color : {item.colorName}</p>
                 </Col>
             </Row>
             <p className='ProductH'>

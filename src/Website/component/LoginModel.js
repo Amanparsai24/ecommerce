@@ -73,8 +73,11 @@ const LoginModel = () => {
                 localStorage.setItem('userType', "user");
                 localStorage.setItem('loginType', 'user');
                 dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
-                window.location.href = "/cart";  
-     
+                if (localStorage.getItem('btntype') === 'buyNow'){
+                    window.location.href = "/address";  
+                }else{
+                    window.location.href = "/cart";  
+                }
             } else {
                 // console.log(resp);
                 setDisabled(false);

@@ -88,6 +88,7 @@ const AddressPage = () => {
                                         addresslist && addresslist.length > 0 && addresslist.map((item, ind) => {
                                             let checked = (formData.addressId && formData.addressId === item._id) ? true : false;
                                             return <Fragment key={ind}>
+                                             
                                                 <Row>
                                                     <Col md={1}>
                                                         <Form.Check type="radio" aria-label="radio 1" id="custom-switch" value={item._id} onChange={e => handleChange(e, 'addressId')} checked={checked} />
@@ -96,11 +97,19 @@ const AddressPage = () => {
                                                         <AddressBlockL item={item} />
                                                     </Col>
                                                 </Row>
+                                           
                                             </Fragment>
                                         })
-                                    }
-                                </div>
-                   
+
+                                     }
+                                </div>{
+                                        addresslist.length == 0 ?
+                                            <>
+                                                <p className='CartText text-center text-danger'>No Address Available Please Add Your Address</p>
+                                            </>
+                                        : 
+                                        ''
+                                    }  
                             </Card.Body>
                         </Card>
                         <Card className='ProductFullCard mb-2'>

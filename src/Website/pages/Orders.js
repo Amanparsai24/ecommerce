@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Form } from 'react-bootstrap';
+import { Row, Col, Card, Form, ProgressBar } from 'react-bootstrap';
 import { setAlert } from '../../slices/home';
 import { getOrderAction } from "../../action/Front.action";
 import { imgPath } from "../../common/Function";
@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faIndianRupeeSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../components/Pagination';
 import { Year } from "../../common/Constant";
+import moment from 'moment';
 
 const Orders = () => {
 
@@ -34,8 +35,6 @@ const Orders = () => {
         const resp = await getOrderAction(filterData);
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
-            // console.log(resp.count);
-            // setOrderList(resp.data);
             setOrderList(resp.data);
             setNumberOfProduct(resp.count);
         }
@@ -87,9 +86,9 @@ const Orders = () => {
 
     }, []);
 
-
     return (
         <>
+        <hr></hr>
         <Row className='mb-3'>
             <Col md={4}>
                     <Row className="justify-content-start">
@@ -133,8 +132,9 @@ const Orders = () => {
         </Row>
         {
             orderlist.length > 0 &&  orderlist.map((item, ind) => {
-                // console.log(item);
+                console.log(item);
                 let products = item.products[0].productId;
+                let dates = item.products[0].shippingDateDetails;
                 return <Fragment key={ind}>
                     <Card className='ordersCard mb-4'>
                         <Row className='ordersCard'>
@@ -142,15 +142,19 @@ const Orders = () => {
                                 <Row>
                                     <Col md={2}>
                                         <p>Ship To</p>
-                                        <span className='breadcrumbCS'>{item.addresses.name}</span>
+                                        <span className='breadcrumbCS'>{item.shippingAddress.name}</span>
                                     </Col>
                                     <Col md={2}>
                                         <p>Order</p>
-                                        <span className='breadcrumbCS'># 406-3874610-5872363</span>
+                                        <span className='breadcrumbCS'>{item.products[0].trackingNumber}</span>
                                     </Col>
                                     <Col md={8}>
-                                        {/* <p>Order</p>
-                                        <span className='breadcrumbCS'>{item.addresses.name}</span> */}
+                                        <ProgressBar className='progress_res'>
+                                            <ProgressBar variant="primary" now={25} label={`Order Confirmed ${moment(item.createdAt).format('Do MMM YYYY')}`} key={1} />
+                                            <ProgressBar variant="secondary" now={25} label={`Shipped ${moment(dates.shippedDate).format('Do MMM YYYY')}`} key={2} />
+                                            <ProgressBar variant="secondary" now={25} label={`Out of Delivery ${moment(dates.outOfDeliveryDate).format('Do MMM YYYY')}`} key={3} />
+                                            <ProgressBar variant="secondary" now={25} label={`Delivered ${moment(dates.deliveredDate).format('Do MMM YYYY')}`} key={4} />
+                                        </ProgressBar>
                                     </Col>
                                 </Row>
                            
@@ -166,9 +170,10 @@ const Orders = () => {
                                         <Row>
                                             <Col md={6}>
                                                 <span className='ProductH'>{products.name}</span><br></br>
-                                                <span className='breadcrumbCS'>Size : M</span><br></br>
-                                                <span className='breadcrumbCS'>Color : Green</span><br></br>
-                                                <span className='breadcrumbCS'>Return window closed on 30 Jan 2023</span>
+                                                <span className='breadcrumbCS'>Size : {item.products[0].sizeId.name}</span><br></br>
+                                                <span className='breadcrumbCS'>Color : {item.products[0].colorId.name}</span><br></br>
+                                                <span className='breadcrumbCS'>Return window closed on {moment(dates.returnDate
+                                                ).format('Do MMM YYYY')}</span>
                                                 <Row className='mt-3'>
                                                     <Col md={4} lg={5}>
                                                         <div className="d-grid col-12 mx-auto">
@@ -186,7 +191,8 @@ const Orders = () => {
                                                 <p className='ProductH'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;{item.grandTotalPrice}</p>
                                             </Col>
                                             <Col md={4}>
-                                                <p className='ProductH'>Expected delivery on 2 Feb 2023</p>
+                                                <p className='ProductH'>Expected delivery on {moment(dates.deliveredDate
+                                                ).format('Do MMM YYYY')}</p>
                                                 <p className='breadcrumbCS'>Your item has been delivered</p>
                                                 {/* {moment(item.createdAt).format('DD-MMM-YYYY')} */}
                                             </Col>

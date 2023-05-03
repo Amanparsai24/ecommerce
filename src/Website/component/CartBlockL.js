@@ -7,6 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { saveWishlistItemAction, getWishlistAction } from "../../action/Front.action";
 import { Card, Col, Row } from 'react-bootstrap';
 import { imgPath } from "../../common/Function";
+import { confirmAlert } from 'react-confirm-alert';
 import CartProductDetails from './CartProductDetails';
 import QuantityModel from './QuantityModel';
 import DeleteProduct from './DeleteProduct';
@@ -76,6 +77,44 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
 
     }
 
+    const _delete = async (id) => {
+
+        confirmAlert({
+            title: 'Confirm to Delete',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
+
+                        const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                        for (let i in cartlist) {
+                            let productid = cartlist[i]._id;
+
+                            if (productid === id) {
+                                let price = cartlist[i].salePrice;
+                                let productIdIndex = i;
+                                cartlist.splice(productIdIndex, 1);
+                                localStorage.setItem("cartlist", JSON.stringify(cartlist));
+                                setTotalPrice(totalprice - price);
+                                dispatch(setAlert({ open: true, severity: "success", msg: "You have successfully deleted item.", type: '' }));
+                                getcartlist();
+                                gettotalprice();
+                            }
+                        }
+                    }
+
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        });
+
+    }
+
     useEffect(() => {
 
         getWishList();
@@ -126,7 +165,8 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
                                             }
                                         </Col>
                                         <Col md={7}>
-                                            <DeleteProduct item={item} gettotalprice={gettotalprice} getcartlist={getcartlist} />
+                                            <span className="btn btn-sm cartbtn" title="Delete" onClick={e => _delete(item._id)}>Delete</span>
+                                            {/* <DeleteProduct item={item} gettotalprice={gettotalprice} getcartlist={getcartlist} /> */}
                                         </Col>
                                     </Row>
                                 </Card.Body>
