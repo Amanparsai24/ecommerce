@@ -132,7 +132,7 @@ const Orders = () => {
         </Row>
         {
             orderlist.length > 0 &&  orderlist.map((item, ind) => {
-                console.log(item);
+                // console.log(item);
                 let products = item.products[0].productId;
                 let dates = item.products[0].shippingDateDetails;
                 return <Fragment key={ind}>

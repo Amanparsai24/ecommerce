@@ -78,6 +78,10 @@
         text-align: left;
     }
 
+    .WishlistImg {
+        height: 46vw !important;
+    }
+
 }
 
 
@@ -153,6 +157,10 @@
 
     .ProductDetailsImg {
         height: 32rem !important;
+    }
+
+    .WishlistImg {
+        height: 22vw !important;
     }
 }
 

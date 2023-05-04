@@ -50,7 +50,7 @@ const Product = (props) => {
     const getList = async (action = '') => {
 
         let filterData = { ...formData };
- 
+
         if (action === 'clear') {
 
             filterData = { page: 0, limit: 10, sortName: "createdAt", soryBy: "DESC" };
@@ -105,7 +105,7 @@ const Product = (props) => {
                                         </Card.Body>
                                     </Col>
                                 </Row>
-                               
+
                                 <Accordion defaultActiveKey="0" className='AccordionProduct'>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header className='HomeSerH'>Category</Accordion.Header>
@@ -121,24 +121,22 @@ const Product = (props) => {
                                     <Accordion.Item eventKey="1">
                                         <Accordion.Header>Price</Accordion.Header>
                                         <Accordion.Body>
-                                            <div className="row mb-2">
-                                                <div className="col ">
-                                                    <input type="range" min="1" max="100" className="slider" value="50" onChange={e => formHandler(e, 'categoryId', 'checkbox')} />
-                                                </div>
-                                            </div>
-                                           
                                             <div className="row">
                                                 <div className="col">
-                                                    <select id="inputState" className="form-select">
-                                                        {/* <option selected>Min...</option>
-                                                        <option>...</option> */}
+                                                    <select id="inputState" className="form-select filedbg" aria-label="Default select example" onChange={e => formHandler(e, 'minPrice')} value={formData.minPrice ? formData.minPrice : ""}>
+                                                        <option >Min...</option>
+                                                        <option value="100">100</option>
+                                                        <option value="500">500</option>
+                                                        <option value="1000">1000</option>
                                                     </select>
                                                 </div>
                                                 to
                                                 <div className="col">
-                                                    <select id="inputState" className="form-select">
-                                                        {/* <option selected>Max...</option>
-                                                        <option>...</option> */}
+                                                    <select id="inputState" className="form-select filedbg" aria-label="Default select example" onChange={e => formHandler(e, 'maxPrice')} value={formData.maxPrice ? formData.maxPrice : ""}>
+                                                        <option >Max...</option>
+                                                        <option value="500">500</option>
+                                                        <option value="1000">1000</option>
+                                                        <option value="5000">5000</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -147,13 +145,13 @@ const Product = (props) => {
                                     <Accordion.Item eventKey="2">
                                         <Accordion.Header>Western Wear</Accordion.Header>
                                         <Accordion.Body>
-                                       
+
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="3">
                                         <Accordion.Header>Customer Ratings</Accordion.Header>
                                         <Accordion.Body>
-                                       
+
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="4">
@@ -193,7 +191,7 @@ const Product = (props) => {
                                             {brandList.map((item, index) => {
                                                 let check = formData.brandId && formData.brandId.length && formData.brandId.includes(item._id) ? true : false;
                                                 return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'brandId', 'checkbox')} checked={check} />
-        
+
                                             })}
 
                                         </Accordion.Body>

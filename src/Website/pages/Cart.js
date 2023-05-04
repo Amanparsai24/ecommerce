@@ -13,7 +13,7 @@ const Cart = () => {
     const [totalamount, setTotalAmount] = useState(0);
     const [discountprice, setDiscountPrice] = useState(0);
     const [numofproduct, setNumOfProduct] = useState(0);
-
+  
     const getcartlist = () => {
 
         if (localStorage.getItem('cartlist') && !localStorage.getItem('cartlist') == "") {
@@ -35,7 +35,7 @@ const Cart = () => {
                 setDiscountPrice(discount);
                 setNumOfProduct(cartlist.length);
                 setAmount(price);
-                setTotalAmount(price - discount)
+                setTotalAmount(price - discount);
          
             }
  
@@ -45,12 +45,15 @@ const Cart = () => {
         }
     }
 
+
+
     useEffect(() => {
 
-        getcartlist();
         gettotalprice();
-
+        getcartlist();
+     
     }, []);
+
 
     return (
         <div className="Product">

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
 const CartProductDetails = ({ item }) => {
-    console.log(item);
+    // console.log(item);
     return (
         <>
             <p className='ProductH'>{item.brand ? item.brand.name : ""}</p>

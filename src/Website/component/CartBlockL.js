@@ -14,7 +14,7 @@ import DeleteProduct from './DeleteProduct';
 import LoginModel from './LoginModel';
 import BagEmpty from './BagEmpty';
 
-const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
+const CartBlockL = ({  gettotalprice }) => {
 
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
@@ -27,6 +27,15 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
     const [wishlistid, setWishListId] = useState();
     const [totalprice, setTotalPrice] = useState(0);
     const [userLoged, setUserLoged] = useState(0);
+    const [cartlist, setCartList] = useState([]);
+
+    const getcartlist = () => {
+
+        if (localStorage.getItem('cartlist') && !localStorage.getItem('cartlist') == "") {
+            const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+            setCartList(cartlist);
+        }
+    }
 
     const getWishList = async () => {
         if (localStorage.loginType == 'user' && localStorage.userType) {
@@ -67,6 +76,7 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
                         getcartlist();
                     }
                 }
+                // window.location.reload(false);
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: resp.error.product, type: '' }));
             }
@@ -102,6 +112,15 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
                                 dispatch(setAlert({ open: true, severity: "success", msg: "You have successfully deleted item.", type: '' }));
                                 getcartlist();
                                 gettotalprice();
+                                // window.location.reload(false);
+                                // const purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
+                                // let newprice = purchaseData.amount - price;
+                                // let newdiscount = purchaseData.discount - cartlist[i].discount;
+                                // let data = { amount: newprice, discount: newdiscount, couponDiscount: 0, totalAmount: newprice - newdiscount };
+
+                                // localStorage.setItem("purchaseData", JSON.stringify(data));
+             
+                             
                             }
                         }
                     }
@@ -116,7 +135,7 @@ const CartBlockL = ({ cartlist, getcartlist, gettotalprice }) => {
     }
 
     useEffect(() => {
-
+        getcartlist();
         getWishList();
 
     }, []);

@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { setAlert } from '../../slices/home';
-import { Row, Col, Container, Card, Modal } from 'react-bootstrap';
+import { Row, Col, Container, Card, Modal, OverlayTrigger, Tooltip , Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareNodes, faShoppingCart, faBolt, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -140,6 +140,7 @@ const ProductDetails = () => {
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>
+                                
                             </Row>
                             <Row className='mt-3'>
                                 <Col sm={12} md={4} lg={6}>
@@ -198,8 +199,20 @@ const ProductDetails = () => {
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Size :</label>
                                                     <div className='d-grid gap-2 d-md-flex justify-content-md-start'>
                                                         {sizeList && sizeList.length > 0 && sizeList.map((item, ind) => {
+                                                            // console.log(item);
                                                             return <Fragment key={ind}>
-                                                                <button className={sizeinfo.sizeId === item.sizeId._id ? "btn btn-success text-white" : "btn btn-primary text-white"} type="button" onClick={(k) => handlesizeClick(item.sizeId)} >{item.sizeId.name}</button>
+                                                                <OverlayTrigger
+                                                                    key="bottom"
+                                                                    placement="bottom"
+                                                                    overlay={
+                                                                        <Tooltip id={`tooltip-bottom`}>
+                                                                            Qantity Left Only <strong>{item.quantity}</strong>.  
+                                                                        </Tooltip>
+                                                                    }
+                                                                >
+                                                                    <Button className={sizeinfo.sizeId === item.sizeId._id ? "btn btn-success text-white" : "btn btn-primary text-white"} type="button" onClick={(k) => handlesizeClick(item.sizeId)} >{item.sizeId.name}</Button>
+                                                                </OverlayTrigger>
+                                                 
                                                             </Fragment>
                                                         })
                                                         }

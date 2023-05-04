@@ -95,14 +95,14 @@ function WishList() {
             <Container fluid>
                 <AlertBox />
                 <Row className='mt-3 mb-3'>
-                    <Col md={3}>
+                    <Col xs={12} md={4} lg={3}>
                         <Card className='ProductFullCard mb-2'>
                             <Card.Body className='p-4'>
                                 <Row>
-                                    <Col md={8}>
+                                    <Col xs={12} md={12} lg={7}>
                                         <p className='HomeblockCartBodyH1'>My list</p>
                                     </Col>
-                                    <Col md={4} >
+                                    <Col xs={12} md={12} lg={5} className='mywishbtn' >
                                         <AddList getWishList={getWishList} />
                                     </Col>
                                 </Row>
@@ -136,7 +136,7 @@ function WishList() {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={9}>
+                    <Col xs={12} md={8} lg={9}>
                         <Row>
                             <Col md={12}>
                                 <Card className='ProductFullCard mb-2'>
@@ -144,18 +144,18 @@ function WishList() {
                                         <p className='HomeblockCartBodyH1'>My Wishlist </p>
                                         <hr></hr>
                                         {wishlist && wishlist.length > 0 && wishlist.map((item, ind) => {
-                                        //  console.log(item)
+                                        // console.log(item)
                                             return <Col xs={12} md={12} lg={12} key={ind}>
                                                 <Row>
                                                     <Col md={3}>
                                                         <img src={imgPath(item.image[0])} className="card-img-top WishlistImg" alt="..." />
                                                     </Col>
                                                      <Col md={9}>
-                                                        <Row>
-                                                            <Col md={10}>
+                                                        <Row className='mt-3'>
+                                                            <Col xs={7}  md={8} lg={10}>
                                                                 <p className='ProductH'> {item.name}</p>
                                                             </Col>
-                                                            <Col md={2}>
+                                                            <Col xs={5} md={4} lg={2}>
 
                                                                 <span className="btn text-dark" title='Delete' onClick={e => _delete(item._id)}><FontAwesomeIcon icon={faTrash} /></span>
 
@@ -163,11 +163,11 @@ function WishList() {
                                             
                                                             </Col>
                                                         </Row>
-                                                        <Row>
+                                                        {/* <Row>
                                                             <Col md={10}>
                                                                 <p className='ProductH'>Size : </p>
                                                             </Col>
-                                                        </Row>
+                                                        </Row> */}
                                                         <Row>
                                                             <Col md={10}>
                                                                 <Rating />
@@ -176,7 +176,15 @@ function WishList() {
 
                                                         <Row>
                                                             <Col md={10}>
-                                                                <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span> {item.MRP}</p>
+                                                                {/* <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span> {item.MRP}</p> */}
+                                                                <p className='ProductH mt-4'>
+                                                                    <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{item ? item.salePrice : ""}
+
+                                                                    <del className='ProductPrice'>{item ? item.MRP : ""}</del>
+
+                                                                    &nbsp;  <span className='text-success'>{item.offers}% off </span>
+
+                                                                </p>
                                                             </Col>
                                                         </Row>
                                                     </Col>
