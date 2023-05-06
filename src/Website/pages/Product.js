@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, Container, Card, Form } from 'react-bootstrap';
+import { Row, Col, Container, Card, Form, Tab, Tabs } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
-import { productListAction, categoryListAction, brandListAction, colorListAction, sizeListAction } from "../../action/Front.action";
+import { productListAction, categoryNewListAction, brandListAction, colorListAction, sizeListAction } from "../../action/Front.action";
 import CommonListingPage from './CommonListingPage';
 import { setAlert } from '../../slices/home';
 import AlertBox from "../../components/AlertBox";
 import { parentDefault } from "../../common/Constant";
+import { useLocation } from "react-router-dom";
 
 const Product = (props) => {
 
+    const { state } = useLocation();
+    let categoryId = state;
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [brandList, setBrandList] = useState([]);
     const [colorList, setColorList] = useState([]);
     const [sizeList, setsizeList] = useState([]);
-    const [formData, setFormData] = useState({ page: 0, limit: 10 });
+    const [formData, setFormData] = useState({ page: 0, limit: 10, categoryId });
 
     const getDataList = async () => {
 
-        var resp = await categoryListAction();
+        var resp = await categoryNewListAction();
         if (resp.code === 200) {
 
-            setCategoryList(resp.data)
+            setCategoryList(resp.categoryData)
         }
 
         resp = await brandListAction();
@@ -109,13 +112,27 @@ const Product = (props) => {
                                 <Accordion defaultActiveKey="0" className='AccordionProduct'>
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header className='HomeSerH'>Category</Accordion.Header>
-                                        <Accordion.Body>
+                                        {/* <Accordion.Body>
                                             {categoryList.map((item, index) => {
                                                 if (item.parentId === parentDefault) {
-                                                    let check = formData.category && formData.category.length && formData.category.includes(item._id) ? true : false;
-                                                    return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'category', 'checkbox')} checked={check} />
+                                                    let check = formData.categoryId && formData.categoryId.length && formData.categoryId.includes(item._id) ? true : false;
+                                                    return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'categoryId', 'checkbox')} checked={check} />
                                                 } else { return ''; }
                                             })}
+                                        </Accordion.Body> */}
+                                        <Accordion.Body>
+                                            <Tabs id="justify-tab-example" className="mb-3 FAQ-pills navbar-nav_res ">
+                                                {categoryList.map((item, index) => {
+                                                    return <Tab eventKey={item.category.name} title={item.category.name} key={index}>
+                                                        {
+                                                            item.subCategory && item.subCategory.length > 0 && item.subCategory.map((item, index) => {
+                                                                let check = formData.categoryId && formData.categoryId.length && formData.categoryId.includes(item._id) ? true : false;
+                                                                return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'categoryId', 'checkbox')} checked={check} />
+                                                            })
+                                                        }
+                                                    </Tab>
+                                                })}
+                                            </Tabs>
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="1">
@@ -143,71 +160,35 @@ const Product = (props) => {
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="2">
-                                        <Accordion.Header>Western Wear</Accordion.Header>
-                                        <Accordion.Body>
-
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="3">
-                                        <Accordion.Header>Customer Ratings</Accordion.Header>
-                                        <Accordion.Body>
-
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="4">
                                         <Accordion.Header>Size</Accordion.Header>
                                         <Accordion.Body>
-
                                             {sizeList.map((item, index) => {
                                                 let check = formData.sizeId && formData.sizeId.length && formData.sizeId.includes(item._id) ? true : false;
                                                 return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'sizeId', 'checkbox')} checked={check} />
 
                                             })}
-
                                         </Accordion.Body>
                                     </Accordion.Item>
-                                    <Accordion.Item eventKey="5">
+                                    <Accordion.Item eventKey="3">
                                         <Accordion.Header>Color</Accordion.Header>
                                         <Accordion.Body>
-
                                             {colorList.map((item, index) => {
                                                 let check = formData.colorId && formData.colorId.length && formData.colorId.includes(item._id) ? true : false;
                                                 return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'colorId', 'checkbox')} checked={check} />
 
                                             })}
-
                                         </Accordion.Body>
                                     </Accordion.Item>
-                                    <Accordion.Item eventKey="6">
-                                        <Accordion.Header>Discount</Accordion.Header>
-                                        <Accordion.Body>
-
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="7">
+                                    <Accordion.Item eventKey="4">
                                         <Accordion.Header>Brand</Accordion.Header>
                                         <Accordion.Body>
-
                                             {brandList.map((item, index) => {
                                                 let check = formData.brandId && formData.brandId.length && formData.brandId.includes(item._id) ? true : false;
                                                 return <Form.Check type="checkbox" id="custom-switch" label={item.name} value={item._id} key={index} onChange={e => formHandler(e, 'brandId', 'checkbox')} checked={check} />
 
                                             })}
-
                                         </Accordion.Body>
                                     </Accordion.Item>
-                                    {/* <Accordion.Item eventKey="7">
-                                        <Accordion.Header>Fabric</Accordion.Header>
-                                        <Accordion.Body>
-
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="8">
-                                        <Accordion.Header>Collar</Accordion.Header>
-                                        <Accordion.Body>
-
-                                        </Accordion.Body>
-                                    </Accordion.Item> */}
                                 </Accordion>
                             </Card.Body>
                         </Card>

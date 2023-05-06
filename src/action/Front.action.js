@@ -32,6 +32,10 @@ export const categoryListAction = (data) => {
     return postRequest('categoryList', data).then(res => { return res.data });
 }
 
+export const categoryNewListAction = (data) => {
+    return postRequest('categoryListNew', data).then(res => { return res.data });
+}
+
 export const saveWishlistItemAction = (data) => {
     return postRequest('addWishList', data).then(res => { return res.data });
 }

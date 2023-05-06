@@ -758,8 +758,17 @@ img.hover-zoom:hover {
     height: 600px;
 }
 
-
-
+/* order */
 .color {
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
     background-color: #FF9F4B;
+}
+
+.colorNew {
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #E1E1E1;
 }
