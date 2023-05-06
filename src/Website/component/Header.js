@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaPowerOff } from 'react-icons/fa';
 import { parentDefault } from '../../common/Constant';
-
 import { Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faShoppingCart, faMagnifyingGlass, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { categoryListAction } from "../../action/Front.action";
 import { setAlert } from '../../slices/home';
+import kids from "../../images/kids.jpg";
+import women from "../../images/women.webp";
 
 const HeaderNew1 = () => {
 
@@ -30,7 +31,6 @@ const HeaderNew1 = () => {
         const resp = await categoryListAction(filterData);
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
-            // console.log(resp.data);
             setList(resp.data)
         }
 
@@ -40,6 +40,7 @@ const HeaderNew1 = () => {
         getList();
         window.scrollTo(0, 0);
     }, []);
+
 
     return (
         <div className="Header navBG">
@@ -99,41 +100,80 @@ const HeaderNew1 = () => {
                         </button>
                         <div className="collapse  navbar-collapse" id="navbarNavDropdown">
                             <ul className="navbar-nav justify-content-center col-lg-12">
-                                <li className="nav-item dropdown">
-                                    <Link className="nav-link nav-link_Res navFS" href="#">Women</Link>
-                                    <div className="dropdown-content p-4">
-                                        <div className="header">
-                                            <p className='navMH'>All Women</p>
-                                        </div>
-                                        <div className="row">
-                                            {
-                                                list && list.length > 0 && list.map((item, index) => {
-                                                    let parentname = '';
-                                                    if (item.parent_id !== parentDefault) {
+                    
+                                    {
+                                        list && list.length > 0 && list.map((item, index) => {
+                                            let parentname="";
 
-                                                        let parentData = list.find(ca => ca._id === item.parent_id);
-                                                        parentname = (parentData && parentData.name) ? parentData.name : '';
-
-                                                    }
-                                                    return <div className="col-md-2" key={index}>
-                                                        <p className='navMH text-start'>{item.name}</p>
-                                                        <Link className="navlinkmul" to="">{parentname}</Link>
-                                                    </div>
-                                                })
+                                            if (item.parentId !== parentDefault){
+                                                parentname = item.name;
                                             }
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link nav-link_Res navFS" to="#">Girls</Link>
-                                </li>
+                                            console.log(parentname);
+                                                return <Fragment key={index}>
+                                                    <li className="nav-item dropdown">
+                                                        {
+                                                            item.parentId === parentDefault && 
+                                                            <Link className="nav-link nav-link_Res navFS" href="#">{item.name}</Link>
+                                                        } 
+                                                        <div className="dropdown-content p-4">
+                                                            <div className="row">
+                                                                <div className="col-md-2" >
+                                                                    {
+                                                                        item.name == "Women" ?
+
+                                                                            <img src={women} className="img-fluid" alt="..." />
+
+                                                                            :
+
+                                                                            <img src={kids} className="img-fluid" alt="..." />
+                                                                    }
+                                                                   
+                                                                </div>
+                                                                <div className="col-md-10" >
+                                                                    <div className="header">
+                                                                        {
+                                                                            item.name == "Women" ?
+
+                                                                                <p className='navMH'>All Women</p>
+
+                                                                                :
+
+                                                                                <p className='navMH'>All Kids</p>
+                                                                        }
+                                                                    </div>
+                                                                   <Row>
+                                                                        <div className="col-md-2" key={index}>
+                                                                            <Link className="navlinkmul" to="">{parentname}</Link>
+                                                                        </div>
+                                                                        {/* {
+                                                                            list && list.length > 0 && list.map((item, index) =>
+                                                                            {
+                                                           
+                                                                                return <div className="col-md-2" key={index}>
+                                                                                    <Link className="navlinkmul" to="">{item.name}</Link>
+                                                                                </div>
+                                                                            })
+                                                                        } */}
+                                                                   </Row>
+                                                                </div>
+                                                       
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </Fragment>
+                                          
+                                        })
+                                    }
+                                    
                                 <li className="nav-item">
                                     <Link className="nav-link nav-link_Res navFS text-white" to="#">Sale</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link nav-link_Res navFS text-white" to="#">Trending</Link>
                                 </li>
+                            
                             </ul>
+                
                         </div>
                     </div>
                 </nav>

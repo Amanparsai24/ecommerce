@@ -150,7 +150,7 @@ const Orders = () => {
                                     </Col>
                                     <Col md={8}>
                                         <ProgressBar className='progress_res'>
-                                            <ProgressBar variant="primary" now={25} label={`Order Confirmed ${moment(item.createdAt).format('Do MMM YYYY')}`} key={1} />
+                                            <ProgressBar className='color' now={25} label={`Order Confirmed ${moment(item.createdAt).format('Do MMM YYYY')}`} key={1} />
                                             <ProgressBar variant="secondary" now={25} label={`Shipped ${moment(dates.shippedDate).format('Do MMM YYYY')}`} key={2} />
                                             <ProgressBar variant="secondary" now={25} label={`Out of Delivery ${moment(dates.outOfDeliveryDate).format('Do MMM YYYY')}`} key={3} />
                                             <ProgressBar variant="secondary" now={25} label={`Delivered ${moment(dates.deliveredDate).format('Do MMM YYYY')}`} key={4} />

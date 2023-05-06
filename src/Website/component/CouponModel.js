@@ -40,7 +40,7 @@ const CouponModel = ({ handleClose }) => {
 
             }else {
                 setDisabled(false);
-                dispatch(setAlert({ open: true, severity: "danger", msg: resp.error.couponCode, type: '' }));
+                dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
             }
             return false;
         }   

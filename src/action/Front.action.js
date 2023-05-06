@@ -21,7 +21,7 @@ export const addressDeleteAction = (data) => {
 }
 
 export const getAddressAction = (data) => {
-    return postRequest('userList', data).then(res => { return res.data });
+    return postRequest('userAddressList', data).then(res => { return res.data });
 }
 
 export const productListAction = (data) => {

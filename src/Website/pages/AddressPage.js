@@ -86,6 +86,7 @@ const AddressPage = () => {
                                 <div className='addressblockScroll'>
                                     {
                                         addresslist && addresslist.length > 0 && addresslist.map((item, ind) => {
+                                            console.log(item);
                                             let checked = (formData.addressId && formData.addressId === item._id) ? true : false;
                                             return <Fragment key={ind}>
                                              

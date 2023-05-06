@@ -270,4 +270,9 @@
     .magnifyingGlass {
         top: 20.8rem !important;
     }
+
+    .CHECK {
+        bottom: 13.8rem !important;
+        margin-left: 43rem;
+    }
 }
