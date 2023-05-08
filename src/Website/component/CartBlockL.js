@@ -76,7 +76,7 @@ const CartBlockL = ({  gettotalprice }) => {
                         getcartlist();
                     }
                 }
-                // window.location.reload(false);
+                window.location.reload(false);
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: resp.error.product, type: '' }));
             }
@@ -112,7 +112,7 @@ const CartBlockL = ({  gettotalprice }) => {
                                 dispatch(setAlert({ open: true, severity: "success", msg: "You have successfully deleted item.", type: '' }));
                                 getcartlist();
                                 gettotalprice();
-                                // window.location.reload(false);
+                                window.location.reload(false);
                                 // const purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
                                 // let newprice = purchaseData.amount - price;
                                 // let newdiscount = purchaseData.discount - cartlist[i].discount;

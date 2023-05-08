@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { checkCouponAction } from "../../action/Front.action";
+import { checkCouponAction, getdiscountAction } from "../../action/Front.action";
 import { setAlert } from '../../slices/home';
 import { useDispatch } from 'react-redux';
 
@@ -12,6 +12,7 @@ const CouponModel = ({ handleClose }) => {
     const [isDisabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({});
     const [coupondata, setCouponData] = useState({});
+    const [discountList, setDiscountList] = useState({});
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -31,11 +32,11 @@ const CouponModel = ({ handleClose }) => {
                 productdata.push({ productId: row._id, quantity: row.productqyt });
             }
         
-            let postData = { products: productdata, couponCode: formData.couponName }
+            let postData = { products: productdata, code: formData.code }
             let resp = await checkCouponAction(postData);
             if (resp.code === 200) {
-                dispatch(setAlert({ open: true, severity: "success", msg: "Success", type: '' }));
-                let data = { ...formData, couponDiscount: resp.couponDiscount, amount: resp.amount, discount: resp.discount, totalAmount: resp.totalAmount };
+                dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
+                let data = { ...formData, couponName: resp.couponName ,couponDiscount: resp.couponDiscount, amount: resp.amount, discount: resp.discount, totalAmount: resp.totalAmount };
                 setCouponData(data);
 
             }else {
@@ -57,15 +58,47 @@ const CouponModel = ({ handleClose }) => {
         handleClose();
     }
 
-    const handleChange = (name, event) => {
+    // const handleChange = (name, event) => {
 
-        let from = { ...formData };
+    //     let from = { ...formData };
     
-        from[name] = event.target.value;
+    //     from[name] = event.target.value;
 
-        setFormData({ ...formData, ...from });
+    //     setFormData({ ...formData, ...from });
 
+    // }
+
+    const handleChange = (e, name) => {
+
+        let data = { ...formData };
+        if (name === 'checkbox') {
+
+            if (e.target.checked) {
+                data[name] = e.target.value;
+            } else {
+                data[name] = "";
+            }
+
+        } else {
+            data[name] = e.target.value;
+        }
+
+        setFormData(data);
     }
+
+    const getdiscountList = async () => {
+
+        dispatch(setAlert({ open: true, severity: "success", msg: "Loading...", type: 'loader' }));
+        const resp = await getdiscountAction();
+        dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
+        if (resp.code === 200) {
+            setDiscountList(resp.data);
+        }
+    }
+
+    useEffect(() => {
+        getdiscountList();   
+    }, []);
 
     return (
         <>
@@ -77,7 +110,7 @@ const CouponModel = ({ handleClose }) => {
                 <div className="mb-3 postion-absolute">
                     <Form noValidate validated={validated} onSubmit={e => handleSubmit(e)}>
                         <Form.Group className="mb-3 mt-3" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Enter Coupon Code" value={formData.couponName ? formData.couponName : ""} className="form-control CouponModelsmT" onChange={e => handleChange('couponName', e)} required autoComplete="off" />
+                            <Form.Control type="text" placeholder="Enter Coupon Code" value={formData.code ? formData.code : ""} className="form-control CouponModelsmT" onChange={e => handleChange('code', e)} required autoComplete="off" />
                         
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid Code.
@@ -86,19 +119,28 @@ const CouponModel = ({ handleClose }) => {
                         <Button className='CHECK text-decoration-none border-0' type="submit">CHECK</Button>
                     </Form>
                 </div>
-                <Row className='mt-3'>
-                    <Col md={4} lg={2}>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        </div>
-                    </Col>
-                    <Col md={4} lg={10}>
-                        <div className='CouponDisblockPos mb-2'>  MDFH20 </div>
-                        <span className='text-start breadcrumbCS'>Save $20</span><br></br>
-                        <span className='text-start breadcrumbCS'>$20 off on minimum purchase of $500</span><br></br>
-                        <span className='text-start breadcrumbCS'>Expires on : 21 February 2023     11:59 PM</span>
-                    </Col>
-                </Row>
+                <div className='couponblockScroll'>
+                    {
+                        discountList && discountList.length > 0 && discountList.map((item, ind) => {
+                            console.log(item);
+                            let checked = (formData.code && formData.code === item.code) ? true : false;
+                            return <Fragment key={ind}>
+                                <Row className='mb-4'>
+                                    <Col md={1}>
+                                        <Form.Check type="radio" aria-label="radio 1" id="custom-switch" value={item.code} onChange={e => handleChange(e, 'code')} checked={checked} />
+                                    </Col>
+                                    <Col md={10}>
+                                        <div className='CouponDisblockPos mb-2'> {item.code} </div>
+                                        <span className='text-start breadcrumbCS'>Save {item.value}</span><br></br>
+                                        <span className='text-start breadcrumbCS'>{item.value} off on minimum purchase of {item.minPurchase} to {item.maxPurchase}  </span><br></br>
+                                        <span className='text-start breadcrumbCS'>Expires on : 21 February 2023     11:59 PM</span>
+                                    </Col>
+                                </Row>
+                            </Fragment>
+                        })
+
+                    }
+                </div>
                 <hr></hr>
                 <Row className='mt-3'>
                     <Col md={4} lg={4} >

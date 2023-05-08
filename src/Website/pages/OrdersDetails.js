@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
-import { Row, Col, Container, Card } from 'react-bootstrap';
+import React, { useState , useRef } from 'react';
+import { Row, Col, Container, Card, Button, Modal } from 'react-bootstrap';
 import { imgPath } from "../../common/Function";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import InvoicePage from '../component/InvoicePage';
+import { useReactToPrint } from 'react-to-print';
 
 const OrdersDetails = () => {
 
+    const componentPdf = useRef();
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [formData, setFormData] = useState(() => {
         const orderdetails = JSON.parse(localStorage.getItem('orderdetails'));
-        // console.log(orderdetails);
         return orderdetails || null;
     });
+
+    const downloadPdf = useReactToPrint({
+        content: () => componentPdf.current,
+        documentTitle:"pdf",
+        // onAfterPrint:()=>alert("Data saved in Pdf"),
+    })
 
     return (
         <>
@@ -26,6 +38,8 @@ const OrdersDetails = () => {
                             <li className="breadcrumb-item  active" aria-current="page">Order Details</li>
                         </ol>
                     </nav>
+                   
+                 
                     <Row className='mb-3'>
                         <p> Order Details </p>
                         <Card className='ProductFullCard mb-4'>
@@ -84,7 +98,6 @@ const OrdersDetails = () => {
                                         <Row>
                                             <Col md={6}>
                                                 <p className='ProductName'>Order Total</p>
-
                                             </Col>
                                             <Col md={6}>
                                                 <p className='ProductName text-end'><span className='ProductPrice'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{formData.products[0].productPriceDetails.totalPrice}</p>
@@ -93,7 +106,10 @@ const OrdersDetails = () => {
                                     </Col>
                                 </Row>
                                 <hr></hr>
-                                <Link className="btn text-dark" to="#" type="submit">Download Invoice</Link>
+                                {/* <Link className="btn text-dark" onClick={e => downloadPdf()} type="button">Download Invoice</Link> */}
+                                <Button className='wishListBtn text-white border-0'  onClick={handleShow}>
+                                    Invoice
+                                </Button>
                             </Card.Body>
                         </Card>
                         <Card className='ProductFullCard'>
@@ -124,9 +140,26 @@ const OrdersDetails = () => {
                                 </Row>
                             </Card.Body>
                         </Card>
+                        <Modal show={show} size="xl" onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Invoice</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div ref={componentPdf}  >
+                                    <InvoicePage />
+                                </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                                <Button className='wishListBtn text-white border-0' onClick={e => downloadPdf()}>
+                                    Download Invoice
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </Row>
                 </Col>
-               
             </Row>
         </>
     );

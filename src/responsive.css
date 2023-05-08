@@ -180,9 +180,9 @@
     .Homebg2 {
         height: 18rem;
     }
-  
+
     .logo {
-        left: 27.5rem;
+        left: 0;
     }
 
    
@@ -218,6 +218,8 @@
         height: 34rem !important;
     }
 
+ 
+
 }
 
 /*Extra Large screen */
@@ -230,6 +232,10 @@
 
 /*Extra Large screen */
 @media screen and (max-width: 4000px) and (min-width: 1400px) {
+
+    .logo {
+        left: 34.8rem;
+    }
 
     .nav-link_Res {
         margin: 0rem 6rem;

@@ -1,16 +1,17 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Form, ProgressBar } from 'react-bootstrap';
+import { Row, Col, Card, Form, ProgressBar, Button } from 'react-bootstrap';
 import { setAlert } from '../../slices/home';
 import { getOrderAction } from "../../action/Front.action";
 import { imgPath } from "../../common/Function";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faIndianRupeeSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faIndianRupeeSign, faDownload } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../components/Pagination';
 import { Year } from "../../common/Constant";
 import moment from 'moment';
+import Invoice from './Invoice';
 
 const Orders = () => {
 
@@ -23,11 +24,11 @@ const Orders = () => {
     const [formData, setFormData] = useState({ page: 0, limit: 5, Year: 2023, sortName: "createdAt", soryBy: "DESC" });
 
     const getOrdersList = async (action = '') => {
-        
+
         let filterData = { ...formData };
 
         if (action === 'clear') {
-            filterData = { page: 0, limit: 5,Year: 2023, sortName: "createdAt", soryBy: "DESC" };
+            filterData = { page: 0, limit: 5, Year: 2023, sortName: "createdAt", soryBy: "DESC" };
             setFormData(filterData);
         }
 
@@ -71,14 +72,12 @@ const Orders = () => {
         setFormData(data);
     }
 
-
-
-    const ViewProduct = (item) => {
-        localStorage.setItem("orderdetails", JSON.stringify(item));
-        setTimeout(() => {
-            navigate('/orderdetails');
-        }, 1);
-    } 
+    // const ViewProduct = (item) => {
+    //     localStorage.setItem("orderdetails", JSON.stringify(item));
+    //     setTimeout(() => {
+    //         navigate('/orderdetails');
+    //     }, 1);
+    // }
 
     useEffect(() => {
 
@@ -88,9 +87,9 @@ const Orders = () => {
 
     return (
         <>
-        <hr></hr>
-        <Row className='mb-3'>
-            <Col md={4}>
+            <hr></hr>
+            <Row className='mb-3'>
+                <Col md={4}>
                     <Row className="justify-content-start">
                         <Col md={4}>
                             <span> <b>{numberofproduct} Orders</b> placed </span>
@@ -104,11 +103,11 @@ const Orders = () => {
                             </select>
                         </Col>
                     </Row>
-            </Col>
-     
-            <Col md={8}>
-                <Row className="justify-content-end">
-                    <Col md={9}>
+                </Col>
+
+                <Col md={8}>
+                    <Row className="justify-content-end">
+                        <Col md={9}>
                             <div className="mb-3">
                                 <Form noValidate validated={validated} onSubmit={e => handleSubmit(e)}>
                                     <Form.Group controlId="formBasicEmail">
@@ -121,34 +120,32 @@ const Orders = () => {
                                     <span className="magnifyingGlass"><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
                                 </Form>
                             </div>
-                    </Col>
-                    <Col md={3}>
-                        <div className="d-grid col-12 mx-auto">
+                        </Col>
+                        <Col md={3}>
+                            <div className="d-grid col-12 mx-auto">
                                 <Link className="btn wishListBtn text-white" to="#" type="button" onClick={e => getOrdersList()}>Search orders</Link>
-                        </div>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-        {
-            orderlist.length > 0 &&  orderlist.map((item, ind) => {
-                // console.log(item);
-                let products = item.products[0].productId;
-                let dates = item.products[0].shippingDateDetails;
-                return <Fragment key={ind}>
-                    <Card className='ordersCard mb-4'>
-                        <Row className='ordersCard'>
-                            <Card.Body className='p-4'>
+                            </div>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+            {
+                orderlist.length > 0 && orderlist.map((item, ind) => {
+          
+                    let dates = item.products[0].shippingDateDetails;
+                    return <Fragment key={ind}>
+                        <Card className='ordersCardnew mb-4'>
+                            <Card.Body className='ordersCard p-4'>
                                 <Row>
                                     <Col md={2}>
                                         <p>Ship To</p>
                                         <span className='breadcrumbCS'>{item.shippingAddress.name}</span>
                                     </Col>
-                                    <Col md={2}>
+                                    <Col md={3}>
                                         <p>Order</p>
-                                        <span className='breadcrumbCS'>{item.products[0].trackingNumber}</span>
+                                        <span className='breadcrumbCS'>{item._id}</span>
                                     </Col>
-                                    <Col md={8}>
+                                    <Col md={6}>
                                         <ProgressBar className='progress_res'>
                                             <ProgressBar className='color' now={25} label={`Order Confirmed ${moment(item.createdAt).format('Do MMM YYYY')}`} key={1} />
                                             <ProgressBar className='colorNew' now={25} label={`Shipped ${moment(dates.shippedDate).format('Do MMM YYYY')}`} key={2} />
@@ -156,63 +153,69 @@ const Orders = () => {
                                             <ProgressBar className='colorNew' now={25} label={`Delivered ${moment(dates.deliveredDate).format('Do MMM YYYY')}`} key={4} />
                                         </ProgressBar>
                                     </Col>
-                                </Row>
-                           
-                            </Card.Body>
-                        </Row>
-                        <Row className='ordersCard1'>
-                            <Card.Body className='p-5'>
-                                <Row>
-                                    <Col md={2}>
-                                        <img src={imgPath(products.image[0])} className="card-img-top OrderProductImg" alt="..." />
+                                    <Col md={1}>
+                                        <Invoice item={item} />
                                     </Col>
-                                    <Col md={10}>
-                                        <Row>
-                                            <Col md={6}>
-                                                <span className='ProductH'>{products.name}</span><br></br>
-                                                <span className='breadcrumbCS'>Size : {item.products[0].sizeId.name}</span><br></br>
-                                                <span className='breadcrumbCS'>Color : {item.products[0].colorId.name}</span><br></br>
-                                                <span className='breadcrumbCS'>Return window closed on {moment(dates.returnDate
-                                                ).format('Do MMM YYYY')}</span>
-                                                <Row className='mt-3'>
-                                                    <Col md={4} lg={5}>
-                                                        <div className="d-grid col-12 mx-auto">
-                                                            <Link className="btn wishListBtn text-white" to="#" type="submit">Buy it again</Link>
-                                                        </div>
+                                </Row>
+                            </Card.Body>
+                            <Card.Body className='p-4' >
+                                {
+                                    item.products.length > 0 && item.products.map((item, ind) => {
+                                        // console.log(item)
+                                        return <Fragment key={ind}>
+                                                <Row className='mb-4'>
+                                                    <Col md={2}>
+                                                        <img src={imgPath(item.productId.image[0])} className="card-img-top OrderProductImg" alt="..." />
                                                     </Col>
-                                                    <Col md={4} lg={5}>
-                                                        <div className="d-grid col-12 mx-auto">
-                                                            <Link className="btn wishListBtn text-white" to="#" onClick={e => ViewProduct(item)}>View order details</Link>
-                                                        </div>
+                                                    <Col md={10}>
+                                                        <Row>
+                                                            <Col md={6}>
+                                                                <span className='ProductH'>{item.productId.name}</span><br></br>
+                                                                <span className='breadcrumbCS'>Size : {item.sizeId.name}</span><br></br>
+                                                                <span className='breadcrumbCS'>Color : {item.colorId.name}</span><br></br>
+                                                                <span className='breadcrumbCS'>Return window closed on {moment(dates.returnDate
+                                                                ).format('Do MMM YYYY')}</span>
+                                                                <Row className='mt-3'>
+                                                                    <Col md={4} lg={5}>
+                                                                        <div className="d-grid col-12 mx-auto">
+                                                                            <Link className="btn wishListBtn text-white" to="#" type="submit">Buy it again</Link>
+                                                                        </div>
+                                                                    </Col>
+                                                                    {/* <Col md={4} lg={5}>
+                                                                        <div className="d-grid col-12 mx-auto">
+                                                                            <Link className="btn wishListBtn text-white" to="#">View order details</Link>
+                                                                        </div>
+                                                                    </Col> */}
+                                                                </Row>
+                                                            </Col>
+                                                            <Col md={2}>
+                                                            <p className='ProductH'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;{item.productPriceDetails.totalPrice}</p>
+                                                            </Col>
+                                                            <Col md={4}>
+                                                                <p className='ProductH'>Expected delivery on {moment(dates.deliveredDate
+                                                                ).format('Do MMM YYYY')}</p>
+                                                                <p className='breadcrumbCS'>Your item has been delivered</p>
+                                                                {/* {moment(item.createdAt).format('DD-MMM-YYYY')} */}
+                                                            </Col>
+                                                        </Row>
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                            <Col md={2}>
-                                                <p className='ProductH'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;{item.grandTotalPrice}</p>
-                                            </Col>
-                                            <Col md={4}>
-                                                <p className='ProductH'>Expected delivery on {moment(dates.deliveredDate
-                                                ).format('Do MMM YYYY')}</p>
-                                                <p className='breadcrumbCS'>Your item has been delivered</p>
-                                                {/* {moment(item.createdAt).format('DD-MMM-YYYY')} */}
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
+                                        </Fragment>
+                                    })
+                                }
                             </Card.Body>
-                        </Row>
-                    </Card>
-                </Fragment>
-            })
-        }
-        <Col lg={12}>
-            <Pagination
-                totalCount={numberofproduct}
-                formData={formData}
-                formHandler={formHandler}
-                setFormData={setFormData}
-            />
-        </Col>
+                        </Card>
+                    </Fragment>
+                })
+            }
+            <Col lg={12}>
+                <Pagination
+                    totalCount={numberofproduct}
+                    formData={formData}
+                    formHandler={formHandler}
+                    setFormData={setFormData}
+                />
+            </Col>
         </>
     );
 }

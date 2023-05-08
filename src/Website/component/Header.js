@@ -10,6 +10,7 @@ import { categoryNewListAction } from "../../action/Front.action";
 import { setAlert } from '../../slices/home';
 import kids from "../../images/kids.jpg";
 import women from "../../images/women.webp";
+import Logo from "../../images/Logo.png";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -57,7 +58,9 @@ const Header = () => {
                     <div className="container">
                         <div className="row p-2 pt-3 pb-3 d-flex align-items-center">
                             <div className="col-lg-8 col-md-6 col-sm-12">
-                                <Link className="navbar-brand logo" to="/">LOGO</Link>
+                                <Link className="" to="/">
+                                    <img src={Logo} className="img-fluid logoImg logo" alt="..." />
+                                </Link>
                             </div>
                             <div className="col-lg-4 col-md-6 col-sm-12">
                                 <div className="widgets-wrap float-md-end">
@@ -110,53 +113,52 @@ const Header = () => {
                             <ul className="navbar-nav justify-content-center col-lg-12">
                                 {
                                     list && list.length > 0 && list.map((item, index) => {
-                                            return <Fragment key={index}>
-                                                <li className="nav-item dropdown">
-                                                    <Link className="nav-link nav-link_Res navFS" onClick={e => handleClick(item.category._id) }>{item.category.name}</Link>
-                                                    <div className="dropdown-content p-4">
-                                                        <div className="row">
-                                                            <div className="col-md-2" >
+                                        return <Fragment key={index}>
+                                            <li className="nav-item dropdown">
+                                                <Link className="nav-link nav-link_Res navFS" onClick={e => handleClick(item.category._id)}>{item.category.name}</Link>
+                                                <div className="dropdown-content p-4">
+                                                    <div className="row">
+                                                        <div className="col-md-2" >
+                                                            {
+                                                                item.category.name == "Women" ?
+
+                                                                    <img src={women} className="img-fluid" alt="..." />
+
+                                                                    :
+
+                                                                    <img src={kids} className="img-fluid" alt="..." />
+                                                            }
+
+                                                        </div>
+                                                        <div className="col-md-10" >
+                                                            <div className="header">
                                                                 {
                                                                     item.category.name == "Women" ?
 
-                                                                        <img src={women} className="img-fluid" alt="..." />
+                                                                        <p className='navMH'>All Women</p>
 
                                                                         :
 
-                                                                        <img src={kids} className="img-fluid" alt="..." />
+                                                                        <p className='navMH'>All Kids</p>
                                                                 }
-                                                                
                                                             </div>
-                                                            <div className="col-md-10" >
-                                                                <div className="header">
-                                                                    {
-                                                                        item.category.name == "Women" ?
-
-                                                                            <p className='navMH'>All Women</p>
-
-                                                                            :
-
-                                                                            <p className='navMH'>All Kids</p>
-                                                                    }
-                                                                </div>
-                                                                <Row>
-                                                                    {
-                                                                        item.subCategory && item.subCategory.length > 0 && item.subCategory.map((item, index) =>
-                                                                        {
-                                                                            // console.log(item)
-                                                                            return <div className="col-md-2" key={index}>
-                                                                                <Link className="navlinkmul" onClick={e => handleClick(item._id)}>{item.name}</Link>
-                                                                            </div>
-                                                                        })
-                                                                    }
-                                                                </Row>
-                                                            </div>
-                                                    
+                                                            <Row>
+                                                                {
+                                                                    item.subCategory && item.subCategory.length > 0 && item.subCategory.map((item, index) => {
+                                                                        // console.log(item)
+                                                                        return <div className="col-md-2" key={index}>
+                                                                            <Link className="navlinkmul" onClick={e => handleClick(item._id)}>{item.name}</Link>
+                                                                        </div>
+                                                                    })
+                                                                }
+                                                            </Row>
                                                         </div>
+
                                                     </div>
-                                                </li>
-                                            </Fragment>
-                                        
+                                                </div>
+                                            </li>
+                                        </Fragment>
+
                                     })
                                 }
                                 <li className="nav-item">

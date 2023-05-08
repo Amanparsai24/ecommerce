@@ -45,6 +45,11 @@ function OrderPlaced() {
                                                     <Link className="btn wishListBtn text-white mt-3" to="/product" type="submit">Explore more products</Link>
                                                 </div>
                                             </Col>
+                                            <Col xs={12} lg={8}>
+                                                <div className="d-grid mx-auto">
+                                                    <Link className="btn wishListBtn text-white mt-3" to="/myorders" type="submit">Order Details</Link>
+                                                </div>
+                                            </Col>
                                         </Row> 
                                     </Card.Body>
                                 </Card>
