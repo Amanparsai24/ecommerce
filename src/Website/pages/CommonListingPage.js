@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Card, Col } from 'react-bootstrap';
 import { imgPath } from "../../common/Function";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,9 +11,9 @@ const CommonListingPage = (props) => {
     const navigate = useNavigate();
 
     const ViewProduct = (item) => {
-        localStorage.setItem("productDetails", JSON.stringify(item));
+        // localStorage.setItem("productDetails", JSON.stringify(item));
         setTimeout(() => {
-            navigate('/productdetails');
+            navigate('/productdetails?a=' + item._id, { state: item });
         }, 1);
     } 
     

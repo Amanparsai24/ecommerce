@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Container, Card, Button } from 'react-bootstrap';
@@ -63,12 +63,41 @@ function WishList() {
                     onClick: async () => {
 
                         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
-                        let resp = await removeWishlistItemAction({ products: id });
+                        let resp = await removeWishlistItemAction({ productId: id });
                         if (resp.code === 200) {
                             dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
                             // setTimeout(() => {
                             //     navigate('/wishList');
                             // }, 500);
+                            getWishList();
+                        } else {
+                            dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
+                        }
+                    }
+
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        });
+
+    }
+
+    const _deletelist = async (id) => {
+
+        confirmAlert({
+            title: 'Confirm to Delete',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
+                        let resp = await removeWishlistItemAction({ listId: id });
+                        if (resp.code === 200) {
+                            dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
                             getWishList();
                         } else {
                             dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
@@ -110,9 +139,19 @@ function WishList() {
                                 <Row>
                                     {list && list.length > 0 && list.map((item, ind) => {
                                         // console.log(item);
-                                        return <Col md={12} key={ind}>
-                                            <p className='navMH'><Link className="text-decoration-none text-dark" onClick={e => changeTabKey(item._id)} >{item ? item.name : ""}</Link></p>
-                                        </Col>
+                                        return <Fragment key={ind}>
+                                                    <Row>
+                                                        <Col lg={11}>
+                                                            <p className='navMH'><Link className="text-decoration-none text-dark" onClick={e => changeTabKey(item._id)} >{item ? item.name : ""}</Link></p>
+                                                        </Col>
+                                                        <Col lg={1}>
+                                                            <span className="btn text-dark" title='Delete' onClick={e => _deletelist(item._id)}><FontAwesomeIcon icon={faTrash} /></span>
+                                                        </Col>
+                                                    </Row>
+                                                
+                                                  
+                                            </Fragment>
+                                        
                                     })
                                     }
                                     { list.length > 0 ?

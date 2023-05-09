@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
-const CartBlockR = ({ totalamount }) => {
+const CartBlockR = ({ numofproduct }) => {
 
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
@@ -40,24 +40,30 @@ const CartBlockR = ({ totalamount }) => {
     return (
         <>
             <Row>
+                <Col sm={6} md={6}>
+                    <p className='ProductH '>Price ({numofproduct} item)</p>
+                </Col>
+                <Col sm={6} md={6} >
+                    <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.amount : ""}  </p>
+                </Col>
+            </Row>
+            <Row>
                 <Col md={6}>
-                    {/* {
-                        purchaseData ?
-                            <p className='ProductH '>{purchaseData ? purchaseData.couponName : ""}</p>
-                            :
-                            <p className='ProductH '>Coupon Discount</p>
-                    } */}
-              
+                    <p className='ProductH '>Discount</p>
+                </Col>
+                <Col md={6} >
+                    <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {purchaseData ? purchaseData.discount : ""} </p>
+                    {/* {discountprice} */}
+                </Col>
+            </Row>
+            <Row>
+                <Col md={6}>
                     <p className='ProductH '>Coupon Discount                
                         <small> {purchaseData ? purchaseData.couponName : ""}</small>
                     </p>
-    
                 </Col>
                 <Col md={6} >
-              
                     <p className='ProductH text-end '><Link className='text-decoration-none' onClick={applyCoupon}>Apply Coupon</Link></p>
-              
-
                     <Modal show={show} size="lg" onHide={handleClose}>
                         {
                             userloged === 1 ?
@@ -85,7 +91,8 @@ const CartBlockR = ({ totalamount }) => {
                     <p className='ProductH '>Total Amount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{totalamount}</p>
+                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.totalAmount : ""}</p>
+                    {/* {totalamount} */}
                 </Col>
             </Row>
             <div className="d-grid  mx-auto">

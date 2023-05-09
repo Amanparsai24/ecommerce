@@ -69,7 +69,7 @@ const AddressPage = () => {
     useEffect(() => {
 
         getAddressList();
-        if (localStorage.getItem('cartlist')) { } else {
+        if (localStorage.getItem('cartlist') || localStorage.getItem('buyNowdata') ) { } else {
             navigate('/');
         }
     }, [formData]);

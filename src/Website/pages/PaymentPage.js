@@ -56,7 +56,12 @@ const PaymentPage = () => {
                 let userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
                 const purchaseData = JSON.parse(localStorage.getItem('purchaseData'))
                 let couponDiscount = purchaseData.couponDiscount;
-                const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                let cartlist;
+                if (localStorage.getItem('buyNow')){
+                    cartlist = JSON.parse(localStorage.getItem('purchaseData'));
+                }else{
+                    cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                }
                 var productdata = [];
                 for (let i in cartlist) {
                     let row = cartlist[i];

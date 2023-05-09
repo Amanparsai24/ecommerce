@@ -13,9 +13,11 @@ function OrderPlaced() {
         if (localStorage.getItem('paymentID')) {
             localStorage.removeItem("productDetails");
             localStorage.removeItem("userAddressID");
-            // localStorage.removeItem("paymentID");
+            localStorage.removeItem("buyNowdata");
             localStorage.removeItem("purchaseData");
-            localStorage.removeItem("cartlist");
+            localStorage.removeItem("buyNow");
+            localStorage.removeItem("paymentID");
+
          } else {
             navigate('/');
         }

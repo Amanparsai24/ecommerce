@@ -21,16 +21,16 @@ import Offers from "./Offers";
 import Rating from '../component/Rating';
 import LoginModel from "../component/LoginModel";
 
-const ProductDetails = () => {
+const ProductDetails = (props) => {
 
     const { state } = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [formData, setFormData] = useState(state);
-    const [formData, setFormData] = useState(() => {
-        const productDetails = JSON.parse(localStorage.getItem('productDetails'));
-        return productDetails || null;
-    });
+    const [formData, setFormData] = useState(state);
+    // const [formData, setFormData] = useState(() => {
+    //     const productDetails = JSON.parse(localStorage.getItem('productDetails'));
+    //     return productDetails || null;
+    // });
 
     const [productID, setproductID] = useState([]);
     const [productqyt, setProductQYT] = useState(1);
@@ -43,7 +43,7 @@ const ProductDetails = () => {
         setShow(false);
     }
 
-    const addtoCart = (data , type="") => {
+    const addtoCart = (data) => {
         var cartData;
         //   we chech here if there is data on cartlist or not
         if (localStorage.getItem('cartlist') === null) {
@@ -57,36 +57,10 @@ const ProductDetails = () => {
         data['colorName'] = colorinfo.colorName;
         data['sizeId'] = sizeinfo.sizeId;
         data['sizeName'] = sizeinfo.sizeName;
-
         data['productqyt'] = 1;
         cartData.push(data);
         localStorage.setItem('cartlist', JSON.stringify(cartData));
-        if (type == "buyNOW") {
-            const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-            if (cartlist) {
-                var price = 0;
-                var discount = 0;
-                var sizeId;
-                var colorId;
-                for (let i in cartlist) {
 
-                    price += cartlist[i].MRP;
-                    discount += cartlist[i].discount;
-                    sizeId = cartlist[i].sizeId;
-                    colorId = cartlist[i].colorId;
-                }
-
-                let data = { amount: price, discount: discount, couponDiscount: 0, totalAmount: price - discount, sizeId: sizeId, colorId: colorId };
-
-                localStorage.setItem("purchaseData", JSON.stringify(data));
-            }
-            if (localStorage.loginType === 'user' && localStorage.userType) {
-                window.location.href = "/address";  
-            } else {
-                localStorage.setItem('btntype', "buyNow");
-                handleShow();
-            }
-        }else{
             dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
             var newdata = JSON.parse(localStorage.getItem('cartlist'));
             for (let i in newdata) {
@@ -96,6 +70,33 @@ const ProductDetails = () => {
                 }
             }
         // here we check for multiple data in cartlist in match with current page data
+    }
+
+    const buyNow = (data) => {
+        var cartData = [];
+        data['colorId'] = colorinfo.colorId;
+        data['colorName'] = colorinfo.colorName;
+        data['sizeId'] = sizeinfo.sizeId;
+        data['sizeName'] = sizeinfo.sizeName;
+        data['productqyt'] = 1;
+        cartData.push(data);
+        localStorage.setItem('buyNowdata', JSON.stringify(cartData));
+        localStorage.setItem('buyNow', JSON.stringify("buyNow"));
+        var price = 0;
+        var discount = 0;
+        var sizeId;
+        var colorId;
+        price = data.MRP;
+        discount = data.discount;
+        sizeId = data.sizeId;
+        colorId = data.colorId;
+        let pricedetails = { amount: price, discount: discount, couponDiscount: 0, totalAmount: price - discount, sizeId: sizeId, colorId: colorId };
+
+        localStorage.setItem("purchaseData", JSON.stringify(pricedetails));
+        if (localStorage.loginType === 'user' && localStorage.userType) {
+            window.location.href = "/address";
+        } else {
+            handleShow();
         }
     }
 
@@ -110,6 +111,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
 
+
         let allcolor = formData.colors;
         for (let i in allcolor) {
             if (allcolor[i].colorId._id === colorinfo.colorId) {
@@ -119,6 +121,8 @@ const ProductDetails = () => {
         }
 
     }, []);
+
+    console.log(formData);
 
     return (
         <div className="Product">
@@ -162,7 +166,8 @@ const ProductDetails = () => {
                                 </Col>
                                 <Col md={4} lg={6}>
                                     <div className="d-grid  mx-auto">
-                                        <Link className="btn LoginBtn text-white " type="button" onClick={e => addtoCart(formData , 'buyNOW')}><FontAwesomeIcon icon={faBolt} />{' '}Buy Now</Link>
+                                        <Button className='LoginBtn border-0' onClick={e => buyNow(formData)}><FontAwesomeIcon icon={faBolt} />{' '}Buy Now</Button>
+                                        {/* <Link className="btn LoginBtn text-white" type="button" onClick={e => buyNow(formData)}><FontAwesomeIcon icon={faBolt} />{' '}Buy Now</Link> */}
                                     </div>
 
                                     <Modal show={show} size="lg" onHide={handleClose}>

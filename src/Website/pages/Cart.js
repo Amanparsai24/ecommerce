@@ -9,9 +9,6 @@ import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 const Cart = () => {
 
     const [cartlist, setCartList] = useState([]);
-    const [amount, setAmount] = useState(0);
-    const [totalamount, setTotalAmount] = useState(0);
-    const [discountprice, setDiscountPrice] = useState(0);
     const [numofproduct, setNumOfProduct] = useState(0);
   
     const getcartlist = () => {
@@ -29,14 +26,9 @@ const Cart = () => {
             var price = 0;
             var discount = 0;
             for (let i in cartlist) {
-             
                 price += cartlist[i].MRP;
                 discount += cartlist[i].discount;
-                setDiscountPrice(discount);
                 setNumOfProduct(cartlist.length);
-                setAmount(price);
-                setTotalAmount(price - discount);
-         
             }
  
             let data = { amount: price, discount: discount, couponDiscount: 0, totalAmount: price - discount };
@@ -76,23 +68,7 @@ const Cart = () => {
                                     <Card.Body>
                                         <p className='HomeblockCartBodyH1'>Price Details</p>
                                         <hr></hr>
-                                        <Row>
-                                            <Col sm={6} md={6}>
-                                                <p className='ProductH '>Price ({numofproduct} item)</p>
-                                            </Col>
-                                            <Col sm={6} md={6} >
-                                                <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{amount} </p>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col md={6}>
-                                                <p className='ProductH '>Discount</p>
-                                            </Col>
-                                            <Col md={6} >
-                                                <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {discountprice}</p>
-                                            </Col>
-                                        </Row>
-                                        <CartBlockR totalamount={totalamount} />
+                                        <CartBlockR numofproduct={numofproduct}/>
                                     </Card.Body>
                                 </Card>
                             </Col>
