@@ -122,7 +122,7 @@ const ProductDetails = (props) => {
 
     }, []);
 
-    console.log(formData);
+    console.log(state);
 
     return (
         <div className="Product">
@@ -157,7 +157,8 @@ const ProductDetails = (props) => {
                                                 </>
                                                 :
                                                 <>
-                                                    <Link className="btn LoginBtn text-white mb-2" type="button" to="#" onClick={e => addtoCart(formData)}><FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart</Link>
+                                                    <Button className='LoginBtn border-0 mb-2' onClick={e => addtoCart(formData)}><FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart</Button>
+                                                    {/* <Link className="btn LoginBtn text-white mb-2" type="button" to="#" onClick={e => addtoCart(formData)}><FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart</Link> */}
                                                 </>
 
                                         }
