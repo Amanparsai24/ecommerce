@@ -28,6 +28,10 @@ export const productListAction = (data) => {
     return postRequest('productList', data).then(res => { return res.data });
 }
 
+export const productListByIdAction = (data) => {
+    return postRequest('getByIdProductList', data).then(res => { return res.data });
+}
+
 export const categoryListAction = (data) => {
     return postRequest('categoryList', data).then(res => { return res.data });
 }
