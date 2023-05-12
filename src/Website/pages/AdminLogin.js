@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { adminLoginAction } from "../../action/Admin.action";
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../slices/home';
 import { useNavigate } from 'react-router-dom';
@@ -34,30 +33,30 @@ function AdminLogin() {
             setValidated(true);
 
             // Here we call api
-            let resp = await adminLoginAction(formData);
-            if (resp.code === 200) {
-                sessionStorage.clear();
-                localStorage.setItem('adminData', JSON.stringify(resp.data));
-                localStorage.setItem('userType', "admin");
-                localStorage.setItem('loginType', 'admin');
-                localStorage.setItem('authorization', resp.token);
-                dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
+            // let resp = await adminLoginAction(formData);
+            // if (resp.code === 200) {
+            //     sessionStorage.clear();
+            //     localStorage.setItem('adminData', JSON.stringify(resp.data));
+            //     localStorage.setItem('userType', "admin");
+            //     localStorage.setItem('loginType', 'admin');
+            //     localStorage.setItem('authorization', resp.token);
+            //     dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
 
-                setTimeout(() => {
-                    navigate('/dashboard');
-                }, 3000);
+            //     setTimeout(() => {
+            //         navigate('/dashboard');
+            //     }, 3000);
 
-            } else {
-                var data = "";
-                setDisabled(false);
-                if (resp.error.email) {
-                    data = resp.error.email;
-                }else{
-                    data = resp.error.password;
-                }
-                dispatch(setAlert({ open: true, severity: "danger", msg: data, type: '' }));
-            }
-            return false;
+            // } else {
+            //     var data = "";
+            //     setDisabled(false);
+            //     if (resp.error.email) {
+            //         data = resp.error.email;
+            //     }else{
+            //         data = resp.error.password;
+            //     }
+            //     dispatch(setAlert({ open: true, severity: "danger", msg: data, type: '' }));
+            // }
+            // return false;
         }
 
     };

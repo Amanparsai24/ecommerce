@@ -7,17 +7,17 @@ function Delivery() {
     return (
         <div className="Delivery">
             <Row>
-                <Col sm={12} md={4} lg={2}>
+                <Col sm={4} md={4} lg={2}>
                     <p className="btn btn-outline-dark border-1 text-dark" style={{ marginLeft: '2rem' }}><FontAwesomeIcon icon={faTruck} /></p>
-                    <p className='text-center'>Free Delivery</p>
+                    <p className='text-center smRes'>Free Delivery</p>
                 </Col>
-                <Col sm={12} md={4} lg={2}>
+                <Col sm={4} md={4} lg={2}>
                     <p className="btn btn-outline-dark border-1 text-dark" style={{ marginLeft: '2rem' }}><FontAwesomeIcon icon={faTruck} /></p>
-                    <p className='text-center'>Free Delivery</p>
+                    <p className='text-center smRes'>Free Delivery</p>
                 </Col>
-                <Col sm={12} md={4} lg={2}>
+                <Col sm={4} md={4} lg={2}>
                     <p className="btn btn-outline-dark border-1 text-dark" style={{ marginLeft: '2rem' }}><FontAwesomeIcon icon={faTruck} /></p>
-                    <p className='text-center'>Free Delivery</p>
+                    <p className='text-center smRes'>Free Delivery</p>
                 </Col>
             </Row>
         </div>

@@ -56,18 +56,26 @@ const PaymentPage = () => {
                 let userAddressID = JSON.parse(localStorage.getItem('userAddressID'));
                 const purchaseData = JSON.parse(localStorage.getItem('purchaseData'))
                 let couponDiscount = purchaseData.couponDiscount;
-                let cartlist;
+                let data;
                 if (localStorage.getItem('buyNow')){
-                    cartlist = JSON.parse(localStorage.getItem('purchaseData'));
+                    let buyNowdata = JSON.parse(localStorage.getItem('buyNowdata'));
+                    let productdata = [];
+                    for (let i in buyNowdata) {
+                        let row = buyNowdata[i];
+                        productdata.push({ productId: row._id, quantity: row.productqyt, sizeId: row.sizeId, colorId: row.colorId });
+                    }
+                    data = { addressId: userAddressID, paymentId: paymentID, couponDiscount: couponDiscount, productData: productdata };
                 }else{
-                    cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                    let cartlist = JSON.parse(localStorage.getItem('cartlist'));
+                    let productdata = [];
+                    for (let i in cartlist) {
+                        let row = cartlist[i];
+                        productdata.push({ productId: row._id, quantity: row.productqyt, sizeId: row.sizeId, colorId: row.colorId });
+                    }
+                    data = { addressId: userAddressID, paymentId: paymentID, couponDiscount: couponDiscount, productData: productdata };
                 }
-                var productdata = [];
-                for (let i in cartlist) {
-                    let row = cartlist[i];
-                    productdata.push({ productId: row._id, quantity: row.productqyt, sizeId: row.sizeId, colorId: row.colorId  });
-                }
-                let data = { addressId: userAddressID, paymentId: paymentID, couponDiscount: couponDiscount, productData: productdata  };
+            
+        
                 let resp = await orderPlacedListAction(data);
                 if (resp.code === 200) {
                     dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));

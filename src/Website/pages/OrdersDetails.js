@@ -1,7 +1,8 @@
 import React, { useState , useRef } from 'react';
-import { Row, Col, Container, Card, Button, Modal } from 'react-bootstrap';
+import { Row, Col,Card, Button, Modal } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
+
 import { imgPath } from "../../common/Function";
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
@@ -25,6 +26,17 @@ const OrdersDetails = () => {
         documentTitle:"pdf",
         // onAfterPrint:()=>alert("Data saved in Pdf"),
     })
+
+    const navigate = useNavigate();
+
+    const ViewProduct = (item) => {
+        console.log(item)
+        // localStorage.setItem("productDetails", JSON.stringify(item));
+        setTimeout(() => {
+            navigate('/productdetails?a=' + item._id, { state: item });
+        }, 1);
+    }
+
 
     return (
         <>
@@ -130,7 +142,10 @@ const OrdersDetails = () => {
                                                 <Row className='mt-3'>
                                                     <Col md={4} lg={5}>
                                                         <div className="d-grid col-12 mx-auto">
-                                                            <Link className="btn wishListBtn text-white" to="#" type="submit">Buy it again</Link>
+                                                            <Button className='wishListBtn text-white' onClick={e => ViewProduct(formData)}>
+                                                                Buy it again
+                                                            </Button>
+                                                            {/* <Link className="btn wishListBtn text-white" onClick={e => ViewProduct(formData)} >Buy it again</Link> */}
                                                         </div>
                                                     </Col>
                                                 </Row>

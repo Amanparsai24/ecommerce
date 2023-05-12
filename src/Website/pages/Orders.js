@@ -23,6 +23,15 @@ const Orders = () => {
     const [isDisabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({ page: 0, limit: 5, Year: 2023, sortName: "createdAt", soryBy: "DESC" });
 
+    const ViewProduct = (item) => {
+        // console.log(item.productId._id)
+        localStorage.setItem("productDetails", JSON.stringify(item.productId));
+        setTimeout(() => {
+            navigate('/productdetails?a=' + item.productId._id, { state: item.productId });
+        }, 1);
+    }
+
+
     const getOrdersList = async (action = '') => {
 
         let filterData = { ...formData };
@@ -72,12 +81,6 @@ const Orders = () => {
         setFormData(data);
     }
 
-    // const ViewProduct = (item) => {
-    //     localStorage.setItem("orderdetails", JSON.stringify(item));
-    //     setTimeout(() => {
-    //         navigate('/orderdetails');
-    //     }, 1);
-    // }
 
     useEffect(() => {
 
@@ -178,7 +181,10 @@ const Orders = () => {
                                                                 <Row className='mt-3'>
                                                                     <Col md={4} lg={5}>
                                                                         <div className="d-grid col-12 mx-auto">
-                                                                            <Link className="btn wishListBtn text-white" to="#" type="submit">Buy it again</Link>
+                                                                            {/* <Link className="btn wishListBtn text-white" to="#" type="submit">Buy it again</Link> */}
+                                                                        <Button className='wishListBtn text-white border-0' onClick={e => ViewProduct(item)}>
+                                                                                Buy it again
+                                                                            </Button>
                                                                         </div>
                                                                     </Col>
                                                                     {/* <Col md={4} lg={5}>

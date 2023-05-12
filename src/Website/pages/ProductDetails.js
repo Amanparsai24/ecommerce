@@ -2,10 +2,10 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { setAlert } from '../../slices/home';
-import { Row, Col, Container, Card, Modal, OverlayTrigger, Tooltip , Button } from 'react-bootstrap';
+import { Row, Col, Container, Card, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareNodes, faShoppingCart, faBolt, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
-import { productListByIdAction } from "../../action/Front.action";
+import { productListByIdAction, updateQuantityAction } from "../../action/Front.action";
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { imgPath } from "../../common/Function";
 import { QuantityPicker } from 'react-qty-picker';
@@ -27,42 +27,38 @@ import LoginModel from "../component/LoginModel";
 const ProductDetails = (props) => {
 
     const dispatch = useDispatch();
- 
-    const [formData, setFormData] = useState( JSON.parse(localStorage.getItem('productDetails')) );
-    // const [productId, setproductID] = useState({});
-    // const [productqyt, setProductQYT] = useState(1);
-    const [productinfo, setProductInfo] = useState({
-        cartproductId:0,
-        productqyt:1 ,
-        colorId: formData?formData.colors[0].colorId._id:"",
-        colorName: formData?formData.colors[0].colorId.name:"",
-        sizeList: [],
-        sizeId: formData?formData.colors[0].sizes[0].sizeId._id:"",
-        sizeName: formData?formData.colors[0].sizes[0].sizeId.name:"",
-    });
+
+    const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('productDetails')));
+    const [productId, setproductId] = useState(0);
+    const [productqytinfo, setProductQYTInfo] = useState({ productqyt: 1, salePrice: 0, MRP: 0, discount:0 });
+    const [colorinfo, setColorInfo] = useState({ colorId: formData.colors[0].colorId._id, colorName: "" });
+    const [sizeinfo, setSizeInfo] = useState({ sizeId:formData.colors[0].sizes[0].sizeId._id, sizeName: "" });
+    const [sizeList, setSizeList] = useState([]);
+    const [image, setImage] = useState(formData.colors[0].images);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => {
         setShow(false);
     }
-    // const productDetails = JSON.parse(localStorage.getItem('productDetails'));
 
     const getproductbyidList = async () => {
         let parsed = queryString.parse(window.location.search);
         let urlId = parsed.a;
-        if (urlId){
+        if (urlId) {
             dispatch(setAlert({ open: true, severity: "success", msg: "Loading...", type: 'loader' }));
             const resp = await productListByIdAction({ productId: urlId });
+            // console.log(resp);
             dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
             if (resp.code === 200) {
                 setFormData(resp.data);
                 localStorage.setItem("productDetails", JSON.stringify(resp.data));
             }
-        }else{
+        } else {
             window.location.href = "/product";
         }
     }
 
+    // console.log(formData.colors)
     const addtoCart = (data) => {
         var cartData;
         //   we chech here if there is data on cartlist or not
@@ -72,43 +68,121 @@ const ProductDetails = (props) => {
             //   if there is  data on cartlist we set in carddata
             cartData = JSON.parse(localStorage.getItem('cartlist'));
         }
-        cartData.push(data);
-        localStorage.setItem('cartlist', JSON.stringify(cartData));
-        dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
-        var newdata = JSON.parse(localStorage.getItem('cartlist'));
-        for (let i in newdata) {
-            if (newdata[i]._id === formData._id) {
-                let id = newdata[i]._id;
-                setProductInfo({ cartproductId:id});
+        // console.log(colorinfo.colorId, sizeinfo.sizeId)
+        if (colorinfo.colorId && sizeinfo.sizeId) {
+            data['colorId'] = colorinfo.colorId;
+            data['colorName'] = colorinfo.colorName;
+            data['sizeId'] = sizeinfo.sizeId;
+            data['sizeName'] = sizeinfo.sizeName;
+            data['productqyt'] = productqytinfo.productqyt;
+            data['salePrice'] = productqytinfo.salePrice;
+            data['MRP'] = productqytinfo.MRP;
+            data['discount'] = productqytinfo.discount;
+            cartData.push(data);
+            localStorage.setItem('cartlist', JSON.stringify(cartData));
+            dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
+            var newdata = JSON.parse(localStorage.getItem('cartlist'));
+            for (let i in newdata) {
+                if (newdata[i]._id === formData._id) {
+                    let id = newdata[i]._id;
+                    setproductId(id);
+                }
+            }
+        } else {
+            if (colorinfo.colorId != 0) {
+                dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Size", type: '' }));
+
+            } else if (sizeinfo.sizeId != 0) {
+                dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select color", type: '' }));
+
+            } else {
+                dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Color and Size", type: '' }));
             }
         }
     }
 
     const buyNow = (data) => {
+        var cartData = [];
+        if (localStorage.loginType === 'user' && localStorage.userType) {
+            if (colorinfo.colorId && sizeinfo.sizeId) {
+                data['colorId'] = colorinfo.colorId;
+                data['colorName'] = colorinfo.colorName;
+                data['sizeId'] = sizeinfo.sizeId;
+                data['sizeName'] = sizeinfo.sizeName;
+                data['productqyt'] = 1;
+                if (productqytinfo.productqyt > 1){
+                    data['productqyt'] = productqytinfo.productqyt;
+                    data['salePrice'] = productqytinfo.salePrice;
+                    data['MRP'] = productqytinfo.MRP;
+                    data['discount'] = productqytinfo.discount;
+                }
+                cartData.push(data);
+                localStorage.setItem('buyNowdata', JSON.stringify(cartData));
+                localStorage.setItem('buyNow', JSON.stringify("buyNow"));
+                var price = 0;
+                var discount = 0;
+                var sizeId;
+                var colorId;
+                price = data.MRP;
+                discount = data.discount;
+                sizeId = data.sizeId;
+                colorId = data.colorId;
+                let pricedetails = { amount: price, discount: discount, couponDiscount: 0, totalAmount: price - discount, sizeId: sizeId, colorId: colorId };
 
+                localStorage.setItem("purchaseData", JSON.stringify(pricedetails));
+                window.location.href = "/address";
+            } else {
+                if (colorinfo.colorId != 0) {
+                    dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Size", type: '' }));
+
+                } else if (sizeinfo.sizeId != 0) {
+                    dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select color", type: '' }));
+
+                } else {
+                    dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Color and Size", type: '' }));
+                }
+            }
+    
+        } else {
+            handleShow();
+        }
     }
 
     const handlecolorClick = (k) => {
-        setProductInfo({ colorId: k._id, colorName: k.name });
+        setColorInfo({ colorId: k._id, colorName: k.name });
+        colorlist();
     }
 
     const handlesizeClick = (k) => {
-        setProductInfo({ sizeId: k._id, sizeName: k.name });
+        setSizeInfo({ sizeId: k._id, sizeName: k.name });
     }
 
+    const colorlist = () => {
+        let allcolor = formData?formData.colors:"";
+        for (let i in allcolor) {
+            if (allcolor[i].colorId._id === colorinfo.colorId) {
+
+                let sizeid = allcolor[i].sizes;
+                let image = allcolor[i].images;
+                setSizeList(sizeid);
+                setImage(image);
+            }
+        }
+    }
+
+    const getPickerValue = async (value) => {
+        let resp = await updateQuantityAction(value);
+        if (resp.code === 200) {
+            setProductQYTInfo({ productqyt: resp.data.quantity, salePrice: resp.data.salePrice, MRP: resp.data.MRP, discount: resp.data.discount });
+        } else {
+            dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
+        }
+    }
 
     useEffect(() => {
         getproductbyidList();
-        let allcolor = formData.colors;
-        for (let i in allcolor) {
-            if (allcolor[i].colorId._id === productinfo.colorId) {
-                let sizeid = allcolor[i].sizes;
-                setProductInfo({ sizeList: sizeid });
-            }
-        }
+        colorlist();
     }, []);
-
-    console.log(productinfo.sizeId)
 
     return (
         <div className="Product">
@@ -119,23 +193,23 @@ const ProductDetails = (props) => {
                         <Card className='ProductDetailsImgCard mb-2'>
                             <Row>
                                 <Col sm={12} md={2}>
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImgsm mt-4 mb-2" alt="..." />
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mt-4 mb-2" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
                                 </Col>
                                 <Col sm={12} md={10}>
-                                    <img src={imgPath(formData ? formData.image : "")} className="card-img-top ProductDetailsImg" alt="..." />
+                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImg" alt="..." />
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>
                             </Row>
                             <Row className='mt-3'>
-                                <Col sm={12} md={4} lg={6}>
+                                <Col sm={12} md={12} lg={6}>
                                     <div className="d-grid  mx-auto">
-                                        {
-                                            productinfo.cartproductId === formData._id ?
+                                       {
+                                            productId === formData?formData._id:"" ?
                                                 <>
                                                     <Link className="btn LoginBtn text-white mb-2" type="button" to="/cart" >
                                                         View Cart
@@ -147,10 +221,10 @@ const ProductDetails = (props) => {
                                                         <FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart
                                                     </Button>
                                                 </>
-                                        }
+                                        } 
                                     </div>
                                 </Col>
-                                <Col md={4} lg={6}>
+                                <Col sm={12} md={12} lg={6}>
                                     <div className="d-grid  mx-auto">
                                         <Button className='LoginBtn border-0' onClick={e => buyNow(formData)}>
                                             <FontAwesomeIcon icon={faBolt} />{' '}Buy Now
@@ -175,17 +249,16 @@ const ProductDetails = (props) => {
                                             <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>
                                             {formData ? formData.salePrice : ""}&nbsp;
                                             <del className='ProductPrice'>{formData ? formData.MRP : ""} </del>
-                                            <span className='text-warning'> &nbsp; {formData.offers}% off</span>
+                                            <span className='text-warning'> &nbsp; {formData ?formData.offers:""}% off</span>
                                         </p>
                                         <div className='Textsm'>{formData ? formData.description : ""} </div>
                                         <hr></hr>
                                         <Row>
-                                            <Col md={6} lg={4}>
+                                            <Col xs={4} md={6} lg={4}>
                                                 <div className="mb-3">
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Size :</label>
                                                     <div className='d-grid gap-2 d-md-flex justify-content-md-start'>
-                                                        {productinfo.sizeList && productinfo.sizeList.length > 0 && productinfo.sizeList.map((item, ind) => {
-                                                            console.log(item);
+                                                        {sizeList && sizeList.length > 0 && sizeList.map((item, ind) => {
                                                             return <Fragment key={ind}>
                                                                 <OverlayTrigger
                                                                     key="bottom"
@@ -196,7 +269,7 @@ const ProductDetails = (props) => {
                                                                         </Tooltip>
                                                                     }
                                                                 >
-                                                                    <Button className={productinfo.sizeId === item.sizeId._id ? "btn btn-success text-white" : "btn btn-primary text-white"} type="button" onClick={(k) => handlesizeClick(item.sizeId)} >{item.sizeId.name}</Button>
+                                                                    <Button className={sizeinfo.sizeId === item.sizeId._id ? "btn btn-success text-white" : "btn btn-primary text-white"} type="button" onClick={(k) => handlesizeClick(item.sizeId)} >{item.sizeId.name}</Button>
                                                                 </OverlayTrigger>
 
                                                             </Fragment>
@@ -207,13 +280,13 @@ const ProductDetails = (props) => {
                                                 </div>
                                                 {/* <Size /> */}
                                             </Col>
-                                            <Col md={6} lg={6}>
+                                            <Col xs={4} md={6} lg={6}>
                                                 <div className="mb-3">
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Color :</label>
                                                     <div className='d-grid gap-2 d-md-flex justify-content-md-start'>
-                                                        {formData.colors && formData.colors.length > 0 && formData.colors.map((item, ind) => {
+                                                        {formData &&formData.colors && formData.colors.length > 0 && formData.colors.map((item, ind) => {
                                                             return <Fragment key={ind}>
-                                                                <button className={productinfo.colorId === item.colorId._id ? "btn colorbtn border-dark" : "btn colorbtn border-warning"} style={{ backgroundColor: `#${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
+                                                                <button className={colorinfo.colorId === item.colorId._id ? "btn colorbtn border-dark rounded-circle" : "btn colorbtn border-warning"} style={{ backgroundColor: `#${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
                                                             </Fragment>
                                                         })
                                                         }
@@ -226,7 +299,7 @@ const ProductDetails = (props) => {
                                                 <div className="mb-3">
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Quantity :</label>
                                                     <div className='quantityUpdate'>
-                                                        <QuantityPicker min={1} value={productinfo.productqyt} />
+                                                        <QuantityPicker min={1} value={productqytinfo.productqyt} onChange={e => getPickerValue({ quantity: e, productId: formData._id })} />
                                                     </div>
                                                 </div>
                                             </Col>
@@ -237,7 +310,7 @@ const ProductDetails = (props) => {
                                         <hr></hr>
                                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                                             <Row>
-                                                <Col sm={8}>
+                                                <Col sm={12} lg={12}>
                                                     <Nav variant="pills" >
                                                         <Nav.Item>
                                                             <Nav.Link className='mb-2' eventKey="first">Product Description</Nav.Link>
@@ -247,10 +320,10 @@ const ProductDetails = (props) => {
                                                         </Nav.Item>
                                                     </Nav>
                                                 </Col>
-                                                <Col sm={8} className="mt-3">
+                                                <Col sm={12} lg={12} className="mt-3">
                                                     <Tab.Content>
                                                         <Tab.Pane eventKey="first">
-                                                            <ProductDescription properties={formData.properties} />
+                                                            <ProductDescription properties={formData ? formData.properties:""} />
                                                         </Tab.Pane>
                                                         <Tab.Pane eventKey="second">
                                                             <CustomerReviews />

@@ -167,24 +167,25 @@ const InvoicePage = ({ item }) => {
                           <tr className='border-bottom'>
                                 <th></th>
                                 <th className='Invoicef16'>Shipping Charges</th>
-                                <td className='Invoicef16'>1414</td>
-                                <td className='Invoicef16'>Mark</td>
-                                <td className='Invoicef16'>Otto</td>
-                                <td className='Invoicef16'>@mdo</td>
-                                <th className='Invoicef16'>1</th>
-                                <td className='Invoicef16'>Mark</td>
-                                <td className='Invoicef16'>Mark</td>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+                                <th className='Invoicef16'>0</th>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th className='Invoicef16'>Total</th>
                                 <td className='Invoicef16'>1414</td>
-                                <td className='Invoicef16'>Mark</td>
-                                <td className='Invoicef16'>Otto</td>
-                                <td className='Invoicef16'>@mdo</td>
-                                <th className='Invoicef16'>1</th>
-                                <td className='Invoicef16'>Mark</td>
-                                <td className='Invoicef16'></td>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+                                <th className='Invoicef16'>0</th>
+                                <td className='Invoicef16'>0</td>
+                                <td className='Invoicef16'>0</td>
+
                             </tr> 
                         </tbody>
                     </table>

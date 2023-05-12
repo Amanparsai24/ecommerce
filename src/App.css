@@ -131,7 +131,7 @@ body {
 
 .logo {
     position: relative;
-    left: 38.8rem;
+    left: 9.8rem;
 }
 
 .navFS {
@@ -421,13 +421,13 @@ img.hover-zoom:hover {
 
 .ProductDetailsheartPos {
     position: absolute;
-    bottom: 35rem;
+    bottom: 23rem;
     margin-left: -4rem;
 }
 
 .ProductDetailsSharePos {
     position: absolute;
-    bottom: 32rem;
+    bottom: 20rem;
     margin-left: -4rem;
 }
 
@@ -613,7 +613,7 @@ img.hover-zoom:hover {
 } 
 
 .nav-link_Res {
-    margin: 0rem 6rem;
+    margin: 0rem 0rem;
 }
 
 .navbar-nav_res .nav-link.active {

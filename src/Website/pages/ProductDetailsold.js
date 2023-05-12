@@ -87,10 +87,10 @@ const ProductDetailsold = (props) => {
         cartData.push(data);
         localStorage.setItem('buyNowdata', JSON.stringify(cartData));
         localStorage.setItem('buyNow', JSON.stringify("buyNow"));
-        var price = 0;
-        var discount = 0;
-        var sizeId;
-        var colorId;
+        let price = 0;
+        let discount = 0;
+        let sizeId;
+        let colorId;
         price = data.MRP;
         discount = data.discount;
         sizeId = data.sizeId;

@@ -97,13 +97,13 @@ const Product = (props) => {
                             <Card.Body>
                                 <p className='ProductName'>Filter</p>
                                 <Row className='filterb'>
-                                    <Col xs={7} lg={7}>
+                                    <Col xs={7} md={12} lg={7}>
                                         <Card.Body>
                                             <small className="text-muted">{Object.keys(formData).length} filter applied</small>
                                         </Card.Body>
                                     </Col>
-                                    <Col xs={5} lg={5}>
-                                        <Card.Body className="text-end">
+                                    <Col xs={5} md={12} lg={5}>
+                                        <Card.Body >
                                             <Link className="clearall" to="#" onClick={e => getList('clear')}>Clear All</Link>
                                         </Card.Body>
                                     </Col>
