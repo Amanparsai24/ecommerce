@@ -12,7 +12,8 @@ import { QuantityPicker } from 'react-qty-picker';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import AlertBox from "../../components/AlertBox";
@@ -28,19 +29,20 @@ const ProductDetails = (props) => {
 
     const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState(JSON.parse(localStorage.getItem('productDetails')));
+    const [formData, setFormData] = useState();
     const [productId, setproductId] = useState(0);
-    const [productqytinfo, setProductQYTInfo] = useState({ productqyt: 1, salePrice: 0, MRP: 0, discount:0 });
-    const [colorinfo, setColorInfo] = useState({ colorId: formData.colors[0].colorId._id, colorName: "" });
-    const [sizeinfo, setSizeInfo] = useState({ sizeId:formData.colors[0].sizes[0].sizeId._id, sizeName: "" });
+    const [actionTriggered, setActionTriggered] = useState('');
+    const [productqytinfo, setProductQYTInfo] = useState({ productqyt: 1, salePrice: 0, MRP: 0, discount: 0 });
+    const [colorinfo, setColorInfo] = useState({ colorId: 0, colorName: "" });
+    const [sizeinfo, setSizeInfo] = useState({ sizeId: 0, sizeName: "" });
     const [sizeList, setSizeList] = useState([]);
-    const [image, setImage] = useState(formData.colors[0].images);
+    const [image, setImage] = useState([]);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => {
         setShow(false);
     }
-
+    let parsed = queryString.parse(window.location.search);
     const getproductbyidList = async () => {
         let parsed = queryString.parse(window.location.search);
         let urlId = parsed.a;
@@ -51,6 +53,7 @@ const ProductDetails = (props) => {
             dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
             if (resp.code === 200) {
                 setFormData(resp.data);
+                setColorInfo({ colorId: resp.data.colors[0].colorId._id })
                 localStorage.setItem("productDetails", JSON.stringify(resp.data));
             }
         } else {
@@ -110,7 +113,7 @@ const ProductDetails = (props) => {
                 data['sizeId'] = sizeinfo.sizeId;
                 data['sizeName'] = sizeinfo.sizeName;
                 data['productqyt'] = 1;
-                if (productqytinfo.productqyt > 1){
+                if (productqytinfo.productqyt > 1) {
                     data['productqyt'] = productqytinfo.productqyt;
                     data['salePrice'] = productqytinfo.salePrice;
                     data['MRP'] = productqytinfo.MRP;
@@ -142,32 +145,20 @@ const ProductDetails = (props) => {
                     dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Color and Size", type: '' }));
                 }
             }
-    
+
         } else {
             handleShow();
         }
     }
 
     const handlecolorClick = (k) => {
+        console.log(k)
         setColorInfo({ colorId: k._id, colorName: k.name });
-        colorlist();
+
     }
 
     const handlesizeClick = (k) => {
         setSizeInfo({ sizeId: k._id, sizeName: k.name });
-    }
-
-    const colorlist = () => {
-        let allcolor = formData?formData.colors:"";
-        for (let i in allcolor) {
-            if (allcolor[i].colorId._id === colorinfo.colorId) {
-
-                let sizeid = allcolor[i].sizes;
-                let image = allcolor[i].images;
-                setSizeList(sizeid);
-                setImage(image);
-            }
-        }
     }
 
     const getPickerValue = async (value) => {
@@ -181,8 +172,25 @@ const ProductDetails = (props) => {
 
     useEffect(() => {
         getproductbyidList();
-        colorlist();
     }, []);
+
+    useEffect(() => {
+        let allcolor = formData ? formData.colors : "";
+        let multiImg = [];
+        for (let i in allcolor) {
+            if (allcolor[i].colorId._id === colorinfo.colorId) {
+
+                let sizeid = allcolor[i].sizes;
+                let image = allcolor[i].images[0];
+                multiImg.push({ img: allcolor[i].images });
+                setSizeList(sizeid);
+
+
+            }
+        }
+        setImage(multiImg);
+    }, [colorinfo.colorId]);
+
 
     return (
         <div className="Product">
@@ -193,14 +201,15 @@ const ProductDetails = (props) => {
                         <Card className='ProductDetailsImgCard mb-2'>
                             <Row>
                                 <Col sm={12} md={2}>
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mt-4 mb-2" alt="..." />
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                    {image && image[0] && image[0].img.map((item, ind) => {
+                                        return <Fragment key={ind}>
+                                            <img src={imgPath(item)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                        </Fragment>
+                                    })
+                                    }
                                 </Col>
                                 <Col sm={12} md={10}>
-                                    <img src={imgPath(image)} className="card-img-top ProductDetailsImg" alt="..." />
+                                    <img src={imgPath(image && image[0] && image[0].img[0])} className="card-img-top ProductDetailsImg " onClick={() => { handleShow(); setActionTriggered('ACTION_1') }} alt="..." />
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>
@@ -208,8 +217,8 @@ const ProductDetails = (props) => {
                             <Row className='mt-3'>
                                 <Col sm={12} md={12} lg={6}>
                                     <div className="d-grid  mx-auto">
-                                       {
-                                            productId === formData?formData._id:"" ?
+                                        {
+                                            productId === formData ? formData._id : "" ?
                                                 <>
                                                     <Link className="btn LoginBtn text-white mb-2" type="button" to="/cart" >
                                                         View Cart
@@ -221,7 +230,7 @@ const ProductDetails = (props) => {
                                                         <FontAwesomeIcon icon={faShoppingCart} />{' '}Add to cart
                                                     </Button>
                                                 </>
-                                        } 
+                                        }
                                     </div>
                                 </Col>
                                 <Col sm={12} md={12} lg={6}>
@@ -231,7 +240,30 @@ const ProductDetails = (props) => {
                                         </Button>
                                     </div>
                                     <Modal show={show} size="lg" onHide={handleClose}>
-                                        <LoginModel />
+                                        {actionTriggered === 'ACTION_1' ?
+                                            <>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title id="contained-modal-title-vcenter">
+                                                      {formData ? formData.name : ""}
+                                                    </Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                    <Carousel>
+                                                        {image && image[0] && image[0].img.map((item, ind) => {
+                                                            return <Fragment key={ind}>
+                                                                <div>
+                                                                    <img src={imgPath(item)} className="card-img-top ProductDetailsImg" alt="..." />
+                                                        
+                                                                </div>
+                                                            </Fragment>
+                                                        })
+                                                        }
+                                                    </Carousel>
+                                                </Modal.Body>
+                                            </>
+                                            :
+                                            <LoginModel />
+                                        }
                                     </Modal>
                                 </Col>
                             </Row>
@@ -249,7 +281,7 @@ const ProductDetails = (props) => {
                                             <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>
                                             {formData ? formData.salePrice : ""}&nbsp;
                                             <del className='ProductPrice'>{formData ? formData.MRP : ""} </del>
-                                            <span className='text-warning'> &nbsp; {formData ?formData.offers:""}% off</span>
+                                            <span className='text-warning'> &nbsp; {formData ? formData.offers : ""}% off</span>
                                         </p>
                                         <div className='Textsm'>{formData ? formData.description : ""} </div>
                                         <hr></hr>
@@ -284,9 +316,9 @@ const ProductDetails = (props) => {
                                                 <div className="mb-3">
                                                     <label htmlFor="exampleFormControlInput1" className="form-label">Color :</label>
                                                     <div className='d-grid gap-2 d-md-flex justify-content-md-start'>
-                                                        {formData &&formData.colors && formData.colors.length > 0 && formData.colors.map((item, ind) => {
+                                                        {formData && formData.colors && formData.colors.length > 0 && formData.colors.map((item, ind) => {
                                                             return <Fragment key={ind}>
-                                                                <button className={colorinfo.colorId === item.colorId._id ? "btn colorbtn border-dark rounded-circle" : "btn colorbtn border-warning"} style={{ backgroundColor: `#${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
+                                                                <button className={colorinfo.colorId === item.colorId._id ? "btn colorbtn border-dark rounded-circle" : "btn colorbtn border-warning"} style={{ backgroundColor: `${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
                                                             </Fragment>
                                                         })
                                                         }
@@ -323,7 +355,7 @@ const ProductDetails = (props) => {
                                                 <Col sm={12} lg={12} className="mt-3">
                                                     <Tab.Content>
                                                         <Tab.Pane eventKey="first">
-                                                            <ProductDescription properties={formData ? formData.properties:""} />
+                                                            <ProductDescription properties={formData ? formData.properties : ""} />
                                                         </Tab.Pane>
                                                         <Tab.Pane eventKey="second">
                                                             <CustomerReviews />

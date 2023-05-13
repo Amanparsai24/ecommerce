@@ -23,14 +23,14 @@ const CommonListingPage = (props) => {
                 // console.log(item);
                 return <Col sm={12} md={12} lg={3} key={ind}>
                     <Card className='ProductCard mb-2'>
-                        <img src={imgPath(item.image[0])} className="card-img-top ProductImg" onClick={e => ViewProduct(item)} alt="..." />
+                        <img src={imgPath(item.colors[0].images[0])} className="card-img-top ProductImg" onClick={e => ViewProduct(item)} alt="..." />
                         <div className='position-absolute'>
                             <span className="btn text-dark heartPos"><FontAwesomeIcon icon={faHeart} /></span>
                             <span className="btn text-dark heartPos"><FontAwesomeIcon icon={faShareNodes} /></span>
                         </div>
                         <Card.Body>
-                            <p className='ProductH'> {item.brand ? item.brand.name : ""}</p>
-                            <p className='ProductPrice ProductNameCss '>{item.name}</p>
+                            <p className='ProductH '> {item.brand ? item.brand.name : ""}</p>
+                            <p className='ProductPrice ProductNameCss  col-12 text-truncate'>{item.name}</p>
                             <p className='ProductH'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{item.salePrice} 
                             <del className='ProductPrice'>{item.MRP} </del> 
                             <span className='text-success'>{item.offers}% off</span></p>
