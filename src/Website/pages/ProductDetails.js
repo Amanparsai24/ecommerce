@@ -37,6 +37,7 @@ const ProductDetails = (props) => {
     const [sizeinfo, setSizeInfo] = useState({ sizeId: 0, sizeName: "" });
     const [sizeList, setSizeList] = useState([]);
     const [image, setImage] = useState([]);
+    const [mainimage, setMainmage] = useState(image && image[0] && image[0].img[0]);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => {
@@ -152,7 +153,6 @@ const ProductDetails = (props) => {
     }
 
     const handlecolorClick = (k) => {
-        console.log(k)
         setColorInfo({ colorId: k._id, colorName: k.name });
 
     }
@@ -170,6 +170,10 @@ const ProductDetails = (props) => {
         }
     }
 
+    const imgChange = (item) =>{
+        setMainmage(item);
+    }
+
     useEffect(() => {
         getproductbyidList();
     }, []);
@@ -181,7 +185,10 @@ const ProductDetails = (props) => {
             if (allcolor[i].colorId._id === colorinfo.colorId) {
 
                 let sizeid = allcolor[i].sizes;
+             
                 let image = allcolor[i].images[0];
+                setMainmage(image);
+      
                 multiImg.push({ img: allcolor[i].images });
                 setSizeList(sizeid);
 
@@ -200,16 +207,16 @@ const ProductDetails = (props) => {
                     <Col sm={12} md={5}>
                         <Card className='ProductDetailsImgCard mb-2'>
                             <Row>
-                                <Col sm={12} md={2}>
+                                <Col sm={2} md={2} className='res_multiimg'>
                                     {image && image[0] && image[0].img.map((item, ind) => {
                                         return <Fragment key={ind}>
-                                            <img src={imgPath(item)} className="card-img-top ProductDetailsImgsm mb-2" alt="..." />
+                                            <img src={imgPath(item)} className="card-img-top ProductDetailsImgsm mb-2" onMouseOver={e => imgChange(item)} alt="..." />
                                         </Fragment>
                                     })
                                     }
                                 </Col>
                                 <Col sm={12} md={10}>
-                                    <img src={imgPath(image && image[0] && image[0].img[0])} className="card-img-top ProductDetailsImg " onClick={() => { handleShow(); setActionTriggered('ACTION_1') }} alt="..." />
+                                    <img src={imgPath(mainimage ? mainimage :"")} className="card-img-top ProductDetailsImg " onClick={() => { handleShow(); setActionTriggered('ACTION_1') }} alt="..." />
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>

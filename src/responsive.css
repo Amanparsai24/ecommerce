@@ -86,6 +86,22 @@
         text-align: start;
     }
 
+    .res_multiimg{
+        display: flex;
+    }
+
+    .ProductDetailsImgsm {
+        height: 20vw !important;
+    }
+
+    .ProductDetailsheartPos {
+        bottom: 35rem;
+    }
+
+    .ProductDetailsSharePos {
+        bottom: 32rem;
+    }
+
 }
 
 
