@@ -317,7 +317,21 @@ body {
 }
 
 /* Product */
+/* .carousel .carousel-status {
+    top: 15.5rem !important;
+} */
 
+.commoncolorBtn{
+    height: 1.5rem;
+}
+
+/* .commoncolorBtnBor {
+    border: 1px solid #000000;
+    border-radius: 50px;
+    display: inline-block;
+    height: 1.9rem;
+    width: 1.7rem;
+} */
 
 .click:hover {
     transform: scale(2,0.78);

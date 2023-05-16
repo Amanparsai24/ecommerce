@@ -43,7 +43,7 @@ const ProductDetails = (props) => {
     const handleClose = () => {
         setShow(false);
     }
-    let parsed = queryString.parse(window.location.search);
+
     const getproductbyidList = async () => {
         let parsed = queryString.parse(window.location.search);
         let urlId = parsed.a;
