@@ -95,6 +95,11 @@ const Header = () => {
                                             :
 
                                             <>
+                                                <span className="btn text-white" title="Cart">
+                                                    <Link className='text-decoration-none text-white' to="/cart">
+                                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                                    </Link>
+                                                </span>
                                                 <span className="btn text-white"><Link className="text-decoration-none text-white" to="/login"><FontAwesomeIcon icon={faUser} /></Link></span>
                                             </>
                                     }

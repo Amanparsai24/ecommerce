@@ -134,7 +134,7 @@ const Orders = () => {
             </Row>
             {
                 orderlist.length > 0 && orderlist.map((item, ind) => {
-          
+                    let totalprice = item.grandTotalPrice;
                     let dates = item.products[0].shippingDateDetails;
                     return <Fragment key={ind}>
                         <Card className='ordersCardnew mb-4'>
@@ -168,7 +168,7 @@ const Orders = () => {
                                         return <Fragment key={ind}>
                                                 <Row className='mb-4'>
                                                     <Col md={2}>
-                                                        <img src={imgPath(item.productId.image[0])} className="card-img-top OrderProductImg" alt="..." />
+                                                    <img src={imgPath(item.image)} className="card-img-top OrderProductImg" alt="..." />
                                                     </Col>
                                                     <Col md={10}>
                                                         <Row>

@@ -143,11 +143,12 @@ const CartBlockL = ({  gettotalprice }) => {
     return (
         <>
             {cartlist.length > 0 && cartlist.map((item, ind) => {
+                // console.log(item);
                 return <Fragment key={ind}>
                     <Row>
                         <Col md={4}>
                             <Card className='border-0'>
-                                <img src={imgPath(item.image[0])} className="card-img-top ProductImg" alt="..." />
+                                <img src={imgPath(item.img ? item.img : item.colors[0].colors)} className="card-img-top ProductImg" alt="..." />
                             </Card>
                         </Col>
                         <Col md={8}>

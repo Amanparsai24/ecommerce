@@ -27,7 +27,7 @@ const ProductDetailsold = (props) => {
 
     // console.log(window.location.search); 
     const parsed = queryString.parse(window.location.search);
-    console.log(parsed.a);
+    // console.log(parsed.a);
     const { state } = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();

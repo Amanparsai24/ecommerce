@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { setAlert } from '../../slices/home';
-import { Row, Col, Container, Card, Modal, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { Row, Col, Container, Card, Modal, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareNodes, faShoppingCart, faBolt, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { productListByIdAction, updateQuantityAction } from "../../action/Front.action";
@@ -33,7 +33,7 @@ const ProductDetails = (props) => {
     const [productId, setproductId] = useState(0);
     const [actionTriggered, setActionTriggered] = useState('');
     const [productqytinfo, setProductQYTInfo] = useState({ productqyt: 1, salePrice: 0, MRP: 0, discount: 0 });
-    const [colorinfo, setColorInfo] = useState({ colorId: 0, colorName: "" });
+    const [colorinfo, setColorInfo] = useState({ colorId: 0, colorName: "", img: "" });
     const [sizeinfo, setSizeInfo] = useState({ sizeId: 0, sizeName: "" });
     const [sizeList, setSizeList] = useState([]);
     const [image, setImage] = useState([]);
@@ -44,6 +44,8 @@ const ProductDetails = (props) => {
         setShow(false);
     }
 
+    let parsed = queryString.parse(window.location.search);
+    let urlId = parsed.a
     const getproductbyidList = async () => {
         let parsed = queryString.parse(window.location.search);
         let urlId = parsed.a;
@@ -54,7 +56,7 @@ const ProductDetails = (props) => {
             dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
             if (resp.code === 200) {
                 setFormData(resp.data);
-                setColorInfo({ colorId: resp.data.colors[0].colorId._id })
+                setColorInfo({ colorId: resp.data.colors[0].colorId._id, colorName: resp.data.colors[0].colorId.name, img: resp.data.colors[0].images[0] })
                 localStorage.setItem("productDetails", JSON.stringify(resp.data));
             }
         } else {
@@ -76,12 +78,16 @@ const ProductDetails = (props) => {
         if (colorinfo.colorId && sizeinfo.sizeId) {
             data['colorId'] = colorinfo.colorId;
             data['colorName'] = colorinfo.colorName;
+            data['img'] = colorinfo.img;
             data['sizeId'] = sizeinfo.sizeId;
             data['sizeName'] = sizeinfo.sizeName;
-            data['productqyt'] = productqytinfo.productqyt;
-            data['salePrice'] = productqytinfo.salePrice;
-            data['MRP'] = productqytinfo.MRP;
-            data['discount'] = productqytinfo.discount;
+            data['productqyt'] = 1;
+            if (productqytinfo.productqyt > 1) {
+                data['productqyt'] = productqytinfo.productqyt;
+                data['salePrice'] = productqytinfo.salePrice;
+                data['MRP'] = productqytinfo.MRP;
+                data['discount'] = productqytinfo.discount;
+            }
             cartData.push(data);
             localStorage.setItem('cartlist', JSON.stringify(cartData));
             dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
@@ -153,9 +159,16 @@ const ProductDetails = (props) => {
     }
 
     const handlecolorClick = (k) => {
-        setColorInfo({ colorId: k._id, colorName: k.name });
-
+        let allcolor = formData ? formData.colors : "";
+        let image;
+        for (let i in allcolor) {
+            if (allcolor[i].colorId._id === k._id) {
+                image = allcolor[i].images[0];
+            }
+        }
+        setColorInfo({ colorId: k._id, colorName: k.name, img: image });
     }
+
 
     const handlesizeClick = (k) => {
         setSizeInfo({ sizeId: k._id, sizeName: k.name });
@@ -170,7 +183,7 @@ const ProductDetails = (props) => {
         }
     }
 
-    const imgChange = (item) =>{
+    const imgChange = (item) => {
         setMainmage(item);
     }
 
@@ -185,19 +198,16 @@ const ProductDetails = (props) => {
             if (allcolor[i].colorId._id === colorinfo.colorId) {
 
                 let sizeid = allcolor[i].sizes;
-             
+
                 let image = allcolor[i].images[0];
                 setMainmage(image);
-      
+
                 multiImg.push({ img: allcolor[i].images });
                 setSizeList(sizeid);
-
-
             }
         }
         setImage(multiImg);
     }, [colorinfo.colorId]);
-
 
     return (
         <div className="Product">
@@ -216,7 +226,8 @@ const ProductDetails = (props) => {
                                     }
                                 </Col>
                                 <Col sm={12} md={10}>
-                                    <img src={imgPath(mainimage ? mainimage :"")} className="card-img-top ProductDetailsImg " onClick={() => { handleShow(); setActionTriggered('ACTION_1') }} alt="..." />
+                                    
+                                    <img src={imgPath(mainimage ? mainimage : "")} className="card-img-top ProductDetailsImg " onClick={() => { handleShow(); setActionTriggered('ACTION_1') }} alt="..." />
                                     <span className="btn text-dark ProductDetailsheartPos"><FontAwesomeIcon icon={faHeart} /></span>
                                     <span className="btn text-dark ProductDetailsSharePos"><FontAwesomeIcon icon={faShareNodes} /></span>
                                 </Col>
@@ -225,7 +236,7 @@ const ProductDetails = (props) => {
                                 <Col sm={12} md={12} lg={6}>
                                     <div className="d-grid  mx-auto">
                                         {
-                                            productId === formData ? formData._id : "" ?
+                                            productId === urlId ?
                                                 <>
                                                     <Link className="btn LoginBtn text-white mb-2" type="button" to="/cart" >
                                                         View Cart
@@ -251,7 +262,7 @@ const ProductDetails = (props) => {
                                             <>
                                                 <Modal.Header closeButton>
                                                     <Modal.Title id="contained-modal-title-vcenter">
-                                                      {formData ? formData.name : ""}
+                                                        {formData ? formData.name : ""}
                                                     </Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
@@ -260,7 +271,7 @@ const ProductDetails = (props) => {
                                                             return <Fragment key={ind}>
                                                                 <div>
                                                                     <img src={imgPath(item)} className="card-img-top ProductDetailsImg" alt="..." />
-                                                        
+
                                                                 </div>
                                                             </Fragment>
                                                         })
@@ -303,9 +314,11 @@ const ProductDetails = (props) => {
                                                                     key="bottom"
                                                                     placement="bottom"
                                                                     overlay={
-                                                                        <Tooltip id={`tooltip-bottom`}>
-                                                                            Qantity Left Only <strong>{item.quantity}</strong>.
-                                                                        </Tooltip>
+                                                                        <Popover id="popover-basic">
+                                                                            <Popover.Body>
+                                                                                Qantity Left Only <strong>{item.quantity}</strong>.
+                                                                            </Popover.Body>
+                                                                        </Popover>
                                                                     }
                                                                 >
                                                                     <Button className={sizeinfo.sizeId === item.sizeId._id ? "btn btn-success text-white" : "btn btn-primary text-white"} type="button" onClick={(k) => handlesizeClick(item.sizeId)} >{item.sizeId.name}</Button>
@@ -325,7 +338,19 @@ const ProductDetails = (props) => {
                                                     <div className='d-grid gap-2 d-md-flex justify-content-md-start'>
                                                         {formData && formData.colors && formData.colors.length > 0 && formData.colors.map((item, ind) => {
                                                             return <Fragment key={ind}>
-                                                                <button className={colorinfo.colorId === item.colorId._id ? "btn colorbtn border-dark rounded-circle" : "btn colorbtn border-warning"} style={{ backgroundColor: `${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
+                                                                <OverlayTrigger
+                                                                    key="bottom"
+                                                                    placement="bottom"
+                                                                    overlay={
+                                                                        <Popover id="popover-basic">
+                                                                            <Popover.Body>
+                                                                                Color :<strong>{item.colorId.name}</strong>.
+                                                                            </Popover.Body>
+                                                                        </Popover>
+                                                                    }
+                                                                >
+                                                                    <button className={colorinfo.colorId === item.colorId._id ? "btn colorbtn border-dark rounded-circle" : "btn colorbtn border-warning"} style={{ backgroundColor: `${item.colorId.code}` }} type="button" onClick={(k) => handlecolorClick(item.colorId)}></button>
+                                                                </OverlayTrigger>
                                                             </Fragment>
                                                         })
                                                         }

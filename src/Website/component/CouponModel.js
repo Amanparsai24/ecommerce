@@ -122,7 +122,7 @@ const CouponModel = ({ handleClose }) => {
                 <div className='couponblockScroll'>
                     {
                         discountList && discountList.length > 0 && discountList.map((item, ind) => {
-                            console.log(item);
+                            // console.log(item);
                             let checked = (formData.code && formData.code === item.code) ? true : false;
                             return <Fragment key={ind}>
                                 <Row className='mb-4'>

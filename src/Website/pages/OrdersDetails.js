@@ -30,7 +30,7 @@ const OrdersDetails = () => {
     const navigate = useNavigate();
 
     const ViewProduct = (item) => {
-        console.log(item)
+        // console.log(item)
         // localStorage.setItem("productDetails", JSON.stringify(item));
         setTimeout(() => {
             navigate('/productdetails?a=' + item._id, { state: item });
