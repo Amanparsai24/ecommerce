@@ -246,3 +246,25 @@ export const  getDecimal = (price, num=3) => {
     }    
 }
 
+export const Gender = [
+    {
+        name: "Male",
+        value:"male"
+    },
+    {
+        name: "Female",
+        value: "female"
+    }
+];
+
+export const checkMobileNumber = (evt) => {
+    // console.log(evt);
+    var phoneno = /^\d{10}$/;
+    if (evt.match(phoneno)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+} 
+

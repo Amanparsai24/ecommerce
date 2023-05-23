@@ -3,6 +3,14 @@ body {
 
 }
 
+.timer{
+    right: 25rem;
+    top: 153px;
+    position: absolute;
+}
+
+
+
 /* Alert box css */
 
 .loader-box {
@@ -618,6 +626,20 @@ img.hover-zoom:hover {
 }
 
 /* Profile-Page */
+
+.profileInp {
+    padding: 8px 10px !important;
+    background-color: #FAFAFA !important;
+    border-color: #FAFAFA !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+}
+
+.Profile-box-fig {
+    width: 180px;
+    height: 180px;
+
+}
 
 .Profile-Page {
     background-color: #fafafa !important;

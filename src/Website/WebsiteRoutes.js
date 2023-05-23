@@ -34,8 +34,8 @@ const WebsiteRoutes = () => {
             <Col>
                 <Routes>
                     <Route exact path="/" element={<Home />} />
-                    <Route exact path="/login" element={<Login />} />
-                    <Route exact path="/otp" element={<OtpVerify />} />
+                    {/* <Route exact path="/login" element={<Login />} />
+                    <Route exact path="/otp" element={<OtpVerify />} /> */}
                     <Route exact path="/profile" element={<ProfilePage />} />
                     <Route exact path="/myaddress" element={<MyAddress />} />
                     <Route exact path="/myorders" element={<MyOrders />} />

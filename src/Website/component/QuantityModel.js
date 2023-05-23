@@ -19,7 +19,7 @@ const QuantityModel = ({ item, getcartlist, gettotalprice }) => {
     const [formData, setFormData] = useState({});
 
     const getPickerValue = (value) => {
-        setFormData(value)
+        setFormData(value);
     }
 
     const selectQuantity = async () => {
@@ -38,6 +38,7 @@ const QuantityModel = ({ item, getcartlist, gettotalprice }) => {
                     getcartlist();
                     gettotalprice();
                 }
+                // window.location.reload(false);
             }
         } else {
             dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
@@ -47,9 +48,9 @@ const QuantityModel = ({ item, getcartlist, gettotalprice }) => {
 
     // useEffect(() => {
 
-    //     getcartlist();
+    //     gettotalprice();
 
-    // }, []);
+    // }, [formData]);
 
     return (
         <>

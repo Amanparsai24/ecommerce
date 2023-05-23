@@ -148,12 +148,10 @@ function WishList() {
                                                             <span className="btn text-dark" title='Delete' onClick={e => _deletelist(item._id)}><FontAwesomeIcon icon={faTrash} /></span>
                                                         </Col>
                                                     </Row>
-                                                
-                                                  
                                             </Fragment>
-                                        
                                     })
                                     }
+
                                     { list.length > 0 ?
 
                                         <Col md={12}>

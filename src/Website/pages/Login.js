@@ -37,11 +37,11 @@ function Login() {
             // Here we call api
             let resp = await loginAction(formData);
             if (resp.code === 200) {
-                sessionStorage.clear();
-                localStorage.setItem('userData', JSON.stringify(resp.data));
-                localStorage.setItem('userType', "user");
-                localStorage.setItem('loginType', 'user');
-                localStorage.setItem('authorization', resp.token);
+                // sessionStorage.clear();
+                // localStorage.setItem('userData', JSON.stringify(resp.data));
+                // localStorage.setItem('userType', "user");
+                // localStorage.setItem('loginType', 'user');
+                // localStorage.setItem('authorization', resp.token);
                 let data = { ...formData, email: resp.data.email };
                 dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
 

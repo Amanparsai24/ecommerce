@@ -7,13 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { setAlert } from '../../slices/home';
 import OtpInput from 'react-otp-input';
 import AlertBox from "../../components/AlertBox";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 const OtpVerify = () => {
 
-    const {state} = useLocation();
+    const { state } = useLocation();
+    // console.log(state.email)
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({ email: state.email });
     const [validated, setValidated] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
 
@@ -33,9 +35,13 @@ const OtpVerify = () => {
             let resp = await otpVerificationAction(formData);
 
             if (resp.code === 200) {
-
+                sessionStorage.clear();
+                localStorage.setItem('userData', JSON.stringify(resp.data));
+                localStorage.setItem('userType', "user");
+                localStorage.setItem('loginType', 'user');
+                localStorage.setItem('authorization', resp.token);
                 dispatch(setAlert({ open: true, severity: "success", msg: resp.msg, type: '' }));
-                window.location.href = "/";  
+                window.location.href = "/";
 
                 // setTimeout(() => {
                 //     navigate('/');
@@ -72,14 +78,26 @@ const OtpVerify = () => {
                 </Col>
                 <Col md={7} sm={12}>
                     <div className="text-center otp-inner">
-                        <div className='mb-4'>
+                        <div className='mb-4 mt-2'>
                             <h1 className='Heading'>Verification code</h1>
                         </div>
-                        <div className='mb-4'>
-                            <p className='Text'>Please enter your code sent to </p>
-                            {/* <p className='Text'>{state.email}</p> */}
+                        <div className='timer'>
+                            <CountdownCircleTimer
+                                isPlaying={true}
+                                duration={120}
+                                colors="#FF9F4B"
+                                size={100}
+                                onComplete={() => {
+                                    navigate('/login');
+                                }}
+                            >
+                                {({ remainingTime }) => remainingTime}
+                            </CountdownCircleTimer>
                         </div>
-                        <div>
+                        <div className='mb-5'>
+                            <p className='Text'>Please enter your code sent to </p>
+                        </div>
+                        <div >
                             <Form noValidate validated={validated} autoComplete="off" onSubmit={e => handleSubmit(e)}>
                                 <Form.Group controlId="formBasicEmail">
                                     <OtpInput value={formData.otp ? formData.otp : ""} onChange={e => handleChange('otp', e)} numInputs={6} className="optStyle" inputStyle={{
@@ -92,28 +110,12 @@ const OtpVerify = () => {
                                         }} />
                                     <Form.Control.Feedback type="invalid" className='text-start'>Please Enter Number</Form.Control.Feedback>
                                 </Form.Group>
-
-                                {/* <Form.Group controlId="formBasicEmail">
-                                    <OtpInput value={formData.otp ? formData.otp : ""} onChange={e => handleChange('otp', e)} numInputs={6}  containerStyle="containerStyle"  separator={<span style={{ width: "30px" }}></span>} inputStyle={{
-                                        border: "1px solid #FAFAFA",  borderRadius: "8px", width: "80px",  height: "80px", 
-                                        backgroundColor: "#FAFAFA", textAlign: "center", fontSize:"30px"
-                                    }} focusStyle={{
-                                        border: "1px solid #CFD3DB",
-                                        outline: "none"
-                                    }}  />
-                                    <Form.Control.Feedback type="invalid" className='text-start'>Please Enter Number</Form.Control.Feedback>
-                                </Form.Group> */}
-                                <div className='mb-5 mt-4'>
-                                    <p className='Textsm text-start'>Resent Code  </p>
-                                </div>
-                                <div className="d-grid col-12 mx-auto">
+                                <div className="d-grid col-12 mx-auto mt-5">
                                     <button className="btn LoginBtn" type="submit">Verify</button>
                                 </div>
-                                {/* <button type="submit" className="LoginBtn"> Request OTP </button> */}
                             </Form>
                         </div>
                     </div>
-
                 </Col>
             </Row>
         </Container>

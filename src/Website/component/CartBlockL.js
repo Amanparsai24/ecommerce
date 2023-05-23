@@ -76,7 +76,7 @@ const CartBlockL = ({  gettotalprice }) => {
                         getcartlist();
                     }
                 }
-                window.location.reload(false);
+                // window.location.reload(false);
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: resp.error.product, type: '' }));
             }

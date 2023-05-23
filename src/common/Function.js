@@ -84,6 +84,12 @@ export const checkFormError = (data) => {
 }
 
 
+export const timer = (evt) => {
+   let time = 120;
+   
+} 
+
+
 
 /*
 |--------------------------------------------------------------------------

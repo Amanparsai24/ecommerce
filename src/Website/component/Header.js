@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Badge } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { FaPowerOff } from 'react-icons/fa';
 // import { parentDefault } from '../../common/Constant';
@@ -19,6 +20,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [formData, setFormData] = useState({});
+    const [cartnum, setCartNum] = useState();
 
     const logout = async () => {
 
@@ -48,6 +50,9 @@ const Header = () => {
     useEffect(() => {
         getList();
         window.scrollTo(0, 0);
+
+        // const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+        // setCartNum(cartlist.length);
     }, []);
 
 
@@ -82,9 +87,13 @@ const Header = () => {
                                                         <FontAwesomeIcon icon={faHeart} />
                                                     </Link>
                                                 </span>
-                                                <span className="btn text-white" title="Cart">
+                                                <span className="btn text-white  position-relative" title="Cart">
                                                     <Link className='text-decoration-none text-white' to="/cart">
                                                         <FontAwesomeIcon icon={faShoppingCart} />
+                                                        <span className="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-warning">
+                                                            {cartnum}
+                                                            <span className="visually-hidden">unread messages</span>
+                                                        </span>
                                                     </Link>
                                                 </span>
                                                 <span onClick={e => logout()} className="btn text-white" title='Logout'>
