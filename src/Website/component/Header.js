@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Badge } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { FaPowerOff } from 'react-icons/fa';
-// import { parentDefault } from '../../common/Constant';
+import { scrollToTop } from '../../common/Function';
 import { Row } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,7 +20,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [formData, setFormData] = useState({});
-    const [cartnum, setCartNum] = useState();
+    const [cartnum, setCartNum] = useState(0);
 
     const logout = async () => {
 
@@ -50,9 +50,12 @@ const Header = () => {
     useEffect(() => {
         getList();
         window.scrollTo(0, 0);
-
-        // const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-        // setCartNum(cartlist.length);
+        // scrollToTop();
+        const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+        if (cartlist.length > 0){
+            setCartNum(cartlist.length);
+        }
+    
     }, []);
 
 

@@ -5,8 +5,9 @@ import AlertBox from "../../components/AlertBox";
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../slices/home';
 import { Gender, checkMobileNumber } from "../../common/Constant";
-
-
+import { profilePhotoAction, userListByIdAction } from "../../action/Front.action";
+import Radiobtn from './Radiobtn';
+import moment from 'moment';
 const ProfilePage = () => {
 
     const loginUser = JSON.parse(localStorage.getItem('userData'));
@@ -15,6 +16,7 @@ const ProfilePage = () => {
     const [isDisabled, setDisabled] = useState(false);
     const [validated, setValidated] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const [type, setType] = useState('text');
 
     const handleChange = (name, event) => {
 
@@ -36,6 +38,7 @@ const ProfilePage = () => {
 
     }
 
+
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -50,31 +53,54 @@ const ProfilePage = () => {
             event.stopPropagation();
             setDisabled(true);
             let msg = "You have Update Profile";
-            console.log(formData)
-            // let resp = await signupAction(formData);
-            // if (resp.code === 200) {
-            //     dispatch(setAlert({ open: true, severity: "success", msg: msg, type: '' }));
-            // } else {
 
-            //     var data = "";
-            //     setDisabled(false);
-            //     if (resp.error.fullName) {
-            //         data = resp.error.fullName;
-            //     } else if (resp.error.mobileNumber) {
-            //         data = resp.error.mobileNumber;
-            //     } else if (resp.error.gender) {
-            //         data = resp.error.gender;
-            //     } else {
-            //         data = resp.error.dob;
-            //     }
-            //     dispatch(setAlert({ open: true, severity: "danger", msg: data, type: '' }));
+            let resp = await profilePhotoAction(formData);
+            if (resp.code === 200) {
+                dispatch(setAlert({ open: true, severity: "success", msg: msg, type: '' }));
+                setTimeout(() => {
+                    getUserData();
+                }, 3000);
+            
+            } else {
 
-            // }
-            // return false;
+                var data = "";
+                setDisabled(false);
+                if (resp.error.fullName) {
+                    data = resp.error.fullName;
+                } else if (resp.error.mobileNumber) {
+                    data = resp.error.mobileNumber;
+                } else if (resp.error.gender) {
+                    data = resp.error.gender;
+                } else {
+                    data = resp.error.dob;
+                }
+                dispatch(setAlert({ open: true, severity: "danger", msg: data, type: '' }));
+
+            }
+            return false;
 
         }
     };
 
+
+    const getUserData = async () => {
+
+        dispatch(setAlert({ open: true, severity: "success", msg: "Loading...", type: 'loader' }));
+        const resp = await userListByIdAction();
+        dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
+        if (resp.code === 200) {
+            setFormData(resp.data[0]);
+        }
+    }
+
+
+    useEffect(() => {
+
+        getUserData();
+
+    }, []);
+
+    console.log(formData.mobileNumber)
     return (
         <div className="Profile-Page">
             <Container>
@@ -95,52 +121,57 @@ const ProfilePage = () => {
                                             <Card.Body className='p-4'>
                                                 <p className='HomeblockCartBodyH1 text-center'>Personal Information</p>
                                                 <Form noValidate validated={validated} onSubmit={e => handleSubmit(e)}>
-                                                    <Row>
-                                                        <Col lg={6}>
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                                <Form.Label className='Textsm'>Full Name</Form.Label>
-                                                                <Form.Control type="text" className='profileInp' placeholder="e.g. Full Name" value={formData.fullName ? formData.fullName : ""} onChange={e => handleChange('fullName', e)} minLength="2" maxLength="128" required autoComplete="off" />
-                                                            </Form.Group>
+                                                    <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                                                        <Form.Label column sm="2" className='profile16'>  Name </Form.Label>
+                                                        <Col sm="10">
+                                                            <Form.Control type="text" className='profileInp' placeholder="e.g. Full Name" value={formData.fullName ? formData.fullName : ""} onChange={e => handleChange('fullName', e)} minLength="2" maxLength="128" required autoComplete="off" />
                                                         </Col>
-                                                        <Col lg={6}>
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                                <Form.Label className='Textsm'>Number</Form.Label>
-                                                                <Form.Control type="number" className='profileInp' placeholder="e.g. 9876543210" value={formData.mobileNumber} onChange={e => handleChange('mobileNumber', e)} pattern="\d*" minLength="10" maxLength="12" required autoComplete="off" />
-                                                                {formErrors["mobileNumber"] ?
-                                                                    <div className='error'>{formErrors["mobileNumber"]}</div>
-                                                                    : <div className='error'></div>
-                                                                }
-                                                            </Form.Group>
+                                                    </Form.Group>
+                                                    <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                                                        <Form.Label column sm="2" className='profile16'>  Mobile </Form.Label>
+                                                        <Col sm="10">
+                                                            <Form.Control type="number" className='profileInp' placeholder="e.g. 9876543210" value={formData.mobileNumber ? formData.mobileNumber : ""} onChange={e => handleChange('mobileNumber', e)} pattern="\d*" minLength="10" maxLength="12" required autoComplete="off" />
+                                                            {formErrors["mobileNumber"] ?
+                                                                <div className='error'>{formErrors["mobileNumber"]}</div>
+                                                                : <div className='error'></div>
+                                                            }
                                                         </Col>
-                                                    </Row>
+                                                    </Form.Group>
                                                     <Row>
-                                                        <Col lg={6}>
-                                                            {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                                <Form.Label className='Textsm'>Gender</Form.Label>
-                                                                <Form.Select className='profileInp' aria-label="Default select example" value={formData.gender ? formData.gender : ""} onChange={e => handleChange('gender', e)} autoComplete="off" >
-                                     
-                                                                    {Gender.map((val, index) => {
-                                                                        return <option value={val.value} key={index}>{val.name}</option>
-                                                                    })
+                                                        <Col lg={8}>
+                                                            <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                                                                <Form.Label column sm="3" className='profile16'>  Gender  </Form.Label>
+                                                                <Col sm="9">
+                                                                    {
+                                                                        Gender.map((val, ind) => {
+                                                                            return <Radiobtn key={ind}
+                                                                                name={val.name}
+                                                                                checked={(formData.gender && val.id === parseInt(formData.gender)) ? true : false}
+                                                                                id={val.id}
+                                                                                handleChange={e => handleChange('gender', e)}
+                                                                            />
+                                                                        })
                                                                     }
-                                                                </Form.Select>
-                                                            </Form.Group> */}
+                                                                </Col>
+                                                            </Form.Group>
                                                         </Col>
-                                                        <Col lg={6}>
+                                                        <Col lg={4}>
                                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                                <Form.Label className='Textsm'>Date Of Birth</Form.Label>
-                                                                <Form.Control type="date" className='profileInp' placeholder="name@example.com" value={formData.dob ? formData.dob : ""} onChange={e => handleChange('dob', e)} autoComplete="off" />
+                                                                <Form.Control placeholder="Date Of Birth"
+                                                                    type={type}
+                                                                    onFocus={() => setType('date')}
+                                                                    onBlur={() => setType('text')}
+                                                                    className='profileInp' value={formData.dob ? moment(formData.dob).format('Do MMM YYYY')  : ""} onChange={e => handleChange('dob', e)} autoComplete="off" />
                                                             </Form.Group>
                                                         </Col>
                                                     </Row>
-                                                    <Row>
-                                                        <Col lg={12}>
-                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                                <Form.Label className='Textsm'>Email</Form.Label>
-                                                                <Form.Control type="email" className='profileInp' placeholder={loginUser.email} disabled autoComplete="off" />
-                                                            </Form.Group>
+                                                    <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                                                        <Form.Label column sm="2" className='profile16'>  Email </Form.Label>
+                                                        <Col sm="10">
+                                                            <Form.Control type="text" className='profileInp' value={loginUser[0].email}  autoComplete="off" disabled/>
                                                         </Col>
-                                                    </Row>
+                                                    </Form.Group>
+                                               
                                                     <div className="d-grid col-12 mx-auto mt-4">
                                                         <button className="btn wishListBtn text-white " type="submit" >Update Profile</button>
                                                     </div>

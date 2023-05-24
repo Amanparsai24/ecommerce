@@ -249,11 +249,13 @@ export const  getDecimal = (price, num=3) => {
 export const Gender = [
     {
         name: "Male",
-        value:"male"
+        id: 1,
+        checked: true,
     },
     {
         name: "Female",
-        value: "female"
+        id: 2,
+        checked: false,
     }
 ];
 
@@ -267,4 +269,13 @@ export const checkMobileNumber = (evt) => {
         return false;
     }
 } 
+
+
+export const imgPath = (image) => {
+
+    // return  process.env.REACT_APP_API_URL+'/'+image;
+    return 'http://localhost:3000' + '/' + image;
+    // return  'https://zena-media.s3.ap-south-1.amazonaws.com/dev/'+image;    
+
+}
 

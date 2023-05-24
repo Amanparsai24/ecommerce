@@ -44,7 +44,7 @@ const CartBlockR = ({ numofproduct }) => {
                     <p className='ProductH '>Price ({numofproduct} item)</p>
                 </Col>
                 <Col sm={6} md={6} >
-                    <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.amount : ""}  </p>
+                    <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.amount : 0}  </p>
                 </Col>
             </Row>
             <Row>
@@ -52,14 +52,14 @@ const CartBlockR = ({ numofproduct }) => {
                     <p className='ProductH '>Discount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {purchaseData ? purchaseData.discount : ""} </p>
+                    <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {purchaseData ? purchaseData.discount : 0} </p>
                     {/* {discountprice} */}
                 </Col>
             </Row>
             <Row>
                 <Col md={6}>
                     <p className='ProductH '>Coupon Discount                
-                        <small> {purchaseData ? purchaseData.couponName : ""}</small>
+                        <small> {purchaseData ? purchaseData.couponName : 0}</small>
                     </p>
                 </Col>
                 <Col md={6} >
@@ -91,7 +91,7 @@ const CartBlockR = ({ numofproduct }) => {
                     <p className='ProductH '>Total Amount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.totalAmount : ""}</p>
+                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.totalAmount : 0}</p>
                     {/* {totalamount} */}
                 </Col>
             </Row>

@@ -8,12 +8,20 @@ export const otpVerificationAction = (data) => {
     return postRequest('otpVerify', data).then(res => { return res.data });
 }
 
+export const userListByIdAction = (data) => {
+    return postRequest('userListById', data).then(res => { return res.data });
+}
+
 export const addressaddAction = (data) => {
     return postRequest('addUserAddresses', data).then(res => { return res.data });
 }
 
 export const addresseditAction = (data) => {
     return postRequest('editUserAddresses', data).then(res => { return res.data });
+}
+
+export const profilePhotoAction = (data) => {
+    return postRequest('userProfileUpdate', data).then(res => { return res.data });
 }
 
 export const addressDeleteAction = (data) => {
