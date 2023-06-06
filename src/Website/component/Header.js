@@ -1,8 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Badge } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaPowerOff } from 'react-icons/fa';
-import { scrollToTop } from '../../common/Function';
 import { Row } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,8 +18,21 @@ const Header = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [formData, setFormData] = useState({});
-    const [cartnum, setCartNum] = useState(0);
-
+    // const [cartnum, setCartNum] = useState(0);
+    let cartlist = JSON.parse(localStorage.getItem('cartlist'));
+    const cartItem = useSelector((state) => state.home.cartNumber);
+    let cartnum;
+    if (!cartlist){
+        cartnum = 0;
+    }else{
+        if (cartlist.length === cartItem) {
+            cartnum = cartItem;
+        } else {
+            cartnum = cartlist.length;
+        }
+    }
+    
+   
     const logout = async () => {
 
         localStorage.clear();
@@ -36,14 +47,16 @@ const Header = () => {
         const resp = await categoryNewListAction(filterData);
         dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
         if (resp.code === 200) {
+            // console.log(resp.categoryData)
             setList(resp.categoryData)
         }
 
     }
 
     const handleClick = (id) => {
+        // { state: id }
         setTimeout(() => {
-            navigate('/product', { state: id })
+            navigate('/product',{ state:{ categoryId: id }})
         }, 10);
     }
 
@@ -51,11 +64,7 @@ const Header = () => {
         getList();
         window.scrollTo(0, 0);
         // scrollToTop();
-        const cartlist = JSON.parse(localStorage.getItem('cartlist'));
-        if (cartlist.length > 0){
-            setCartNum(cartlist.length);
-        }
-    
+   
     }, []);
 
 
@@ -95,7 +104,7 @@ const Header = () => {
                                                         <FontAwesomeIcon icon={faShoppingCart} />
                                                         <span className="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-warning">
                                                             {cartnum}
-                                                            <span className="visually-hidden">unread messages</span>
+                                                            {/* <span className="visually-hidden">unread messages</span> */}
                                                         </span>
                                                     </Link>
                                                 </span>
@@ -131,6 +140,7 @@ const Header = () => {
                                 {
                                     list && list.length > 0 && list.map((item, index) => {
                                         return <Fragment key={index}>
+                                            {/* item.category._id */}
                                             <li className="nav-item dropdown">
                                                 <Link className="nav-link nav-link_Res navFS" onClick={e => handleClick(item.category._id)}>{item.category.name}</Link>
                                                 <div className="dropdown-content p-4">
@@ -164,7 +174,7 @@ const Header = () => {
                                                                     item.subCategory && item.subCategory.length > 0 && item.subCategory.map((item, index) => {
                                                                         // console.log(item)
                                                                         return <div className="col-md-2" key={index}>
-                                                                            <Link className="navlinkmul" onClick={e => handleClick(item._id)}>{item.name}</Link>
+                                                                            <Link className="navlinkmul" onClick={e => handleClick(item)}>{item.name}</Link>
                                                                         </div>
                                                                     })
                                                                 }

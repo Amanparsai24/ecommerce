@@ -9,7 +9,7 @@ import { profilePhotoAction, userListByIdAction } from "../../action/Front.actio
 import Radiobtn from './Radiobtn';
 import moment from 'moment';
 const ProfilePage = () => {
-
+    document.title = "Ecommerce - My Account";
     const loginUser = JSON.parse(localStorage.getItem('userData'));
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({});

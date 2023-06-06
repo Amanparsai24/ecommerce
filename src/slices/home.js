@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let activetab = sessionStorage.getItem('activeTab')?JSON.parse(sessionStorage.getItem('activeTab')):{name:"Dashboard",label:"Dashboard", subkey:""}
+// let cartlist = JSON.parse(localStorage.getItem('cartlist'));
+// let cart = !cartlist ? 0 : cartlist.length;
+let cartNumber = 0;
 
 export const homeSlice = createSlice({
 	name: "home",
@@ -22,6 +25,7 @@ export const homeSlice = createSlice({
 		topicsList:[],
 		filter:{},
 		lastPeriod:{},
+		cartNumber: cartNumber,
 	},
 	reducers: {
 		setTopCategorie: (state, action) => {
@@ -35,6 +39,9 @@ export const homeSlice = createSlice({
 		},
 		setAlert: (state, action) => {
 			state.alert = action.payload;
+		},
+		setCartItem: (state, action) => {
+			state.cartNumber = action.payload;
 		},
 		setLoader: (state, action) => {
 			state.loader = action.payload;
@@ -80,6 +87,7 @@ export const {
 	setSuccessData,
 	setadminPathName,
 	setAlert,
+	setCartItem,
 	setLoader,
 	setLanguage,
 	setLanguageList,

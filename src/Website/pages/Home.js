@@ -4,6 +4,7 @@ import Block3 from '../component/Block3';
 import Block4 from '../component/Block4';
 
 function Home() {
+    document.title = "Ecommerce - Home Page";
     return (
         <div className="Home">
             <Block1/>

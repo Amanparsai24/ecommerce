@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import CouponModel from "./CouponModel";
@@ -20,7 +21,20 @@ const CartBlockR = ({ numofproduct }) => {
     const [userloged, setUserLoged] = useState(0);
 
     let purchaseData = JSON.parse(localStorage.getItem('purchaseData'));
-    // console.log(purchaseData);
+
+    let cartlist = JSON.parse(localStorage.getItem('cartlist'));
+    const cartItem = useSelector((state) => state.home.cartNumber);
+    let cartnum;
+    if (!cartlist) {
+        cartnum = 0;
+    } else {
+        if (cartlist.length === cartItem) {
+            cartnum = cartItem;
+        } else {
+            cartnum = cartlist.length;
+        }
+    }
+
     const applyCoupon = () => {
         setUserLoged(0);
         handleShow();
@@ -40,30 +54,30 @@ const CartBlockR = ({ numofproduct }) => {
     return (
         <>
             <Row>
-                <Col sm={6} md={6}>
-                    <p className='ProductH '>Price ({numofproduct} item)</p>
+                <Col sm={12} md={6}>
+                    <p className='ProductH '>Price ({cartnum} item)</p>
                 </Col>
-                <Col sm={6} md={6} >
-                    <p className='ProductH text-end text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.amount : 0}  </p>
+                <Col sm={12} md={6} >
+                    <p className='ProductH text-end_Res '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.amount : 0}  </p>
                 </Col>
             </Row>
             <Row>
-                <Col md={6}>
+                <Col sm={12} md={6}>
                     <p className='ProductH '>Discount</p>
                 </Col>
-                <Col md={6} >
-                    <p className='ProductH text-end text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {purchaseData ? purchaseData.discount : 0} </p>
+                <Col sm={12} md={6} >
+                    <p className='ProductH text-end_Res '>-&nbsp; <span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' /></span> {purchaseData ? purchaseData.discount : 0} </p>
                     {/* {discountprice} */}
                 </Col>
             </Row>
             <Row>
-                <Col md={6}>
+                <Col sm={12} md={6}>
                     <p className='ProductH '>Coupon Discount                
                         <small> {purchaseData ? purchaseData.couponName : 0}</small>
                     </p>
                 </Col>
-                <Col md={6} >
-                    <p className='ProductH text-end '><Link className='text-decoration-none' onClick={applyCoupon}>Apply Coupon</Link></p>
+                <Col sm={12} md={6} >
+                    <p className='ProductH text-end_Res '><Link className='text-decoration-none' onClick={applyCoupon}>Apply Coupon</Link></p>
                     <Modal show={show} size="lg" onHide={handleClose}>
                         {
                             userloged === 1 ?
@@ -78,11 +92,11 @@ const CartBlockR = ({ numofproduct }) => {
                 </Col>
             </Row>
             <Row>
-                <Col md={6}>
+                <Col sm={12} md={6}>
                     <p className='ProductH '>Delivery charges</p>
                 </Col>
-                <Col md={6} >
-                    <p className='ProductH text-end '>Free</p>
+                <Col sm={12} md={6} >
+                    <p className='ProductH text-end_Res '>Free</p>
                 </Col>
             </Row>
             <hr></hr>
@@ -91,7 +105,7 @@ const CartBlockR = ({ numofproduct }) => {
                     <p className='ProductH '>Total Amount</p>
                 </Col>
                 <Col md={6} >
-                    <p className='ProductH text-end '><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.totalAmount : 0}</p>
+                    <p className='ProductH text-end_Res'><span className='CartText'><FontAwesomeIcon icon={faIndianRupeeSign} size='sm' />&nbsp;</span>{purchaseData ? purchaseData.totalAmount : 0}</p>
                     {/* {totalamount} */}
                 </Col>
             </Row>

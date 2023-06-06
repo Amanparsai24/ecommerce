@@ -17,12 +17,12 @@ import AddProductToList from './AddProductToList';
 import { Link } from 'react-router-dom';
 
 function WishList() {
-
+    document.title = "Ecommerce - My Wishlist";
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ listId: 0 });
-    const [wishlist, setWishList] = useState({});
-    const [list, setList] = useState({});
+    const [wishlist, setWishList] = useState([]);
+    const [list, setList] = useState([]);
 
     const getWishList = async (action = '') => {
    
@@ -38,7 +38,7 @@ function WishList() {
             dispatch(setAlert({ open: false, severity: "success", msg: "Loading...", type: 'loader' }));
             if (resp.code === 200) {
                 // console.log(resp.data[0].products);
-                setWishList(resp.data[0].products.productId);
+                setWishList(resp.data[0].products);
                 setList(resp.data[0].list);
             }
         }
@@ -162,7 +162,7 @@ function WishList() {
                                         </Col>:""
                                     }
 
-                                    {list.length == 0 &&
+                                    {list.length === 0 &&
 
                                         <Col xs={12} md={12} lg={12} >
                                             <p className='ProductH text-center'>Make your Personal List </p>
@@ -181,11 +181,10 @@ function WishList() {
                                         <p className='HomeblockCartBodyH1'>My Wishlist </p>
                                         <hr></hr>
                                         {wishlist && wishlist.length > 0 && wishlist.map((item, ind) => {
-                                        // console.log(item)
                                             return <Col xs={12} md={12} lg={12} key={ind}>
                                                 <Row>
                                                     <Col md={3}>
-                                                        <img src={imgPath(item.image[0])} className="card-img-top WishlistImg" alt="..." />
+                                                        <img src={imgPath(item.productImage)} className="card-img-top WishlistImg" alt="..." />
                                                     </Col>
                                                      <Col md={9}>
                                                         <Row className='mt-3'>

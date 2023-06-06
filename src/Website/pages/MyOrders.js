@@ -5,6 +5,7 @@ import AlertBox from "../../components/AlertBox";
 import Orders from './Orders';
 
 const MyOrders = () => {
+    document.title = "Ecommerce - My Orders";
     return (
         <div className="Profile-Page">
             <Container >

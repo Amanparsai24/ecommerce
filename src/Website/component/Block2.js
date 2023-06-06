@@ -24,6 +24,7 @@ function Block2() {
                                 <Link className='text-decoration-none text-dark' to="/product"><img src={ProductImg2} className="card-img-top" alt="..." /> 
                                     <div className='Homeblock2CartBody'>
                                         <p className='Homeblock1hT text-center'> New Arrival</p>
+
                                         <p className='HHBlock2 text-center'> Ethnic Wear</p>
                                     </div>
                                 </Link>

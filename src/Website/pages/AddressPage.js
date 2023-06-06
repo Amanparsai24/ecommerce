@@ -56,7 +56,7 @@ const AddressPage = () => {
                 }, 500);
 
             } else {
-                dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Address", type: '' }));  
+                dispatch(setAlert({ open: true, severity: "danger", msg: "Please Select Address", type: '' }));
             }
         } else {
             setTimeout(() => {
@@ -69,7 +69,7 @@ const AddressPage = () => {
     useEffect(() => {
 
         getAddressList();
-        if (localStorage.getItem('cartlist') || localStorage.getItem('buyNowdata') ) { } else {
+        if (localStorage.getItem('cartlist') || localStorage.getItem('buyNowdata')) { } else {
             navigate('/');
         }
     }, [formData]);
@@ -89,7 +89,7 @@ const AddressPage = () => {
                                             // console.log(item);
                                             let checked = (formData.addressId && formData.addressId === item._id) ? true : false;
                                             return <Fragment key={ind}>
-                                             
+
                                                 <Row>
                                                     <Col md={1}>
                                                         <Form.Check type="radio" aria-label="radio 1" id="custom-switch" value={item._id} onChange={e => handleChange(e, 'addressId')} checked={checked} />
@@ -98,19 +98,20 @@ const AddressPage = () => {
                                                         <AddressBlockL item={item} />
                                                     </Col>
                                                 </Row>
-                                           
+
                                             </Fragment>
                                         })
 
-                                     }
-                                </div>{
-                                        addresslist.length == 0 ?
-                                            <>
-                                                <p className='CartText text-center text-danger'>No Address Available Please Add Your Address</p>
-                                            </>
-                                        : 
+                                    }
+                                </div>
+                                {
+                                    addresslist.length == 0 ?
+                                        <>
+                                            <p className='CartText text-center text-danger'>No Address Available Please Add Your Address</p>
+                                        </>
+                                        :
                                         ''
-                                    }  
+                                }
                             </Card.Body>
                         </Card>
                         <Card className='ProductFullCard mb-2'>

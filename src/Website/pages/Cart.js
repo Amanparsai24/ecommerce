@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Row, Col, Card, Container, Modal } from 'react-bootstrap';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
-import { setAlert } from '../../slices/home';
+import { setAlert, setCartItem } from '../../slices/home';
 import { confirmAlert } from 'react-confirm-alert';
 import { imgPath } from "../../common/Function";
 
@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
 const Cart = () => {
-
+    document.title = "Ecommerce - Cart";
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -27,7 +27,7 @@ const Cart = () => {
     const handleShow = () => setShow(true);
     const [wishlistproduct, setWishListProduct] = useState({});
     const [cartlist, setCartList] = useState([]);
-    const [numofproduct, setNumOfProduct] = useState(0);
+    // const [numofproduct, setNumOfProduct] = useState(0);
     const [wishlistid, setWishListId] = useState(0);
     const [totalprice, setTotalPrice] = useState(0);
     const [userLoged, setUserLoged] = useState(0);
@@ -43,32 +43,34 @@ const Cart = () => {
     const gettotalprice = () => {
 
         const cartlist = JSON.parse(localStorage.getItem('cartlist'));
+        
         if (cartlist) {
             var price = 0;
             var discount = 0;
             for (let i in cartlist) {
                 price += cartlist[i].MRP;
                 discount += cartlist[i].discount;
-                setNumOfProduct(cartlist.length);
+                // setNumOfProduct(cartlist.length);
             }
 
             let data = { amount: price, discount: discount, couponDiscount: 0, totalAmount: price - discount };
 
             localStorage.setItem("purchaseData", JSON.stringify(data));
         }
+     
     }
 
-    const addtowishlist = async (id) => {
+    const addtowishlist = async (item) => {
 
         if (localStorage.loginType == 'user' && localStorage.userType) {
-            let resp = await saveWishlistItemAction({ productId: id });
+            let resp = await saveWishlistItemAction({ productId: item._id , colorId: item.colorId });
             if (resp.code === 200) {
                 dispatch(setAlert({ open: true, severity: "danger", msg: resp.msg, type: '' }));
                 const cartlist = JSON.parse(localStorage.getItem('cartlist'));
                 for (let i in cartlist) {
                     let productid = cartlist[i]._id;
 
-                    if (productid === id) {
+                    if (productid === item._id) {
                         let price = cartlist[i].salePrice;
                         let productIdIndex = i;
                         cartlist.splice(productIdIndex, 1);
@@ -79,6 +81,7 @@ const Cart = () => {
                         // getWishList();
                     }
                 }
+                dispatch(setCartItem(cartlist.length));
             } else {
                 dispatch(setAlert({ open: true, severity: "danger", msg: resp.error.product, type: '' }));
             }
@@ -116,6 +119,9 @@ const Cart = () => {
                                 gettotalprice();
                             }
                         }
+                        dispatch(setCartItem(cartlist.length));
+
+                        
                     }
 
                 },
@@ -158,7 +164,7 @@ const Cart = () => {
             <Container fluid>
                 <AlertBox />
                 <Row className='mt-3 mb-3'>
-                    <Col md={8}>
+                    <Col xs={12} md={12} lg={8}>
                         <Card className='ProductFullCard mb-2'>
                             <Card.Body className='p-4'>
                                 <p className='HomeblockCartBodyH1'>Shopping Cart</p>
@@ -202,7 +208,7 @@ const Cart = () => {
                                                                         </>
                                                                 } */}
                                                            
-                                                                <span className="btn btn-sm cartbtn" title="Whislist" onClick={e => addtowishlist(item._id)} ><FontAwesomeIcon icon={faHeart} className="text-danger" /> Move to WishList</span>
+                                                                <span className="btn btn-sm cartbtn" title="Whislist" onClick={e => addtowishlist(item)} ><FontAwesomeIcon icon={faHeart} className="text-danger" /> Move to WishList</span>
 
                                                                 <Modal show={show} size="lg" onHide={handleClose}>
                                                                     {
@@ -234,14 +240,14 @@ const Cart = () => {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col md={4}>
+                    <Col xs={12} md={12} lg={4}>
                         <Row>
                             <Col md={12}>
                                 <Card className='ProductFullCard mb-2'>
                                     <Card.Body>
                                         <p className='HomeblockCartBodyH1'>Price Details</p>
                                         <hr></hr>
-                                        <CartBlockR numofproduct={numofproduct} />
+                                        <CartBlockR  />
                                     </Card.Body>
                                 </Card>
                             </Col>

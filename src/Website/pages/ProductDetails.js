@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from "react-router-dom";
-import { setAlert } from '../../slices/home';
+import { setAlert, setCartItem } from '../../slices/home';
 import { Row, Col, Container, Card, Modal, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareNodes, faShoppingCart, faBolt, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +9,6 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { imgPath } from "../../common/Function";
 import { QuantityPicker } from 'react-qty-picker';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -26,7 +24,7 @@ import Rating from '../component/Rating';
 import LoginModel from "../component/LoginModel";
 
 const ProductDetails = (props) => {
-
+    document.title = "Ecommerce - Product Details";
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState();
@@ -90,6 +88,8 @@ const ProductDetails = (props) => {
             }
             cartData.push(data);
             localStorage.setItem('cartlist', JSON.stringify(cartData));
+            let cartlist = JSON.parse(localStorage.getItem('cartlist'));
+            dispatch(setCartItem(cartlist.length));
             dispatch(setAlert({ open: true, severity: "success", msg: 'Product added to cart ', type: '' }));
             var newdata = JSON.parse(localStorage.getItem('cartlist'));
             for (let i in newdata) {

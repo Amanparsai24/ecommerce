@@ -182,6 +182,10 @@
     .WishlistImg {
         height: 22vw !important;
     }
+
+    .text-end_Res {
+        text-align: end;
+    }
 }
 
 
@@ -238,6 +242,9 @@
         height: 34rem !important;
     }
 
+    .text-end_Res {
+        text-align: end;
+    }
  
 
 }
@@ -300,5 +307,9 @@
     .CHECK {
         bottom: 13.8rem !important;
         margin-left: 43rem;
+    }
+
+    .text-end_Res {
+        text-align: end;
     }
 }

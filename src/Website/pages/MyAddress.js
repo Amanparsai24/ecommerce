@@ -10,7 +10,7 @@ import { GetAllCountries, GetStatesOfCountry, GetCitiesOfState, checkName, check
 import { confirmAlert } from 'react-confirm-alert';
 
 const MyAddress = () => {
-
+    document.title = "Ecommerce - My Address";
     const dispatch = useDispatch();
     const [addresslist, setAddressList] = useState({});
     const [show, setShow] = useState(false);

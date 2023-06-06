@@ -11,16 +11,25 @@ import { parentDefault } from "../../common/Constant";
 import { useLocation } from "react-router-dom";
 
 const Product = (props) => {
-
+    document.title = "Ecommerce - Product Page";
     const { state } = useLocation();
-    let categoryId = state;
+    let categoryId;
+    let flat
+    if (state){
+        categoryId = state.categoryId;
+        flat = state.flat;
+    }else{
+        categoryId = 0;
+        flat = 0; 
+    }
+
     const dispatch = useDispatch();
     const [list, setList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [brandList, setBrandList] = useState([]);
     const [colorList, setColorList] = useState([]);
     const [sizeList, setsizeList] = useState([]);
-    const [formData, setFormData] = useState({ page: 0, limit: 10, categoryId });
+    const [formData, setFormData] = useState({ page: 0, limit: 10, categoryId, flat });
 
     const getDataList = async () => {
 
@@ -82,9 +91,11 @@ const Product = (props) => {
     }
 
     useEffect(() => {
+        // console.log('aman')
         getList();
         getDataList();
         window.scrollTo(0, 0);
+
     }, [formData]);
 
     return (
